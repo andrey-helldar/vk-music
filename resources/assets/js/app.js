@@ -12,17 +12,17 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-
-// Здесь будем перечислять все загружаемые компоненты
-var components = [];
+    // Здесь будем перечислять все загружаемые компоненты
+var components = [
+        'audios'
+    ];
 
 // Компиляция ресурсов в компоненты.
 if (components.length) {
     components.forEach(
         function (item)
         {
-            Vue.component(item, require('./components/' + item));
+            Vue.component(item, require('./components/' + item + '.vue'));
         }
     );
 }

@@ -27,7 +27,7 @@
 
     <main>
         <div class="container">
-            Dashboard
+            <audios></audios>
         </div>
     </main>
 @endsection
