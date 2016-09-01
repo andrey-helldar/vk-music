@@ -14,6 +14,7 @@ require('./bootstrap');
 
     // Здесь будем перечислять все загружаемые компоненты
 var components = [
+        'topmenu',
         'audios'
     ];
 
