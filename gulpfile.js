@@ -2,6 +2,8 @@ const elixir = require('laravel-elixir');
 
 require('laravel-elixir-vue');
 
+elixir.config.sourcemaps = true;
+
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -13,7 +15,24 @@ require('laravel-elixir-vue');
  |
  */
 
-elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
-});
+elixir(mix =>
+       {
+           var
+               assets       = 'resources/assets/',
+               vendor       = '../vendor/',
+               node_modules = '../../../node_modules/';
+
+           mix
+               .sass('app.scss', 'public/css/app.css')
+               .webpack('app.js')
+
+               /*
+                * Version
+                */
+               .version([
+                            'css/app.css',
+                            'js/app.js'
+                        ]
+               );
+       }
+);

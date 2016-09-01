@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * include Vue and Vue Resource. This gives a great starting point for
@@ -15,6 +14,21 @@ require('./bootstrap');
 
 Vue.component('example', require('./components/Example.vue'));
 
-const app = new Vue({
-    el: 'body'
-});
+// Указываем путь к компонентам.
+var components_path = './components/';
+
+// Здесь будем перечислять все загружаемые компоненты
+var components = [];
+
+// Компиляция ресурсов в компоненты.
+components.forEach(
+    function (item)
+    {
+        Vue.component(item, require(components_path + item));
+    }
+);
+
+new Vue({
+        el: 'main'
+    }
+);

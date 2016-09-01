@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 
 /**
@@ -8,7 +7,7 @@ window._ = require('lodash');
  */
 
 window.$ = window.jQuery = require('jquery');
-require('bootstrap-sass');
+require('../vendor/materialize-css/js/bin/materialize.min');
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -17,7 +16,11 @@ require('bootstrap-sass');
  */
 
 window.Vue = require('vue');
-require('vue-resource');
+var VueResource  = require('vue-resource');
+var VueAsyncData = require('vue-async-data');
+
+Vue.use(VueResource);
+Vue.use(VueAsyncData);
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -25,11 +28,14 @@ require('vue-resource');
  * included with Laravel will automatically verify the header's value.
  */
 
-Vue.http.interceptors.push((request, next) => {
-    request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
+Vue.http.interceptors.push(
+    (request, next) =>
+    {
+        request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
 
-    next();
-});
+        next();
+    }
+);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -43,3 +49,99 @@ Vue.http.interceptors.push((request, next) => {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+/**
+ * Other
+ */
+window.app = {
+    debug: true, // Global parameter to settings of Vue.js.
+    trans: [], // Перевод элементов.
+    page : 0, // Номер текущей страницы. Нумерация начинается с нуля.
+
+    // Стили всплывающих уведомлений.
+    toast: {
+        style: {
+            error  : 'red white-text',
+            success: 'green white-text',
+            info   : 'blue white-text'
+        }
+    },
+
+    /**
+     * Всплывающее уведомление.
+     * Для удобства, функция вынесена в отдельную.
+     *
+     * @param {string} text
+     * @param {string} style
+     */
+    info: function (text, style)
+    {
+        if (app.empty(style)) {
+            style = 'info';
+        }
+
+        Materialize.toast(text, 4000, app.toast.style[style]);
+    },
+
+    /**
+     * Определение "пустой" переменной.
+     *
+     * @param data
+     * @returns {boolean}
+     */
+    empty: function (data)
+    {
+        return data === '' || data === undefined;
+    },
+
+    /**
+     * Вывод уведомлений в консоль.
+     *
+     * @param data
+     * @param type
+     * @returns {boolean}
+     */
+    console: function (data, type)
+    {
+        if (app.debug !== true) {
+            return false;
+        }
+
+        switch (type) {
+            case 'info':
+                console.info(data);
+                break;
+
+            case 'warning':
+                console.warn(data);
+                break;
+
+            case 'error':
+                console.error(data);
+                break;
+
+            default:
+                console.log(data);
+        }
+    }
+};
+
+/**
+ * Other parameters of Vue.js.
+ */
+Vue.config.async = true;
+Vue.config.devtools         = app.debug; // DevTools mode is only available in development build. In production set FALSE !
+Vue.config.debug            = app.debug; // Debug mode is only available in development build. In production set FALSE !
+Vue.config.silent           = !app.debug; //Suppress all Vue.js logs and warnings.
+Vue.config.unsafeDelimiters = ['{!!', '!!}']; // Change the raw HTML interpolation delimiters.
+
+
+$(document).ready(
+    function ()
+    {
+        $('.modal-trigger').leanModal();
+        $('select').material_select();
+
+        Materialize.updateTextFields();
+    }
+);
