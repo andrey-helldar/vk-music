@@ -14,19 +14,18 @@ require('./bootstrap');
 
 Vue.component('example', require('./components/Example.vue'));
 
-// Указываем путь к компонентам.
-var components_path = './components/';
-
 // Здесь будем перечислять все загружаемые компоненты
 var components = [];
 
 // Компиляция ресурсов в компоненты.
-components.forEach(
-    function (item)
-    {
-        Vue.component(item, require(components_path + item));
-    }
-);
+if (components.length) {
+    components.forEach(
+        function (item)
+        {
+            Vue.component(item, require('./components/' + item));
+        }
+    );
+}
 
 new Vue({
         el: 'main'

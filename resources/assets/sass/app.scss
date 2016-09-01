@@ -1,9 +1,120 @@
+@charset "UTF-8";
 
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+// Mixins
+// @import "../vendor/materialize-css/sass/components/prefixer";
+@import "../vendor/materialize-css/sass/components/mixins";
+@import "../vendor/materialize-css/sass/components/color";
+// Variables;
+//@import "../vendor/materialize-css/sass/components/variables";
+@import "components/variables";
+// Reset
+@import "../vendor/materialize-css/sass/components/normalize";
+// components
+@import "../vendor/materialize-css/sass/components/global";
+@import "../vendor/materialize-css/sass/components/icons-material-design";
+@import "../vendor/materialize-css/sass/components/grid";
+@import "../vendor/materialize-css/sass/components/navbar";
+@import "../vendor/materialize-css/sass/components/roboto";
+@import "../vendor/materialize-css/sass/components/typography";
+@import "../vendor/materialize-css/sass/components/cards";
+@import "../vendor/materialize-css/sass/components/toast";
+//@import "../vendor/materialize-css/sass/components/tabs";
+//@import "../vendor/materialize-css/sass/components/tooltip";
+@import "../vendor/materialize-css/sass/components/buttons";
+@import "../vendor/materialize-css/sass/components/dropdown";
+@import "../vendor/materialize-css/sass/components/waves";
+@import "../vendor/materialize-css/sass/components/modal";
+@import "../vendor/materialize-css/sass/components/collapsible";
+//@import "../vendor/materialize-css/sass/components/chips";
+//@import "../vendor/materialize-css/sass/components/materialbox";
+@import "../vendor/materialize-css/sass/components/forms/forms";
+@import "../vendor/materialize-css/sass/components/table_of_contents";
+@import "../vendor/materialize-css/sass/components/sideNav";
+@import "../vendor/materialize-css/sass/components/preloader";
+//@import "../vendor/materialize-css/sass/components/slider";
+//@import "../vendor/materialize-css/sass/components/carousel";
+//@import "../vendor/materialize-css/sass/components/date_picker/default";
+//@import "../vendor/materialize-css/sass/components/date_picker/default.date";
+//@import "../vendor/materialize-css/sass/components/date_picker/default.time";
 
-// Variables
-@import "variables";
+/* ==========================================================================
+   SOFEE variables
+   ========================================================================== */
+/**
+ * Table of Contents:
+ *
+ *  1. Skeleton
+ *  2. Sidebar
+ *  3. Errors
+ *  4. Cursors
+ *  5. Cards
+ *  6. Text
+ */
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+/* 1. Skeleton
+   ========================================================================== */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+//header, main, footer {
+//    padding-left: 300px;
+//}
+//
+//@media only screen and (max-width: 992px) {
+//    header, main, footer {
+//        padding-left: 0;
+//    }
+//}
+
+/* 2. Sidebar
+   ========================================================================== */
+.side-nav {
+    .userView {
+        background-color: $primary-color;
+
+        img {
+            margin: auto auto;
+        }
+    }
+}
+
+/* 3. Errors
+   ========================================================================== */
+.has-error {
+    border-bottom: 1px solid color('red', 'base');
+}
+
+/* 4. Cursors
+   ========================================================================== */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* 5. Cards
+   ========================================================================== */
+.card {
+    .card-logo {
+        display: block;
+        text-align: center;
+
+        i {
+            font-size: $card-logo-font-size;
+            padding: $card-padding;
+            border-radius: 50%;
+        }
+
+    }
+}
+
+/* 6. Text
+   ========================================================================== */
+.text-through {
+    text-decoration: line-through;
+}

@@ -2,8 +2,8 @@
 
 namespace VKMUSIC\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,19 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->view->composer('*/app', function ($view) {
+
+            $view->with('LaravelApp', json_encode([
+                'csrfToken' => csrf_token(),
+                'trans'     => [
+                    //                    'sofee'   => trans('Api/v1b2.sofee'),
+                    //                    'buttons' => trans('buttons'),
+                    //                    'forms'   => trans('forms'),
+                    //                    'pages'   => trans('pages'),
+                    //                    'statuses' => trans('statuses'),
+                ],
+            ]));
+        });
 
         parent::boot();
     }
@@ -53,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::group([
             'middleware' => 'web',
-            'namespace' => $this->namespace,
+            'namespace'  => $this->namespace,
         ], function ($router) {
             require base_path('routes/web.php');
         });
@@ -70,8 +82,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::group([
             'middleware' => 'api',
-            'namespace' => $this->namespace,
-            'prefix' => 'api',
+            'namespace'  => $this->namespace,
+            'prefix'     => 'api',
         ], function ($router) {
             require base_path('routes/api.php');
         });

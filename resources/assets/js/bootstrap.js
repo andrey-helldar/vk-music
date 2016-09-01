@@ -141,6 +141,7 @@ $(document).ready(
     {
         $('.modal-trigger').leanModal();
         $('select').material_select();
+        $(".button-collapse").sideNav();
 
         Materialize.updateTextFields();
     }

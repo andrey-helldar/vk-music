@@ -24,15 +24,20 @@ elixir(mix =>
 
            mix
                .sass('app.scss', 'public/css/app.css')
+
+               .copy(assets + 'images', 'public/images')
+               .copy(assets + 'vendor/materialize-css/fonts', 'public/build/fonts')
+
                .webpack('app.js')
 
                /*
                 * Version
                 */
-               .version([
-                            'css/app.css',
-                            'js/app.js'
-                        ]
+               .version(
+                   [
+                       'css/app.css',
+                       'js/app.js'
+                   ]
                );
        }
 );
