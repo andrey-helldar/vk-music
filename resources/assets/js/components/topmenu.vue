@@ -32,7 +32,7 @@
             }
         },
         ready() {
-            app.console('Component Audios ready.');
+            app.console('Component Topmenu ready.');
         },
         asyncData(){
             this.getTopmenu();

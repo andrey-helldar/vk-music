@@ -16,6 +16,7 @@ class CreateVkResponsesTable extends Migration
         Schema::create('vk_responses', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->integer('user_id');
             $table->string('access_token');
             $table->string('method');
             $table->json('context');

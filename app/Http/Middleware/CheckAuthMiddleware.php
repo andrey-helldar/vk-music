@@ -2,8 +2,9 @@
 
 namespace VKMUSIC\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
-use VKMUSIC\Http\Controllers\Api\ResponseController;
+use Illuminate\Http\Request;
 
 class CheckAuthMiddleware
 {
@@ -15,11 +16,17 @@ class CheckAuthMiddleware
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        $access_token = \Cookie::get('access_token');
+        if (\Auth::check()) {
+            $token_expired_at = \Auth::user()->token->expired_at;
 
-        if (is_null($access_token)) {
+            if (Carbon::parse($token_expired_at) <= Carbon::now()) {
+                \Auth::logout();
+            }
+        }
+
+        if (\Auth::guest()) {
             return ResponseController::error(2);
         }
 

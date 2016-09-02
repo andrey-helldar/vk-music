@@ -13,12 +13,12 @@
         data(){
             return {
                 vk: {
-                    client_id: 0,
-                    redirect_uri: '/',
-                    display: 'page',
-                    scope: 'offline,audio',
+                    client_id    : 0,
+                    redirect_uri : '/',
+                    display      : 'page',
+                    scope        : 'offline,audio',
                     response_type: 'code',
-                    v: 5.53,
+                    v            : 5.53,
                 }
             }
         },
@@ -31,11 +31,14 @@
         methods: {
             getVkParams(){
                 this.$http.get('/api/vk.params')
-                        .then(function (response) {
-                            this.vk = response.data.response;
-                        }, function (response) {
-                            app.info('Error loading parameters. Please, reload this page.', 'error');
-                        });
+                    .then(function (response)
+                          {
+                              this.vk = response.data.response;
+                          }, function (response)
+                          {
+                              app.info('Error loading parameters. Please, reload this page.', 'error');
+                          }
+                    );
             },
             vkAuth(){
                 var query = app.build_query(this.vk);

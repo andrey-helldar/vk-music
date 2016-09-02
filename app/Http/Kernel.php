@@ -33,6 +33,7 @@ class Kernel extends HttpKernel
             \VKMUSIC\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             CheckVkToken::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
         ],
 
         'api' => [

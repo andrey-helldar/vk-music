@@ -16,8 +16,9 @@ class CreateVkQueuesTable extends Migration
         Schema::create('vk_queues', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('access_token');
+            $table->integer('user_id');
             $table->string('method');
+            $table->string('access_token');
             $table->json('context');
 
             $table->timestamps();

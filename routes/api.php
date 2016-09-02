@@ -22,10 +22,17 @@ Route::get('topmenu', 'Api\AppController@getTopmenu');
 Route::get('vk.params', 'Auth\VkController@getParams');
 
 Route::group([
-    'middleware' => ['auth.check'],
+    'middleware' => [
+        'auth:api',
+        'auth.check',
+    ],
 ], function () {
-    Route::get('audios.user', 'Api\AudiosController@getUserAudios');
-    Route::get('audios.popular', 'Api\AudiosController@getPopularAudios');
+    // Добавление запроса списка.
+    Route::post('audios.user', 'Api\AudiosController@storeAudios');
+    Route::post('audios.popular', 'Api\AudiosController@getPopularAudios');
+
+    // Проверка ответов.
+    Route::get('audios.user', 'Api\AudiosController@getAudios');
 });
 
 Route::any('{slug?}', function () {
