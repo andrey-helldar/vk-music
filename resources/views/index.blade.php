@@ -9,7 +9,12 @@
         </header>
 
         <div class="container">
-            <audios></audios>
+
+            @if(Auth::guest())
+                <vk-auth></vk-auth>
+            @else
+                <audios></audios>
+            @endif
         </div>
     </main>
 @endsection

@@ -16,7 +16,7 @@ require('../vendor/materialize-css/js/bin/materialize.min');
  */
 
 window.Vue = require('vue');
-var VueResource  = require('vue-resource');
+var VueResource = require('vue-resource');
 var VueAsyncData = require('vue-async-data');
 
 Vue.use(VueResource);
@@ -29,8 +29,7 @@ Vue.use(VueAsyncData);
  */
 
 Vue.http.interceptors.push(
-    (request, next) =>
-    {
+    (request, next) => {
         request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
 
         next();
@@ -56,14 +55,14 @@ Vue.http.interceptors.push(
 window.app = {
     debug: true, // Global parameter to settings of Vue.js.
     trans: [], // Перевод элементов.
-    page : 0, // Номер текущей страницы. Нумерация начинается с нуля.
+    page: 0, // Номер текущей страницы. Нумерация начинается с нуля.
 
     // Стили всплывающих уведомлений.
     toast: {
         style: {
-            error  : 'red white-text',
+            error: 'red white-text',
             success: 'green white-text',
-            info   : 'blue white-text'
+            info: 'blue white-text'
         }
     },
 
@@ -74,8 +73,7 @@ window.app = {
      * @param {string} text
      * @param {string} style
      */
-    info: function (text, style)
-    {
+    info: function (text, style) {
         if (app.empty(style)) {
             style = 'info';
         }
@@ -89,8 +87,7 @@ window.app = {
      * @param data
      * @returns {boolean}
      */
-    empty: function (data)
-    {
+    empty: function (data) {
         return data === '' || data === undefined;
     },
 
@@ -101,8 +98,7 @@ window.app = {
      * @param type
      * @returns {boolean}
      */
-    console: function (data, type)
-    {
+    console: function (data, type) {
         if (app.debug !== true) {
             return false;
         }
@@ -123,6 +119,21 @@ window.app = {
             default:
                 console.log(data);
         }
+    },
+
+    build_query(obj) {
+        if (typeof obj !== 'array' && typeof obj !== 'object') {
+            app.info('Unknown data', 'error');
+            return '';
+        }
+
+        var query = [];
+
+        for (var key in obj) {
+            query.push(key + '=' + obj[key]);
+        }
+
+        return query.join('&');
     }
 };
 
@@ -130,15 +141,14 @@ window.app = {
  * Other parameters of Vue.js.
  */
 Vue.config.async = true;
-Vue.config.devtools         = app.debug; // DevTools mode is only available in development build. In production set FALSE !
-Vue.config.debug            = app.debug; // Debug mode is only available in development build. In production set FALSE !
-Vue.config.silent           = !app.debug; //Suppress all Vue.js logs and warnings.
+Vue.config.devtools = app.debug; // DevTools mode is only available in development build. In production set FALSE !
+Vue.config.debug = app.debug; // Debug mode is only available in development build. In production set FALSE !
+Vue.config.silent = !app.debug; //Suppress all Vue.js logs and warnings.
 Vue.config.unsafeDelimiters = ['{!!', '!!}']; // Change the raw HTML interpolation delimiters.
 
 
 $(document).ready(
-    function ()
-    {
+    function () {
         $('.modal-trigger').leanModal();
         $('select').material_select();
         $(".button-collapse").sideNav();

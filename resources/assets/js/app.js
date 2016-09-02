@@ -15,14 +15,14 @@ require('./bootstrap');
     // Здесь будем перечислять все загружаемые компоненты
 var components = [
         'topmenu',
-        'audios'
+        'audios',
+        'vk-auth'
     ];
 
 // Компиляция ресурсов в компоненты.
 if (components.length) {
     components.forEach(
-        function (item)
-        {
+        function (item) {
             Vue.component(item, require('./components/' + item + '.vue'));
         }
     );

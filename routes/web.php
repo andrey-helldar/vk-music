@@ -16,4 +16,6 @@ Route::get('/', [
     'uses' => 'IndexController@getIndex',
 ]);
 
-Auth::routes();
+Route::get('verify', 'Auth\VkController@getVerify');
+
+//Auth::routes();

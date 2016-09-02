@@ -11,7 +11,7 @@
     <title>@yield('site_title', 'VK Music')</title>
 
     {{--<!--Import Google Icon Font-->--}}
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     {{--<!-- Styles -->--}}
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
@@ -26,7 +26,7 @@
     <div class="container">
         <h1>
             <a href="/">
-                <img src="{{ asset('images/logotype.svg') }}" alt="@yield('site_title', 'VK Music')" class="logotype">
+                <img src="{{ asset('images/logotype.svg') }}" alt="" class="logotype">
             </a>
         </h1>
     </div>

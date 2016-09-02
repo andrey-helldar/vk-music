@@ -19,7 +19,7 @@ class AppController extends Controller
      */
     public function getTopmenu()
     {
-        return ResponseController::success([
+        return ResponseController::success(0, [
             [
                 'url'       => '/',
                 'title'     => 'Player',

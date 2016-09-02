@@ -15,30 +15,100 @@ class ResponseController extends Controller
      * @version 2016-09-02
      * @since   1.0
      *
-     * @param $content
+     * @param int  $code
+     * @param null $content
      *
-     * @return mixed
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    static function success($content)
+    static function success(int $code = 0, $content = null)
     {
-        return response($content);
+        if ($code) {
+            $response = self::onCode('success', $code, $content);
+        } else {
+            $response = self::onText('success', $content);
+        }
+
+        return response([
+            'response' => $response,
+        ]);
     }
 
     /**
-     * Возврат ошибки.
+     * Основная функция возврата сообщения об ошибках.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
      * @version 2016-09-02
      * @since   1.0
      *
-     * @param $content
+     * @param int  $code
+     * @param null $content
      *
-     * @return mixed
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    static function error($content)
+    static function error(int $code = 0, $content = null)
     {
-        return response([
-            'error' => $content,
-        ], 500);
+        if ($code) {
+            $response = self::onCode('error', $code, $content);
+        } else {
+            $response = self::onText('error', $content);
+        }
+
+        return response($response, 500);
+    }
+
+    /**
+     * Возврат состояния по коду.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-02
+     * @since   1.0
+     *
+     * @param string $status
+     * @param int    $code
+     * @param array  $content
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    private static function onCode(string $status = 'success', int $code = 1, $content = [])
+    {
+        if (is_null($content)) {
+            $content = [];
+        }
+
+        switch ($status) {
+            case 'error':
+                return [
+                    'error_code' => (int)$code,
+                    'error'      => trans('api.' . (string)$code, $content),
+                ];
+
+            default:
+                return trans('api.' . (string)$code, $content);
+        }
+    }
+
+    /**
+     * Возврат текстовой строки.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-02
+     * @since   1.0
+     *
+     * @param string $status
+     * @param        $content
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    private static function onText(string $status = 'success', $content)
+    {
+        switch ($status) {
+            case 'error':
+                return [
+                    'error' => $content,
+                ];
+
+            default:
+                return $content;
+        }
     }
 }
