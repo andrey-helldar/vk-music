@@ -2,7 +2,6 @@
 
 namespace VKMUSIC\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 
@@ -19,7 +18,7 @@ class AppController extends Controller
      */
     public function getTopmenu()
     {
-        return ResponseController::success(0, [
+        $menu = [
             [
                 'url'       => '/',
                 'title'     => 'Player',
@@ -40,6 +39,8 @@ class AppController extends Controller
                 'title'     => 'Mobile',
                 'is_active' => false,
             ],
-        ]);
+        ];
+
+        return ResponseController::success(0, $menu);
     }
 }

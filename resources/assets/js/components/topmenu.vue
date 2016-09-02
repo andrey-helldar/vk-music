@@ -43,14 +43,16 @@
              */
             getTopmenu(){
                 this.$http.get('/api/topmenu').then(
-                        function (response) {
+                        function (response)
+                        {
                             if (response.data.error == undefined) {
                                 this.items = response.data.response;
                                 this.setTopMenuActiveDefault();
                             } else {
                                 app.info(response.data.error, 'error');
                             }
-                        }, function (response) {
+                        }, function (response)
+                        {
                             app.info(response.data.error, 'error');
                         }
                 );
@@ -64,7 +66,8 @@
                 var isActive = false;
 
                 this.items.forEach(
-                        function (item) {
+                        function (item)
+                        {
                             if (item.is_active == true) {
                                 isActive = true;
                             }
