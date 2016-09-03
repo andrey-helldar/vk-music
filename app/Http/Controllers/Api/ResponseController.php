@@ -2,7 +2,6 @@
 
 namespace VKMUSIC\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 
@@ -17,10 +16,11 @@ class ResponseController extends Controller
      *
      * @param int  $code
      * @param null $content
+     * @param int  $http_code
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    static function success(int $code = 0, $content = null)
+    static function success(int $code = 0, $content = null, $http_code = 200)
     {
         if ($code) {
             $response = self::onCode('success', $code, $content);
@@ -30,30 +30,7 @@ class ResponseController extends Controller
 
         return response([
             'response' => $response,
-        ]);
-    }
-
-    /**
-     * Основная функция возврата сообщения об ошибках.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-02
-     * @since   1.0
-     *
-     * @param int  $code
-     * @param null $content
-     *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    static function error(int $code = 0, $content = null)
-    {
-        if ($code) {
-            $response = self::onCode('error', $code, $content);
-        } else {
-            $response = self::onText('error', $content);
-        }
-
-        return response($response, 500);
+        ], $http_code);
     }
 
     /**
@@ -110,5 +87,29 @@ class ResponseController extends Controller
             default:
                 return $content;
         }
+    }
+
+    /**
+     * Основная функция возврата сообщения об ошибках.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-02
+     * @since   1.0
+     *
+     * @param int  $code
+     * @param null $content
+     * @param int  $http_code
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    static function error(int $code = 0, $content = null, $http_code = 400)
+    {
+        if ($code) {
+            $response = self::onCode('error', $code, $content);
+        } else {
+            $response = self::onText('error', $content);
+        }
+
+        return response($response, $http_code);
     }
 }

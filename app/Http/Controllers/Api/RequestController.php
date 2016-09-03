@@ -40,6 +40,8 @@ class RequestController extends Controller
             }
         }
 
+        usleep(config('vk.delay', 350) * 1000);
+
         return json_decode($response);
     }
 }

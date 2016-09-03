@@ -33,6 +33,8 @@ Route::group([
 
     // Проверка ответов.
     Route::get('audios.user', 'Api\AudiosController@getAudios');
+    // Получение идентификаторов жанров.
+    Route::get('audios.genres', 'Api\AudiosController@getGenres');
 });
 
 Route::any('{slug?}', function () {

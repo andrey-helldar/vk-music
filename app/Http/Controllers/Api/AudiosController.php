@@ -35,7 +35,7 @@ class AudiosController extends Controller
         return VkController::createRequest('audio.get', array_merge([
             'need_user' => 0,
             'offset'    => (int)($request->offset ?: 0),
-            'count'     => 50,
+            'count'     => 20,
         ], $this->ownerId($request->owner_type, $request->owner_id)));
     }
 
@@ -69,18 +69,36 @@ class AudiosController extends Controller
         ];
     }
 
+    /**
+     * Возврат полученных от VK API данных.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-03
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     function getAudios()
     {
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.get')->where('updated_at', '>', $user->token->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.get')->where('updated_at', '<', $user->token->expired_at)->first();
 
         if (is_null($response)) {
-            return ResponseController::error(21);
+            return ResponseController::error(21, null, 304);
         }
 
-        return ResponseController::success([
+        $items = json_decode($response->context)->response;
+
+        if (!empty($items->error)) {
+            return ResponseController::error(1, null, 304);
+        }
+
+        $items = $items->items;
+        $response->delete();
+
+        return ResponseController::success(0, [
             'resolve' => trans('api.40'),
-            'items'   => $response,
+            'items'   => $items,
         ]);
     }
 
@@ -110,12 +128,28 @@ class AudiosController extends Controller
             'only_eng' => 0,
             'genre_id' => (int)($request->genre_id ?: 0),
             'offset'   => (int)($request->offset ?: 0),
-            'count'    => 50,
+            'count'    => 20,
         ]);
     }
 
     function getGroupAudios(Request $request)
     {
         return $this->getAudio();
+    }
+
+    /**
+     * Список жанров музыки.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-04
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    function getGenres()
+    {
+        return ResponseController::success(0, [
+            'genres' => trans('vk-audio-genres'),
+        ]);
     }
 }

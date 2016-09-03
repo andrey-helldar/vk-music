@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+.audio {
+    padding: 0;
+    margin: 5px 0;
+    border-top: 1px solid transparent;
+    border-bottom: 2px solid $primary-color;
+
+    @include transition(0.2s);
+
+    * {
+        @include transition(0.2s);
+    }
+
+    &:hover {
+        border-top: 1px solid $secondary-color;
+        border-bottom: 2px solid $secondary-color;
+
+        .audio-actions {
+            .audio-play {
+                i {
+                    color: $secondary-color;
+                }
+            }
+
+            .audio-download {
+                i {
+                    color: $secondary-color;
+                }
+            }
+        }
+    }
+
+    li {
+        display: block;
+
+        &.audio-title {
+            ul {
+                padding: 0;
+                margin: 5px 0;
+                vertical-align: middle;
+
+                li {
+                    display: block;
+                    font-size: 1.3rem;
+                    font-weight: 500;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+
+                    &:first-child {
+                        font-size: 1rem;
+                        font-weight: 300;
+                    }
+
+                    &:last-child {
+                        font-size: 1rem;
+                        font-weight: 300;
+                    }
+                }
+            }
+        }
+
+        &.audio-actions {
+            ul {
+                margin: auto auto;
+                text-align: center;
+                vertical-align: middle;
+
+                li {
+                    display: inline-block;
+                    height: 100%;
+                    width: calc(95% / 3);
+                    vertical-align: middle;
+
+                    &.audio-play {
+                        text-align: left;
+
+                        i {
+                            color: $primary-color;
+                            font-size: 1.64rem;
+                            cursor: pointer;
+                        }
+                    }
+
+                    &.audio-duration {
+                        text-align: center;
+                        font-size: 1rem;
+                        font-weight: 300;
+                        padding: 0 3px;
+                    }
+
+                    &.audio-download {
+                        text-align: right;
+
+                        i {
+                            color: $primary-color;
+                            font-size: 1.64rem;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

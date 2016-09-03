@@ -8,4 +8,9 @@ return [
     'redirect_uri'  => 'http://vk-music.dev/verify',
     'display'       => 'page',
     'response_type' => 'code',
+
+    /**
+     * Delay in milliseconds.
+     */
+    'delay'         => 350,
 ];

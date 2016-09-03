@@ -2,7 +2,7 @@
 
 // Mixins
 // @import "../vendor/materialize-css/sass/components/prefixer";
-@import "../vendor/materialize-css/sass/components/mixins";
+@import "components/mixins";
 @import "../vendor/materialize-css/sass/components/color";
 // Variables;
 //@import "../vendor/materialize-css/sass/components/variables";
@@ -36,6 +36,7 @@
 //@import "../vendor/materialize-css/sass/components/date_picker/default";
 //@import "../vendor/materialize-css/sass/components/date_picker/default.date";
 //@import "../vendor/materialize-css/sass/components/date_picker/default.time";
+@import "components/audios";
 
 /* ==========================================================================
    SOFEE variables
@@ -49,6 +50,7 @@
  *  4. Cursors
  *  5. Cards
  *  6. Text
+ *  7. Effects
  */
 
 /* 1. Skeleton
@@ -117,4 +119,10 @@ main {
    ========================================================================== */
 .text-through {
     text-decoration: line-through;
+}
+
+/* 7. Effects
+   ========================================================================== */
+.transition {
+    @include transition(200ms);
 }

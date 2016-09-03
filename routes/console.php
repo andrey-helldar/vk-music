@@ -15,6 +15,6 @@
 //    $this->comment(Inspiring::quote());
 //})->describe('Display an inspiring quote');
 
-Artisan::command('vk:request', function () {
-    $this->info('Requesting VK API');
-})->describe('Request VK API');
+//Artisan::command('vk:request', function () {
+//    $this->info('Requesting VK API');
+//})->describe('Request VK API');

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 use VKMUSIC\VkQueue;
+use VKMUSIC\VkResponse;
 
 class VkController extends Controller
 {
@@ -45,6 +46,9 @@ class VkController extends Controller
             return ResponseController::error(20);
         }
 
+        // Удаляем старые полученные данные.
+        self::removeOldResponses($user->id, $method);
+
         if (Carbon::parse($user->token->expired_at) <= Carbon::now()) {
             return ResponseController::error(30);
         }
@@ -54,7 +58,7 @@ class VkController extends Controller
             'access_token' => $user->token->access_token,
         ]);
 
-        VkQueue::insert([
+        VkQueue::create([
             'user_id'      => $user->id,
             'access_token' => $user->token->access_token,
             'method'       => $method,
@@ -62,5 +66,20 @@ class VkController extends Controller
         ]);
 
         return ResponseController::success(10);
+    }
+
+    /**
+     * Удаляем старые данные из таблицы.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-03
+     * @since   1.0
+     *
+     * @param $user_id
+     * @param $method
+     */
+    private static function removeOldResponses($user_id, $method)
+    {
+        VkResponse::whereUserId($user_id)->whereMethod($method)->delete();
     }
 }

@@ -11,6 +11,7 @@ return [
     21 => 'The queue in work. Please, wait...',
 
     30 => 'Token has expired. Please, authenticate in VK.',
+    31 => 'Token has expired.',
 
     40 => 'The data was successfully uploaded. Processing ...',
 ];
