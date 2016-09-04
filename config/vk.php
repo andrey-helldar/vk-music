@@ -10,7 +10,7 @@ return [
     'response_type' => 'code',
 
     /**
-     * Delay in milliseconds.
+     * Max requests per second
      */
-    'delay'         => 350,
+    'rps'           => 3,
 ];
