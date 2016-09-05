@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateVkUsersAddParamsColumnsTable extends Migration
 {
@@ -71,7 +71,7 @@ class CreateVkUsersAddParamsColumnsTable extends Migration
     public function down()
     {
         Schema::table('vk_users', function (Blueprint $table) {
-            $table->dropColumn('name_vk', 'email_vk');
+            $table->dropColumn('first_name', 'last_name', 'first_name_case', 'last_name_case', 'photo', 'is_deactivated', 'lang');
         });
     }
 }

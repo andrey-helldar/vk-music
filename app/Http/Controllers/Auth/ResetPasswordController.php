@@ -2,8 +2,8 @@
 
 namespace VKMUSIC\Http\Controllers\Auth;
 
-use VKMUSIC\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use VKMUSIC\Http\Controllers\Controller;
 
 class ResetPasswordController extends Controller
 {

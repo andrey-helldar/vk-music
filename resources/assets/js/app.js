@@ -16,13 +16,15 @@ require('./bootstrap');
 var components = [
         'topmenu',
         'audios',
-        'vk-auth'
+        'vk-auth',
+        'vk-verify'
     ];
 
 // Компиляция ресурсов в компоненты.
 if (components.length) {
     components.forEach(
-        function (item) {
+        function (item)
+        {
             Vue.component(item, require('./components/' + item + '.vue'));
         }
     );

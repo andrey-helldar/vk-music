@@ -16,6 +16,11 @@ Route::get('/', [
     'uses' => 'IndexController@getIndex',
 ]);
 
-Route::get('verify', 'Auth\VkController@getVerify');
+//Route::get('verify', 'Auth\VkController@getVerify');
+
+Route::get('verify', [
+    'middleware' => ['guest'],
+    'uses'       => 'IndexController@getVerify',
+]);
 
 //Auth::routes();

@@ -12,6 +12,7 @@ return [
 
     30 => 'Token has expired. Please, authenticate in VK.',
     31 => 'Token has expired.',
+    32 => 'Token verified.',
 
     40 => 'The data was successfully uploaded. Processing ...',
 ];

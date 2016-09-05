@@ -19,6 +19,7 @@ Route::get('/user', function (Request $request) {
 
 Route::get('topmenu', 'Api\AppController@getTopmenu');
 Route::get('vk.params', 'Api\AppController@getParams');
+Route::post('vk.verify', 'Auth\VkController@postVerify');
 
 Route::group([
     'middleware' => [

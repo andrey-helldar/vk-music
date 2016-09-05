@@ -60,8 +60,9 @@ class AppController extends Controller
             'redirect_uri'  => config('vk.redirect_uri'),
             'display'       => config('vk.display'),
             'scope'         => config('vk.scopes'),
-            'response_type' => config('vk.response_type'),
-            'v'             => config('vk.api_version'),
+            'response_type' => config('vk.response_type', 'token'),
+            'v'             => config('vk.api_version', 5.53),
+            'revoke'        => config('vk.revoke', 0),
         ]);
     }
 }

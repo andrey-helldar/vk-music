@@ -4,7 +4,6 @@ namespace VKMUSIC\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use VKMUSIC\Http\Controllers\Api\RequestController;
 use VKMUSIC\Http\Controllers\Api\ResponseController;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
@@ -14,45 +13,57 @@ use VKMUSIC\VkUser;
 
 class VkController extends Controller
 {
+
     /**
      * Активация токена доступа для пользователя.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-02
+     * @version 2016-09-06
      * @since   1.0
      *
      * @param Request $request
      *
-     * @return $this|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response|VkController
      */
-    public function getVerify(Request $request)
+    public function postVerify(Request $request)
+    {
+        if ($request->has('access_token')) {
+            return $this->verifyAccessToken($request);
+        }
+
+        return $this->verifyCode($request);
+    }
+
+    /**
+     * Верификация по токену доступа.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-06
+     * @since   1.0
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function verifyAccessToken(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'code' => 'required|string|max:255',
+            'access_token' => 'required|string',
+            'expires_in'   => 'required|numeric',
+            'user_id'      => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('index')->withErrors($validator->errors()->all());
-        }
-
-        $response = RequestController::send('POST', 'https://oauth.vk.com/access_token', [
-            'client_id'     => config('vk.client_id'),
-            'client_secret' => config('vk.client_secret'),
-            'redirect_uri'  => config('vk.redirect_uri'),
-            'code'          => $request->code,
-        ]);
-
-        if (!empty($response->error_description)) {
-            return redirect()->route('index')->withErrors((array)$response);
+            return ResponseController::error(0, $validator->errors()->all());
         }
 
         // Проверяем аккаунт юзера. Если не существует - создаем.
-        $this->checkUserAccount($response->user_id, $response->access_token, $response->expires_in);
+        $this->checkUserAccount($request->user_id, $request->access_token, $request->expires_in);
 
         // Запрашиваем получение расширенной информации об аккаунте пользователя.
-        $this->getAccountInfo($response->user_id);
+        $this->getAccountInfo($request->user_id);
 
-        return redirect()->route('index');
+        return ResponseController::success(32);
     }
 
     /**
@@ -137,5 +148,46 @@ class VkController extends Controller
                 'lang',
             ]),
         ]);
+    }
+
+    /**
+     * Верификация по коду.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-06
+     * @since   1.0
+     *
+     * @param Request $request
+     *
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function verifyCode(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'code' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseController::error(0, $validator->errors()->all());
+        }
+
+        $response = RequestController::send('POST', 'https://oauth.vk.com/access_token', [
+            'client_id'     => config('vk.client_id'),
+            'client_secret' => config('vk.client_secret'),
+            'redirect_uri'  => config('vk.redirect_uri'),
+            'code'          => $request->code,
+        ]);
+
+        if (!empty($response->error_description)) {
+            return ResponseController::error(0, (array)$response);
+        }
+
+        // Проверяем аккаунт юзера. Если не существует - создаем.
+        $this->checkUserAccount($response->user_id, $response->access_token, $response->expires_in);
+
+        // Запрашиваем получение расширенной информации об аккаунте пользователя.
+        $this->getAccountInfo($response->user_id);
+
+        return ResponseController::success(32);
     }
 }
