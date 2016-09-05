@@ -43,4 +43,18 @@ class User extends Authenticatable
     {
         return $this->hasOne(VkUser::class);
     }
+
+    /**
+     * Модель пользователя с данными из ВК.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-05
+     * @since   1.0
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function vkUser()
+    {
+        return $this->hasOne(VkUser::class);
+    }
 }

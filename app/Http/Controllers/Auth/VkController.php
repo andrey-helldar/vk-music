@@ -49,6 +49,9 @@ class VkController extends Controller
         // Проверяем аккаунт юзера. Если не существует - создаем.
         $this->checkUserAccount($response->user_id, $response->access_token, $response->expires_in);
 
+        // Запрашиваем получение расширенной информации об аккаунте пользователя.
+        $this->getAccountInfo($response->user_id);
+
         return redirect()->route('index');
     }
 
@@ -106,6 +109,54 @@ class VkController extends Controller
             'scope'         => config('vk.scopes'),
             'response_type' => config('vk.response_type'),
             'v'             => config('vk.api_version'),
+        ]);
+    }
+
+    /**
+     * Получение информации об аккаунте авторизованного пользователя.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-05
+     * @since   1.0
+     *
+     * @param $user_vk
+     *
+     * @return bool
+     */
+    function getAccountInfo($user_vk)
+    {
+        if (\Auth::guest()) {
+            return false;
+        }
+
+        \VKMUSIC\Http\Controllers\Api\VkController::createRequest('users.get', [
+            'user_ids'  => $user_vk,
+            'name_case' => 'nom',
+            'fields'    => implode(',', [
+                'id',
+                'first_name',
+                'last_name',
+                'first_name_nom',
+                'first_name_gen',
+                'first_name_dat',
+                'first_name_acc',
+                'first_name_ins',
+                'first_name_abl',
+                'last_name_nom',
+                'last_name_gen',
+                'last_name_dat',
+                'last_name_acc',
+                'last_name_ins',
+                'last_name_abl',
+                'photo_100',
+                'deactivated',
+            ]),
+        ]);
+
+        \VKMUSIC\Http\Controllers\Api\VkController::createRequest('account.getInfo', [
+            'fields' => implode(',', [
+                'lang',
+            ]),
         ]);
     }
 }

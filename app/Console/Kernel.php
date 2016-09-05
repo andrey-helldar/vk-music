@@ -5,6 +5,7 @@ namespace VKMUSIC\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use VKMUSIC\Console\Commands\RequestVk;
+use VKMUSIC\Console\Commands\StaticInfoVk;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         RequestVk::class,
+        StaticInfoVk::class,
     ];
 
     /**
@@ -27,6 +29,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('vk:request')->everyMinute();
+        $schedule->command('vk:info')->everyMinute();
     }
 
     /**

@@ -69,7 +69,7 @@ class VkController extends Controller
     }
 
     /**
-     * Удаляем старые данные из таблицы.
+     * Удаляем старые данные из таблицы, фильтруя по вызываемому методу.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
      * @version 2016-09-03

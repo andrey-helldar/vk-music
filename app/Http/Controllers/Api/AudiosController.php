@@ -134,7 +134,7 @@ class AudiosController extends Controller
 
     function getGroupAudios(Request $request)
     {
-        return $this->getAudio();
+        return $this->getAudios();
     }
 
     /**
