@@ -18,8 +18,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::get('topmenu', 'Api\AppController@getTopmenu');
-
-Route::get('vk.params', 'Auth\VkController@getParams');
+Route::get('vk.params', 'Api\AppController@getParams');
 
 Route::group([
     'middleware' => [
