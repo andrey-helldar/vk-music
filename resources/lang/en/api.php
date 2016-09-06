@@ -6,6 +6,7 @@ return [
 
     10 => 'The request has been successfully added to the queue. Please, wait...',
     11 => 'The request has already been added. Please, wait...',
+    12 => 'You queue: :position',
 
     20 => 'The queue has already been added. Please, wait...',
     21 => 'The queue in work. Please, wait...',
@@ -15,4 +16,6 @@ return [
     32 => 'Token verified.',
 
     40 => 'The data was successfully uploaded. Processing ...',
+
+    50 => 'Downloading file...',
 ];

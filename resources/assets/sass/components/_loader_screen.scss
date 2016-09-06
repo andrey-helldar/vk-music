@@ -9,6 +9,8 @@
     z-index: 10000;
     background-color: rgba(21, 101, 192, .9);
 
+    @include transition(200ms);
+
     .loader-content {
         background-color: #ffffff;
         width: 100%;

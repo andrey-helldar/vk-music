@@ -23,4 +23,15 @@ Route::get('verify', [
     'uses'       => 'IndexController@getVerify',
 ]);
 
+Route::get('storage/{slug?}', 'IndexController@getStorageBlocked');
+
+/**
+ * Скачивание файла.
+ */
+Route::get('download/{id?}', [
+    'as'         => 'download',
+    'middleware' => ['auth'],
+    'uses'       => 'IndexController@getDownloadFile',
+]);
+
 //Auth::routes();

@@ -58,14 +58,19 @@ class VkController extends Controller
             'access_token' => $user->token->access_token,
         ]);
 
-        VkQueue::create([
+        $queue_created = VkQueue::create([
             'user_id'      => $user->id,
             'access_token' => $user->token->access_token,
             'method'       => $method,
             'context'      => json_encode($context),
         ]);
 
-        return ResponseController::success(10);
+        $position = VkQueue::where('id', '<=', $queue_created->id)->count();
+
+        return ResponseController::success(0, [
+            'resolve'     => trans('api.10'),
+            'description' => trans('api.12', ['position' => $position]),
+        ]);
     }
 
     /**

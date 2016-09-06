@@ -70,39 +70,6 @@ class AudiosController extends Controller
     }
 
     /**
-     * Возврат полученных от VK API данных.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-03
-     * @since   1.0
-     *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     */
-    function getAudios()
-    {
-        $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.get')->where('updated_at', '<', $user->token->expired_at)->first();
-
-        if (is_null($response)) {
-            return ResponseController::error(21, null, 304);
-        }
-
-        $items = json_decode($response->context)->response;
-
-        if (!empty($items->error)) {
-            return ResponseController::error(1, null, 304);
-        }
-
-        $items = $items->items;
-        $response->delete();
-
-        return ResponseController::success(0, [
-            'resolve' => trans('api.40'),
-            'items'   => $items,
-        ]);
-    }
-
-    /**
      * Возвращает список аудиозаписей из раздела «Популярное».
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
@@ -135,6 +102,48 @@ class AudiosController extends Controller
     function getGroupAudios(Request $request)
     {
         return $this->getAudios();
+    }
+
+    /**
+     * Возврат полученных от VK API данных.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-03
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    function getAudios()
+    {
+        $user     = \Auth::user();
+        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.get')->where('updated_at', '<', $user->token->expired_at)->first();
+        //        $order    = VkQueue::whereUserId($user->id)->whereMethod('audio.get')->first();
+        //        $position = VkQueue::where('id', '<=', $order->id)->count();
+        $position = '---';
+
+        if (is_null($response)) {
+            return ResponseController::error(0, [
+                'resolve'     => trans('api.21'),
+                'description' => trans('api.12', ['position' => $position]),
+            ], 304);
+        }
+
+        $items = json_decode($response->context)->response;
+
+        if (!empty($items->error)) {
+            return ResponseController::error(0, [
+                'resolve'     => trans('api.1'),
+                'description' => trans('api.12', ['position' => $position]),
+            ], 304);
+        }
+
+        $items = $items->items;
+        $response->delete();
+
+        return ResponseController::success(0, [
+            'resolve' => trans('api.40'),
+            'items'   => $items,
+        ]);
     }
 
     /**

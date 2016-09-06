@@ -2,7 +2,9 @@
 
 namespace VKMUSIC\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use VKMUSIC\File;
 use VKMUSIC\Http\Controllers\Auth\VkController;
 use VKMUSIC\Http\Requests;
 
@@ -48,4 +50,49 @@ class IndexController extends Controller
 
         return view('verify')->withErrors($content->error->error_description);
     }
+
+    public function getStorageBlocked($slug = null)
+    {
+        dd('Not Allowed!');
+    }
+
+    /**
+     * Скачивание файла с инкрементом счетчика.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-07
+     * @since   1.0
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function getDownloadFile($id = null)
+    {
+        $validator = \Validator::make([
+            'id' => $id,
+        ], [
+            'id' => 'required|numeric|min:1|exists:files',
+        ]);
+
+        if ($validator->fails()) {
+            return abort(404);
+        }
+
+        $file = File::whereId($id)->where('expired_at', '>', Carbon::now())->first();
+
+        if (is_null($file)) {
+            return abort(404);
+        }
+
+        if (!\Storage::disk('mp3')->exists($file->filename)) {
+            return abort(404);
+        }
+
+        $file->downloads++;
+        $file->save();
+
+        return response()->download(asset('storage/' . $file->filename), $file->title);
+    }
+
 }

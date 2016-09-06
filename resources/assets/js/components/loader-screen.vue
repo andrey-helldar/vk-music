@@ -2,6 +2,9 @@
     <div class="loader-screen valign-wrapper" v-if="show">
         <div class="row valign center-align loader-content" :class="[style.selected]">
             <h2>{{ text }}</h2>
+
+            <h4 v-if="description.length">{{ description }}</h4>
+
             <h6>{{ timeToHumans(time) }}</h6>
         </div>
     </div>
@@ -10,10 +13,11 @@
     export default{
         data(){
             return {
-                show : true,
-                text : 'Loading...',
-                time : 0,
-                style: {
+                show       : false,
+                text       : 'Loading...',
+                description: 'test',
+                time       : 0,
+                style      : {
                     selected: 'blue-text text-darken-1',
                     wait    : 'blue-text text-darken-1',
                     check   : 'yellow-text text-darken-2'

@@ -46,7 +46,8 @@
                     offset: 0
                 },
                 loading: {
-                    wait: false
+                    wait    : false,
+                    position: ''
                 },
                 msg    : {
                     text : 'Check...',
@@ -81,8 +82,9 @@
                 )
                     .then(function (response)
                           {
-                              app.info(response.data.response, 'success');
-                              this.loading.wait = true;
+                              app.info(response.data.response.resolve, 'success');
+                              this.loading.wait     = true;
+                              this.loading.position = response.data.response.description;
                               this.checkTimer();
                           }, function (response)
                           {
@@ -121,6 +123,7 @@
 
                                       // 304 Not Modified
                                   case 304:
+                                      this.loading.position = response.data.response.description;
                                       break;
 
                                       // 204 No Content
@@ -214,22 +217,9 @@
                 app.console('Playing ' + item.title);
             },
             /**
-             * Загружаем файл на комп.
+             * Основная форма загрузки файла с системой кэширования.
              */
             download(item){
-                //                var element = document.createElement('a');
-                //
-                //                element.setAttribute('href', item.url);
-                //                element.setAttribute('download', item.artist.trim() + ' - ' + item.title.trim());
-                //
-                //                app.console(element.getAttribute('href'));
-                //
-                //                element.style.display = 'none';
-                //                document.body.appendChild(element);
-                //
-                //                element.click();
-                //
-                //                document.body.removeChild(element);
                 this.$http.post('/api/download', {
                                     url     : item.url,
                                     artist  : item.artist.trim(),
@@ -240,12 +230,31 @@
                 )
                     .then(function (response)
                           {
-                              app.info('downloaded!', 'success');
+                              app.info(response.data.response.resolve, 'success');
+                              this.downloadFile(response.data.response.url);
                           }, function (response)
                           {
                               app.console(response.data);
                           }
                     );
+            },
+            /**
+             * Непосредственно загрузка файла.
+             */
+            downloadFile(url){
+                var element = document.createElement('a');
+
+                element.setAttribute('href', url);
+                element.setAttribute('download', 'file-name');
+
+                app.console(element.getAttribute('href'));
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
             },
             /**
              * Останавливаем воспроизведение трека.

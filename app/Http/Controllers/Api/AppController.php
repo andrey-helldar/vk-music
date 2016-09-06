@@ -2,7 +2,9 @@
 
 namespace VKMUSIC\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use VKMUSIC\File;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 
@@ -104,12 +106,36 @@ class AppController extends Controller
             \Storage::disk($disk)->put($filename, $file_content);
         }
 
-        $new_url = \Storage::disk($disk)->url($filename);
+        $file_id = $this->saveFileToDatabase($filename, $title);
 
-        //        return ResponseController::error(0, [
-        //            'url' => asset($new_url),
-        //        ]);
+        return ResponseController::success(0, [
+            'resolve' => trans('api.50'),
+            'url'     => route('download', ['id' => $file_id]),
+        ]);
+    }
 
-        return response()->download(asset($new_url), $title);
+    /**
+     * Сохраняем запись о файле в базу и возвращаем ее идентификатор.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-07
+     * @since   1.0
+     *
+     * @param $filename
+     * @param $title
+     *
+     * @return mixed
+     */
+    private function saveFileToDatabase($filename, $title)
+    {
+        $file = File::firstOrNew([
+            'filename' => $filename,
+        ]);
+
+        $file->title      = $title;
+        $file->expired_at = Carbon::now()->addMinutes((int)config('vk.files_expired_in', 10));
+        $file->save();
+
+        return $file->id;
     }
 }

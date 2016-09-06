@@ -172,7 +172,7 @@ window.app = {
         var exp     = [];
 
         exp = app.pushDateArray(exp, hours);
-        exp = app.pushDateArray(exp, minutes);
+        exp = app.pushDateArray(exp, minutes, true);
         exp = app.pushDateArray(exp, seconds, true);
 
         return exp.join(':');
