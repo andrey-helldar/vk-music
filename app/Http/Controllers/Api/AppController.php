@@ -2,8 +2,6 @@
 
 namespace VKMUSIC\Http\Controllers\Api;
 
-use Carbon\Carbon;
-use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
@@ -83,28 +81,35 @@ class AppController extends Controller
     public function postDownloadFile(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'url'   => 'required|url',
-            'title' => 'required|string|max:255',
+            'url'      => 'required|url',
+            'artist'   => 'required|string|max:255',
+            'title'    => 'required|string|max:255',
+            'duration' => 'required|numeric|min:0',
+            'owner_id' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
             return ResponseController::error(0, $validator->errors()->all());
         }
 
-        $url          = mb_substr($request->url, 0, mb_strpos($request->url, '?'));
-        $file_content = file_get_contents($url);
-        $extension    = pathinfo($url, PATHINFO_EXTENSION);
-        $filename     = str_slug(Carbon::now()->micro) . '.' . $extension;
+        $disk          = 'mp3';
+        $url           = mb_substr($request->url, 0, mb_strpos($request->url, '?'));
+        $extension     = pathinfo($url, PATHINFO_EXTENSION);
+        $filename_orig = pathinfo($url, PATHINFO_FILENAME);
+        $filename      = sprintf("%s-%s-%s.%s", $request->owner_id, $request->duration, $filename_orig, $extension);
+        $title         = sprintf("%s - %s.%s", $request->artist, $request->title, $extension);
 
-        \Storage::disk('mp3')->put($filename, $file_content);
+        if (!\Storage::disk($disk)->exists($filename)) {
+            $file_content = file_get_contents($url);
+            \Storage::disk($disk)->put($filename, $file_content);
+        }
 
-        return ResponseController::error(0, [
-            'url'        => $url,
-            'filename'   => $filename,
-            'extension'  => $extension,
-            'saved_file' => \Storage::disk('mp3')->url($filename),
-        ]);
+        $new_url = \Storage::disk($disk)->url($filename);
 
-        return response()->download($request->url, $request->title . '.mp3');
+        //        return ResponseController::error(0, [
+        //            'url' => asset($new_url),
+        //        ]);
+
+        return response()->download(asset($new_url), $title);
     }
 }

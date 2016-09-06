@@ -16,7 +16,7 @@
                             <i class="material-icons waves-effect waves-light" @click="play(item)">play_arrow</i>
                         </li>
                         <li class="audio-duration">
-                            {{ durationToHumans(item.duration) }}
+                            {{ timeToHumans(item.duration) }}
                         </li>
                         <li class="audio-download">
                             <i class="material-icons" @click="download(item)">file_download</i>
@@ -31,7 +31,7 @@
     <div class="row" v-if="msg.show">
         <div class="white-text col s8 offset-s2 m4 offset-m4 center-align transition" :class="[msg.style]">
             <h5>{{ msg.text }}</h5>
-            <h6>{{ durationToHumans(msg.time) }}</h6>
+            <h6>{{ timeToHumans(msg.time) }}</h6>
         </div>
     </div>
 </template>
@@ -40,25 +40,25 @@
     export default {
         data(){
             return {
-                items:   [],
-                genres:  [],
-                vk:      {
+                items  : [],
+                genres : [],
+                vk     : {
                     offset: 0
                 },
                 loading: {
                     wait: false
                 },
-                msg:     {
-                    text:  'Check...',
+                msg    : {
+                    text : 'Check...',
                     style: 'yellow darken-2',
-                    show:  true,
-                    time:  0
+                    show : true,
+                    time : 0
                 },
-                player:  {
-                    artist:   '',
-                    title:    '',
+                player : {
+                    artist  : '',
+                    title   : '',
                     duration: 0,
-                    url:      ''
+                    url     : ''
                 }
             }
         },
@@ -76,27 +76,29 @@
              */
             getAudio(){
                 this.$http.post('/api/audios.user', {
-                            offset: this.offset
-                        }
-                )
-                        .then(function (response) {
-                                    app.info(response.data.response, 'success');
-                                    this.loading.wait = true;
-                                    this.checkTimer();
-                                }, function (response) {
-                                    this.loading.wait = false;
-
-                                    switch (response.data.error_code) {
-                                        case 20:
-                                            this.loading.wait = true;
-                                            this.checkTimer();
-                                            break;
-
-                                        default:
-                                            app.info(response.data.error, 'error');
-                                    }
+                                    offset: this.offset
                                 }
-                        );
+                )
+                    .then(function (response)
+                          {
+                              app.info(response.data.response, 'success');
+                              this.loading.wait = true;
+                              this.checkTimer();
+                          }, function (response)
+                          {
+                              this.loading.wait = false;
+
+                              switch (response.data.error_code) {
+                                  case 20:
+                                      this.loading.wait = true;
+                                      this.checkTimer();
+                                      break;
+
+                                  default:
+                                      app.info(response.data.error, 'error');
+                              }
+                          }
+                    );
             },
             /**
              * Проверка выполненных запросов и вывод записей на экран.
@@ -104,43 +106,47 @@
             getAudioLoaded(){
                 this.setStatus('check');
                 this.$http.get('/api/audios.user')
-                        .then(function (response) {
-                                    app.info(response.data.response.resolve, 'success');
-                                    this.loading.wait = false;
-                                    this.items = response.data.response.items;
-                                    this.setStatus('hide');
-                                }, function (response) {
-                                    switch (response.status) {
-                                        case 500:
-                                            app.console(response.statusText, 'warning');
-                                            break;
+                    .then(function (response)
+                          {
+                              app.info(response.data.response.resolve, 'success');
+                              this.loading.wait = false;
+                              this.items        = response.data.response.items;
+                              this.setStatus('hide');
+                          }, function (response)
+                          {
+                              switch (response.status) {
+                                  case 500:
+                                      app.console(response.statusText, 'warning');
+                                      break;
 
-                                            // 304 Not Modified
-                                        case 304:
-                                            break;
+                                      // 304 Not Modified
+                                  case 304:
+                                      break;
 
-                                            // 204 No Content
-                                        case 204:
-                                            break;
+                                      // 204 No Content
+                                  case 204:
+                                      break;
 
-                                        default:
-                                            app.console(response.status + ' ' + response.statusText, 'error');
-                                    }
-                                    this.setStatus('wait');
-                                }
-                        );
+                                  default:
+                                      app.console(response.status + ' ' + response.statusText, 'error');
+                              }
+                              this.setStatus('wait');
+                          }
+                    );
             },
             /**
              * Получение списка жанров.
              */
             getGenres(){
                 this.$http.get('/api/audios.genres')
-                        .then(function (response) {
-                                    this.genres = app.toArray(response.data.response.genres);
-                                }, function (response) {
-                                    this.genres = [];
-                                }
-                        );
+                    .then(function (response)
+                          {
+                              this.genres = app.toArray(response.data.response.genres);
+                          }, function (response)
+                          {
+                              this.genres = [];
+                          }
+                    );
             },
             /**
              * Определение жанра для конкретного трека.
@@ -156,9 +162,10 @@
              * Таймер проверки ответов.
              */
             checkTimer(){
-                var parent = this;
+                var parent     = this;
                 var checkAudio = setInterval(
-                        function () {
+                        function ()
+                        {
                             if (parent.loading.wait === false) {
                                 clearInterval(checkAudio);
                             }
@@ -174,14 +181,14 @@
             setStatus(status){
                 switch (status) {
                     case 'check':
-                        this.msg.show = true;
-                        this.msg.text = 'Check...';
+                        this.msg.show  = true;
+                        this.msg.text  = 'Check...';
                         this.msg.style = 'yellow darken-2';
                         break;
 
                     case 'wait':
-                        this.msg.show = true;
-                        this.msg.text = 'Waiting...';
+                        this.msg.show  = true;
+                        this.msg.text  = 'Waiting...';
                         this.msg.style = 'blue';
                         break;
 
@@ -197,9 +204,11 @@
             setStatusTime(){
                 var parent = this;
 
-                setInterval(function (parent) {
-                    parent.msg.time++;
-                }, 1000, parent);
+                setInterval(function (parent)
+                            {
+                                parent.msg.time++;
+                            }, 1000, parent
+                );
             },
             play(item){
                 app.console('Playing ' + item.title);
@@ -208,83 +217,53 @@
              * Загружаем файл на комп.
              */
             download(item){
-//                var element = document.createElement('a');
-//
-//                element.setAttribute('href', item.url);
-//                element.setAttribute('download', item.artist.trim() + ' - ' + item.title.trim());
-//
-//                app.console(element.getAttribute('href'));
-//
-//                element.style.display = 'none';
-//                document.body.appendChild(element);
-//
-//                element.click();
-//
-//                document.body.removeChild(element);
+                //                var element = document.createElement('a');
+                //
+                //                element.setAttribute('href', item.url);
+                //                element.setAttribute('download', item.artist.trim() + ' - ' + item.title.trim());
+                //
+                //                app.console(element.getAttribute('href'));
+                //
+                //                element.style.display = 'none';
+                //                document.body.appendChild(element);
+                //
+                //                element.click();
+                //
+                //                document.body.removeChild(element);
                 this.$http.post('/api/download', {
-                    url:   item.url,
-                    title: item.artist.trim() + ' - ' + item.title.trim()
-                })
-                        .then(function (response) {
-                                    app.info('downloaded!', 'success');
-                                }, function (response) {
-                                    app.console(response.data);
+                                    url     : item.url,
+                                    artist  : item.artist.trim(),
+                                    title   : item.title.trim(),
+                                    duration: item.duration,
+                                    owner_id: item.owner_id
                                 }
-                        );
-            },
-            /**
-             * Обрабатываем секунды в человеко-понятный формат времени.
-             *
-             * @param duration
-             * @returns {string}
-             */
-            durationToHumans(duration){
-                var date = new Date(1970, 1, 1, 0, 0, duration);
-                var hours = date.getHours();
-                var minutes = date.getMinutes();
-                var seconds = date.getSeconds();
-                var exp = [];
-
-                exp = this.pushDateArray(exp, hours);
-                exp = this.pushDateArray(exp, minutes);
-                exp = this.pushDateArray(exp, seconds);
-
-                return exp.join(':');
-            },
-            /**
-             * Добавляем ведущий ноль к числу.
-             *
-             * @param num
-             * @returns {*}
-             */
-            numAddZero(num){
-                if (num < 10) {
-                    return '0' + num;
-                }
-                return num;
-            },
-            /**
-             * Если число больше нуля - добавляем его к массиву.
-             *
-             * @param arr
-             * @param num
-             * @returns {*}
-             */
-            pushDateArray(arr, num){
-                if (num > 0) {
-                    num = this.numAddZero(num);
-                    arr.push(num);
-                }
-                return arr;
+                )
+                    .then(function (response)
+                          {
+                              app.info('downloaded!', 'success');
+                          }, function (response)
+                          {
+                              app.console(response.data);
+                          }
+                    );
             },
             /**
              * Останавливаем воспроизведение трека.
              */
             playerStop(){
-                this.player.artist = '';
-                this.player.title = '';
+                this.player.artist   = '';
+                this.player.title    = '';
                 this.player.duration = 0;
-                this.player.url = '';
+                this.player.url      = '';
+            },
+            /**
+             * Транслируем глобальную функцию преобразования времени.
+             *
+             * @param time
+             * @returns {*|string}
+             */
+            timeToHumans(time){
+                return app.timeToHumans(time);
             }
         }
     }

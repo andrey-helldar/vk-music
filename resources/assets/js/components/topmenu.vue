@@ -1,4 +1,6 @@
 <template>
+    <loader-screen></loader-screen>
+
     <nav>
         <div class="container">
             <div class="nav-wrapper">
