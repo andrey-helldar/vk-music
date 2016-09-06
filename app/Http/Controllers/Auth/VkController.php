@@ -4,6 +4,7 @@ namespace VKMUSIC\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use VKMUSIC\Http\Controllers\Api\RequestController;
 use VKMUSIC\Http\Controllers\Api\ResponseController;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
@@ -31,7 +32,11 @@ class VkController extends Controller
             return $this->verifyAccessToken($request);
         }
 
-        return $this->verifyCode($request);
+        if ($request->has('code')) {
+            return $this->verifyCode($request);
+        }
+
+        return ResponseController::error(2);
     }
 
     /**
@@ -82,7 +87,7 @@ class VkController extends Controller
     private function checkUserAccount($user_vk, $access_token, $expires_in)
     {
         $user = User::firstOrNew([
-            'email' => $user_vk . '@vk-music.dev',
+            'email' => 'id' . $user_vk . '@vk-music.dev',
         ]);
 
         $user->name     = 'User ' . $user_vk;
@@ -90,16 +95,16 @@ class VkController extends Controller
         $user->save();
 
         $vk_user = VkUser::firstOrNew([
-            'user_vk' => $user_vk,
+            'user_id' => $user->id,
         ]);
 
-        $vk_user->user_id      = $user->id;
+        $vk_user->user_vk      = $user_vk;
         $vk_user->access_token = $access_token;
         $vk_user->expired_at   = Carbon::now()->addSeconds($expires_in - 5);
         $vk_user->save();
 
         // Аутентификация пользователя.
-        \Auth::login($user);
+        \Auth::loginUsingId($user->id, true);
     }
 
     /**

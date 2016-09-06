@@ -30,7 +30,8 @@
 
     <div class="row" v-if="msg.show">
         <div class="white-text col s8 offset-s2 m4 offset-m4 center-align transition" :class="[msg.style]">
-            {{ msg.text }}
+            <h5>{{ msg.text }}</h5>
+            <h6>{{ durationToHumans(msg.time) }}</h6>
         </div>
     </div>
 </template>
@@ -39,18 +40,19 @@
     export default {
         data(){
             return {
-                items  : [],
-                genres : [],
-                vk     : {
+                items:   [],
+                genres:  [],
+                vk:      {
                     offset: 0
                 },
                 loading: {
                     wait: false
                 },
-                msg    : {
-                    text : 'Check...',
+                msg:     {
+                    text:  'Check...',
                     style: 'yellow darken-2',
-                    show : true
+                    show:  true,
+                    time:  0
                 }
             }
         },
@@ -58,6 +60,7 @@
             app.console('Component Audios ready.');
         },
         asyncData(){
+            this.setStatusTime();
             this.getGenres();
             this.getAudio();
         },
@@ -67,25 +70,28 @@
              */
             getAudio(){
                 this.$http.post('/api/audios.user', {
-                                    offset: this.offset
-                                }
+                            offset: this.offset
+                        }
                 )
-                    .then(function (response)
-                          {
-                              app.info(response.data.response, 'success');
-                              this.loading.wait = true;
-                              this.checkTimer();
-                          }, function (response)
-                          {
-                              this.loading.wait = false;
-                              app.info(response.data.error, 'error');
+                        .then(function (response) {
+                                    app.info(response.data.response, 'success');
+                                    this.loading.wait = true;
+                                    this.checkTimer();
+                                }, function (response) {
+                                    this.loading.wait = false;
 
-                              if (response.data.error_code == 20) {
-                                  this.loading.wait = true;
-                                  this.checkTimer();
-                              }
-                          }
-                    );
+                                    switch (response.data.error_code) {
+                                        case 20:
+                                            app.info(response.data.error, 'info');
+                                            this.loading.wait = true;
+                                            this.checkTimer();
+                                            break;
+
+                                        default:
+                                            app.info(response.data.error, 'error');
+                                    }
+                                }
+                        );
             },
             /**
              * Проверка выполненных запросов и вывод записей на экран.
@@ -93,48 +99,44 @@
             getAudioLoaded(){
                 this.setStatus('check');
                 this.$http.get('/api/audios.user')
-                    .then(function (response)
-                          {
-                              app.info(response.data.response.resolve, 'success');
-                              app.console(response.data, 'info');
-                              this.loading.wait = false;
-                              this.items        = response.data.response.items;
-                              this.setStatus('hide');
-                          }, function (response)
-                          {
-                              switch (response.status) {
-                                  case 500:
-                                      app.console(response.statusText, 'warning');
-                                      break;
+                        .then(function (response) {
+                                    app.info(response.data.response.resolve, 'success');
+                                    app.console(response.data, 'info');
+                                    this.loading.wait = false;
+                                    this.items = response.data.response.items;
+                                    this.setStatus('hide');
+                                }, function (response) {
+                                    switch (response.status) {
+                                        case 500:
+                                            app.console(response.statusText, 'warning');
+                                            break;
 
-                                      // 304 Not Modified
-                                  case 304:
-                                      break;
+                                            // 304 Not Modified
+                                        case 304:
+                                            break;
 
-                                      // 204 No Content
-                                  case 204:
-                                      break;
+                                            // 204 No Content
+                                        case 204:
+                                            break;
 
-                                  default:
-                                      app.console(response.status + ' ' + response.statusText, 'error');
-                              }
-                              this.setStatus('wait');
-                          }
-                    );
+                                        default:
+                                            app.console(response.status + ' ' + response.statusText, 'error');
+                                    }
+                                    this.setStatus('wait');
+                                }
+                        );
             },
             /**
              * Получение списка жанров.
              */
             getGenres(){
                 this.$http.get('/api/audios.genres')
-                    .then(function (response)
-                          {
-                              this.genres = app.toArray(response.data.response.genres);
-                          }, function (response)
-                          {
-                              this.genres = [];
-                          }
-                    );
+                        .then(function (response) {
+                                    this.genres = app.toArray(response.data.response.genres);
+                                }, function (response) {
+                                    this.genres = [];
+                                }
+                        );
             },
             /**
              * Определение жанра для конкретного трека.
@@ -150,12 +152,10 @@
              * Таймер проверки ответов.
              */
             checkTimer(){
-                var parent     = this;
+                var parent = this;
                 var checkAudio = setInterval(
-                        function ()
-                        {
+                        function () {
                             if (parent.loading.wait === false) {
-                                app.console('loading.white == false', 'info')
                                 clearInterval(checkAudio);
                             }
 
@@ -170,20 +170,32 @@
             setStatus(status){
                 switch (status) {
                     case 'check':
-                        this.msg.show  = true;
-                        this.msg.text  = 'Check...';
+                        this.msg.show = true;
+                        this.msg.text = 'Check...';
                         this.msg.style = 'yellow darken-2';
                         break;
 
                     case 'wait':
-                        this.msg.show  = true;
-                        this.msg.text  = 'Waiting...';
+                        this.msg.show = true;
+                        this.msg.text = 'Waiting...';
                         this.msg.style = 'blue';
                         break;
 
                     default:
+                        clearInterval(this.msg.timer);
                         this.msg.show = false;
+                        this.msg.time = 0;
                 }
+            },
+            /**
+             * Отображение секунд ожидания.
+             */
+            setStatusTime(){
+                var parent = this;
+
+                setInterval(function (parent) {
+                    parent.msg.time++;
+                }, 1000, parent);
             },
             play(item){
                 app.console('Playing ' + item.title);
@@ -198,11 +210,43 @@
              * @returns {string}
              */
             durationToHumans(duration){
-                var exp     = duration / 60;
-                var minutes = ~~exp;
-                var seconds = duration - minutes * 60;
+                var date = new Date(1970, 1, 1, 0, 0, duration);
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var seconds = date.getSeconds();
+                var exp = [];
 
-                return minutes + ':' + seconds;
+                exp = this.pushDateArray(exp, hours);
+                exp = this.pushDateArray(exp, minutes);
+                exp = this.pushDateArray(exp, seconds);
+
+                return exp.join(':');
+            },
+            /**
+             * Добавляем ведущий ноль к числу.
+             *
+             * @param num
+             * @returns {*}
+             */
+            numAddZero(num){
+                if (num < 10) {
+                    return '0' + num;
+                }
+                return num;
+            },
+            /**
+             * Если число больше нуля - добавляем его к массиву.
+             *
+             * @param arr
+             * @param num
+             * @returns {*}
+             */
+            pushDateArray(arr, num){
+                if (num > 0) {
+                    num = this.numAddZero(num);
+                    arr.push(num);
+                }
+                return arr;
             }
         }
     }

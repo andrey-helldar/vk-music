@@ -4,37 +4,41 @@
 
         <button class="btn btn-large btn-primary waves-effect waves-light" disabled>
             <i class="material-icons left">check</i>
-            Checking access token...
+            {{ buttonText }}
         </button>
     </div>
 </template>
 <script>
     export default{
         data(){
-            return {}
+            return {
+                buttonText: 'Checking access token'
+            }
         },
         ready() {
             app.console('Component VK Verify ready.');
-            this.vkVerify();
+            this.dotButton();
+            this.checkGetParams();
         },
         methods: {
+            /**
+             * Основная функция верификации.
+             */
             vkVerify(){
-                app.info('Verifying access token...', 'info');
+                app.info('Verifying access token...');
 
                 var
                         uri    = window.location.href,
                         params = this.parseUri(uri);
 
                 this.$http.post('/api/vk.verify', params)
-                    .then(function (response)
-                          {
-                              app.info('Access token verified succesfully!', 'success');
-                              window.location.href = '/';
-                          }, function (response)
-                          {
-                              app.info('Error loading parameters. Please, reload this page.', 'error');
-                          }
-                    );
+                        .then(function (response) {
+                                    app.info(response.data.response, 'success');
+                                    window.location.href = '/';
+                                }, function (response) {
+                                    app.info(response.data.error, 'error');
+                                }
+                        );
             },
 
             /**
@@ -50,18 +54,18 @@
                         params = [],
                         obj    = {};
 
-                if (url[1].indexOf('&') !== false) {
+                if (url[1].indexOf('&') !== -1) {
                     params = url[1].split('&');
-                } else {
-                    params = url[1];
-                }
 
-                params.forEach(function (item)
-                               {
-                                   var param     = item.split('=');
-                                   obj[param[0]] = param[1];
-                               }
-                );
+                    params.forEach(function (item) {
+                                var param = item.split('=');
+                                obj[param[0]] = param[1];
+                            }
+                    );
+                } else {
+                    params = url[1].split('=');
+                    obj[params[0]] = params[1];
+                }
 
                 return obj;
             },
@@ -73,11 +77,44 @@
              * @returns {*}
              */
             uriSymbol(uri){
-                if (uri.indexOf('#') !== false) {
+                if (uri.indexOf('#') !== -1) {
                     return '#';
                 }
 
                 return '?';
+            },
+
+            /**
+             * Проверка параметров запроса.
+             */
+            checkGetParams(){
+                var
+                        uri     = window.location.href,
+                        success = uri.indexOf('#') > -1 || uri.indexOf('?') > -1;
+
+                if (success === true) {
+                    this.vkVerify();
+                } else {
+                    window.location.href = '/';
+                }
+            },
+
+            /**
+             * Вывод "бегающих" точек на кнопке статуса.
+             */
+            dotButton(){
+                var parent = this;
+                var text = this.buttonText;
+                var dotted = '.';
+
+                setInterval(function () {
+                    if (dotted.length > 3) {
+                        dotted = '.';
+                    }
+
+                    parent.buttonText = text + dotted;
+                    dotted += '.';
+                }, 1000, text, dotted, parent);
             }
         }
     }
