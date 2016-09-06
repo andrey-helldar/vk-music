@@ -53,6 +53,12 @@
                     style: 'yellow darken-2',
                     show:  true,
                     time:  0
+                },
+                player:  {
+                    artist:   '',
+                    title:    '',
+                    duration: 0,
+                    url:      ''
                 }
             }
         },
@@ -82,7 +88,6 @@
 
                                     switch (response.data.error_code) {
                                         case 20:
-                                            app.info(response.data.error, 'info');
                                             this.loading.wait = true;
                                             this.checkTimer();
                                             break;
@@ -101,7 +106,6 @@
                 this.$http.get('/api/audios.user')
                         .then(function (response) {
                                     app.info(response.data.response.resolve, 'success');
-                                    app.console(response.data, 'info');
                                     this.loading.wait = false;
                                     this.items = response.data.response.items;
                                     this.setStatus('hide');
@@ -200,8 +204,33 @@
             play(item){
                 app.console('Playing ' + item.title);
             },
+            /**
+             * Загружаем файл на комп.
+             */
             download(item){
-                window.location.href = item.url;
+//                var element = document.createElement('a');
+//
+//                element.setAttribute('href', item.url);
+//                element.setAttribute('download', item.artist.trim() + ' - ' + item.title.trim());
+//
+//                app.console(element.getAttribute('href'));
+//
+//                element.style.display = 'none';
+//                document.body.appendChild(element);
+//
+//                element.click();
+//
+//                document.body.removeChild(element);
+                this.$http.post('/api/download', {
+                    url:   item.url,
+                    title: item.artist.trim() + ' - ' + item.title.trim()
+                })
+                        .then(function (response) {
+                                    app.info('downloaded!', 'success');
+                                }, function (response) {
+                                    app.console(response.data);
+                                }
+                        );
             },
             /**
              * Обрабатываем секунды в человеко-понятный формат времени.
@@ -247,6 +276,15 @@
                     arr.push(num);
                 }
                 return arr;
+            },
+            /**
+             * Останавливаем воспроизведение трека.
+             */
+            playerStop(){
+                this.player.artist = '';
+                this.player.title = '';
+                this.player.duration = 0;
+                this.player.url = '';
             }
         }
     }

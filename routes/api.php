@@ -35,6 +35,8 @@ Route::group([
     Route::get('audios.user', 'Api\AudiosController@getAudios');
     // Получение идентификаторов жанров.
     Route::get('audios.genres', 'Api\AudiosController@getGenres');
+
+    Route::post('download', 'Api\AppController@postDownloadFile');
 });
 
 Route::any('{slug?}', function () {
