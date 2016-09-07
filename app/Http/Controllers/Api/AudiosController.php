@@ -24,7 +24,7 @@ class AudiosController extends Controller
     function storeAudios(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'offset'     => 'numeric|min:0|max:100',
+            'offset'     => 'numeric|min:0',
             'owner_type' => 'string',
             'owner_id'   => 'string',
         ]);
@@ -36,7 +36,7 @@ class AudiosController extends Controller
         return VkController::createRequest('audio.get', array_merge([
             'need_user' => 0,
             'offset'    => (int)($request->offset ?: 0),
-            'count'     => 20,
+            'count'     => config('vk.count_records', 50),
         ], $this->ownerId($request->owner_type, $request->owner_id)));
     }
 
@@ -96,7 +96,7 @@ class AudiosController extends Controller
             'only_eng' => 0,
             'genre_id' => (int)($request->genre_id ?: 0),
             'offset'   => (int)($request->offset ?: 0),
-            'count'    => 20,
+            'count'    => config('vk.count_records', 50),
         ]);
     }
 
@@ -136,12 +136,13 @@ class AudiosController extends Controller
             ], 406);
         }
 
-        $items = $items->items;
         $response->delete();
 
         return ResponseController::success(0, [
-            'resolve' => trans('api.40'),
-            'items'   => $items,
+            'resolve'     => trans('api.40'),
+            'items'       => $items->items,
+            'count_all'   => $items->count,
+            'count_query' => config('vk.count_records', 50),
         ]);
     }
 

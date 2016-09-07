@@ -1,4 +1,14 @@
 <template>
+    <h3>Your audios</h3>
+
+    <form>
+        <div class="input-field">
+            <input id="search" type="search" required>
+            <label for="search"><i class="material-icons">search</i></label>
+            <i class="material-icons">close</i>
+        </div>
+    </form>
+
     <div class="row">
         <div class="col s12 m3" v-for="item in items">
             <ul class="audio">
@@ -30,6 +40,12 @@
                 </li>
             </ul>
         </div>
+
+        <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
+            <a href="#!" class="btn-flat waves-effect waves-blue" @click="moreAudio">
+                <i class="material-icons">more_horiz</i>
+            </a>
+        </div>
     </div>
 
     <div class="row" v-if="msg.show">
@@ -46,9 +62,10 @@
         data(){
             return {
                 items: [],
-                genres: [],
+                genres: {},
                 vk: {
-                    offset: 0
+                    offset: 0,
+                    count_all: 0
                 },
                 loading: {
                     wait: false,
@@ -122,7 +139,10 @@
                         .then(function (response) {
                                     app.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
-                                    this.items = response.data.response.items;
+                                    this.vk.offset += response.data.response.count_query;
+                                    this.vk.count_all = response.data.response.count_all;
+                                    this.items = this.items.concat(response.data.response.items);
+
                                     this.setStatus('hide');
                                 }, function (response) {
                                     switch (response.status) {
@@ -162,14 +182,21 @@
                         );
             },
             /**
+             * Загрузка следующих аудиозаписей.
+             */
+            moreAudio(){
+                this.getAudio();
+            },
+            /**
              * Получение списка жанров.
              */
             getGenres(){
                 this.$http.get('/api/audios.genres')
                         .then(function (response) {
-                                    this.genres = app.toArray(response.data.response.genres);
+//                                    this.genres = app.toArray(response.data.response.genres);
+                                    this.genres = response.data.response.genres;
                                 }, function (response) {
-                                    this.genres = [];
+                                    this.genres = {};
                                 }
                         );
             },
@@ -177,7 +204,7 @@
              * Определение жанра для конкретного трека.
              */
             getGenre(genre_id){
-                if (this.genres.length) {
+                if (this.genres[genre_id] !== undefined) {
                     return this.genres[genre_id];
                 }
 

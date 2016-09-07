@@ -15,6 +15,7 @@ require('./bootstrap');
     // Здесь будем перечислять все загружаемые компоненты
 var components = [
         'loader-screen',
+        'search',
         'topmenu',
         'audios',
         'vk-auth',
