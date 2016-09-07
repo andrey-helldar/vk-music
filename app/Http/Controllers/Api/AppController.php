@@ -24,7 +24,7 @@ class AppController extends Controller
         $menu = [
             [
                 'url'       => '/',
-                'title'     => 'Player',
+                'title'     => 'Your audio',
                 'is_active' => false,
             ],
             [
@@ -43,6 +43,14 @@ class AppController extends Controller
                 'is_active' => false,
             ],
         ];
+
+        if (\Auth::check()) {
+            $menu[] = [
+                'url'       => route('logout'),
+                'title'     => 'Logout',
+                'is_active' => false,
+            ];
+        }
 
         return ResponseController::success(0, $menu);
     }

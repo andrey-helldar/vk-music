@@ -16,8 +16,6 @@ Route::get('/', [
     'uses' => 'IndexController@getIndex',
 ]);
 
-//Route::get('verify', 'Auth\VkController@getVerify');
-
 Route::get('verify', [
     'middleware' => ['guest'],
     'uses'       => 'IndexController@getVerify',
@@ -32,6 +30,12 @@ Route::get('download/{id?}', [
     'as'         => 'download',
     'middleware' => ['auth'],
     'uses'       => 'IndexController@getDownloadFile',
+]);
+
+Route::get('logout', [
+    'as'         => 'logout',
+    'middleware' => ['auth'],
+    'uses'       => 'IndexController@getLogout',
 ]);
 
 //Auth::routes();

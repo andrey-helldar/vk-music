@@ -51,11 +51,6 @@ class IndexController extends Controller
         return view('verify')->withErrors($content->error->error_description);
     }
 
-    public function getStorageBlocked($slug = null)
-    {
-        dd('Not Allowed!');
-    }
-
     /**
      * Скачивание файла с инкрементом счетчика.
      *
@@ -99,4 +94,19 @@ class IndexController extends Controller
         ]);
     }
 
+    /**
+     * Организуем выход юзера из системы.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-08
+     * @since   1.0
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getLogout()
+    {
+        \Auth::logout();
+
+        return redirect()->route('index');
+    }
 }
