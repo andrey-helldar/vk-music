@@ -69,7 +69,7 @@ class VkController extends Controller
 
         return ResponseController::success(0, [
             'resolve'     => trans('api.10'),
-            'description' => trans('api.12', ['position' => $position]),
+            'description' => trans('api.12', ['position' => $position ?: 1]),
         ]);
     }
 

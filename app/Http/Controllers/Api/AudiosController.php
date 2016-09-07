@@ -5,6 +5,7 @@ namespace VKMUSIC\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
+use VKMUSIC\VkQueue;
 use VKMUSIC\VkResponse;
 
 class AudiosController extends Controller
@@ -117,15 +118,13 @@ class AudiosController extends Controller
     {
         $user     = \Auth::user();
         $response = VkResponse::whereUserId($user->id)->whereMethod('audio.get')->where('updated_at', '<', $user->token->expired_at)->first();
-        //        $order    = VkQueue::whereUserId($user->id)->whereMethod('audio.get')->first();
-        //        $position = VkQueue::where('id', '<=', $order->id)->count();
-        $position = '---';
+        $position = $this->getQueuePosition('audio.get', $user->id);
 
         if (is_null($response)) {
             return ResponseController::error(0, [
                 'resolve'     => trans('api.21'),
                 'description' => trans('api.12', ['position' => $position]),
-            ], 304);
+            ], 406);
         }
 
         $items = json_decode($response->context)->response;
@@ -134,7 +133,7 @@ class AudiosController extends Controller
             return ResponseController::error(0, [
                 'resolve'     => trans('api.1'),
                 'description' => trans('api.12', ['position' => $position]),
-            ], 304);
+            ], 406);
         }
 
         $items = $items->items;
@@ -144,6 +143,31 @@ class AudiosController extends Controller
             'resolve' => trans('api.40'),
             'items'   => $items,
         ]);
+    }
+
+    /**
+     * Считаем позицию запроса пользователя в очереди.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-07
+     * @since   1.0
+     *
+     * @param $method
+     * @param $user_id
+     *
+     * @return int
+     */
+    private function getQueuePosition($method, $user_id)
+    {
+        $order = VkQueue::whereMethod($method)->whereUserId($user_id)->first();
+
+        if (is_null($order)) {
+            return 1;
+        }
+
+        $position = VkQueue::where('id', '<=', $order->id)->count();
+
+        return $position ?: 1;
     }
 
     /**

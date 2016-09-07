@@ -1,5 +1,5 @@
 <template>
-    <div class="loader-screen valign-wrapper" v-if="show">
+    <div class="loader-screen valign-wrapper" v-if="show" :transition="fade" :transition-mode="out-in">
         <div class="row valign center-align loader-content" :class="[style.selected]">
             <h2>{{ text }}</h2>
 
@@ -13,19 +13,22 @@
     export default{
         data(){
             return {
-                show       : false,
-                text       : 'Loading...',
+                show:        false,
+                text:        'Loading...',
                 description: 'test',
-                time       : 0,
-                style      : {
+                time:        0,
+                style:       {
                     selected: 'blue-text text-darken-1',
-                    wait    : 'blue-text text-darken-1',
-                    check   : 'yellow-text text-darken-2'
+                    wait:     'blue-text text-darken-1',
+                    check:    'yellow-text text-darken-2'
                 }
             }
         },
+        ready() {
+            app.console('Component Loader Screen ready.');
+        },
         asyncData(){
-            this.showLoader();
+//            this.showLoader();
         },
         methods: {
             /**
@@ -50,8 +53,7 @@
                 var parent = this;
 
                 var timerInterval = setInterval(
-                        function ()
-                        {
+                        function () {
                             if (parent.show === false) {
                                 clearInterval(timerInterval);
                             } else {

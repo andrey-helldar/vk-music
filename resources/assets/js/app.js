@@ -24,14 +24,13 @@ var components = [
 // Компиляция ресурсов в компоненты.
 if (components.length) {
     components.forEach(
-        function (item)
-        {
+        function (item) {
             Vue.component(item, require('./components/' + item + '.vue'));
         }
     );
 }
 
 new Vue({
-        el: 'main'
+        el: 'main',
     }
 );
