@@ -105,7 +105,9 @@ class IndexController extends Controller
      */
     public function getLogout()
     {
-        \Auth::logout();
+        if (\Auth::check()) {
+            \Auth::logout();
+        }
 
         return redirect()->route('index');
     }

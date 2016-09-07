@@ -241,9 +241,9 @@
                     this.audioPlay(item, index);
                 } else {
                     if (this.audio.index === index) {
-                        this.audioPause(index);
+                        this.audioPause();
                     } else {
-                        this.audioPause(index);
+                        this.audioPause();
                         this.audioPlay(item, index);
                     }
                 }
@@ -260,6 +260,7 @@
                 app.info('Playing: ' + this.audio.title);
 
                 this.audio.player = new Audio(item.url);
+                this.audio.player.volume = 1.0;
                 this.audio.player.play();
 
                 var parent = this;
@@ -283,22 +284,43 @@
             /**
              * Остановка воспроизведения.
              */
-            audioPause(index){
+            audioPause(){
                 if (this.audio.player !== false) {
                     app.info('Stopped: ' + this.audio.title);
                     this.backgroundColor(false);
 
                     this.audio.player.pause();
 
+//                    if (this.audioVolume() === true) {
                     this.audio.player = false;
                     this.audio.index = -1;
                     this.audio.currentTime = 0;
                     this.audio.duration = 0;
                     this.audio.title = '';
+//                    }
                 }
 
                 $('.audio').removeClass(this.audio.class);
                 $('.audio .audio-actions .audio-play i').text(this.audio.buttons.play);
+            },
+            /**
+             * Останавливаем воспроизведение аудио плавно.
+             */
+            audioVolume(){
+                var parent = this;
+                var audioSetVolume = setInterval(function () {
+//                    app.console('Volume ' + parent.audio.player.volume);
+                    var volume = parent.audio.player.volume;
+
+                    if (volume <= 0 || volume === undefined) {
+                        parent.audio.player.pause();
+                        clearInterval(audioSetVolume);
+                    } else {
+                        parent.audio.player.volume -= 0.1;
+                    }
+                }, 200, parent);
+
+                return true;
             },
             /**
              * Обновление времени проигрываемого трека.

@@ -33,9 +33,8 @@ Route::get('download/{id?}', [
 ]);
 
 Route::get('logout', [
-    'as'         => 'logout',
-    'middleware' => ['auth'],
-    'uses'       => 'IndexController@getLogout',
+    'as'   => 'logout',
+    'uses' => 'IndexController@getLogout',
 ]);
 
 //Auth::routes();
