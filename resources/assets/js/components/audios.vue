@@ -1,5 +1,9 @@
 <template>
     <div class="row">
+        <div class="col s12 m6 offset-m3" v-if="player.duration > 0">
+            <h5>{{ player.currentTime }}</h5>
+        </div>
+
         <div class="col s12 m3" v-for="item in items">
             <ul class="audio">
                 <li class="audio-title">
@@ -13,7 +17,7 @@
                 <li class="audio-actions">
                     <ul>
                         <li class="audio-play">
-                            <i class="material-icons waves-effect waves-light" @click="play(item)">play_arrow</i>
+                            <i class="material-icons waves-effect waves-light" @click="play(item, $index)">play_arrow</i>
                         </li>
                         <li class="audio-duration">
                             {{ timeToHumans(item.duration) }}
@@ -58,10 +62,12 @@
                     time:        0
                 },
                 player:  {
-                    artist:   '',
-                    title:    '',
-                    duration: 0,
-                    url:      ''
+                    cache:       false,
+                    artist:      '',
+                    title:       '',
+                    currentTime: '00:00',
+                    duration:    0,
+                    url:         ''
                 }
             }
         },
@@ -223,8 +229,23 @@
                         }, 1000, parent
                 );
             },
-            play(item){
-                app.console('Playing ' + item.title);
+            play(item, index){
+                app.info('Playing: ' + item.artist.trim() + ' - ' + item.title.trim());
+
+                this.player.artist = item.artist.trim();
+                this.player.title = item.title.trim();
+                this.player.currentTime = '00:00';
+                this.player.duration = item.duration;
+                this.player.url = item.url;
+
+                var audio = new Audio(item.url);
+                audio.play();
+
+                var parent = this;
+
+                audio.ontimeupdate = function () {
+                    parent.onTimeUpdateListener(this);
+                };
             },
             /**
              * Основная форма загрузки файла с системой кэширования.
@@ -240,7 +261,7 @@
                 )
                         .then(function (response) {
                                     app.info(response.data.response.resolve, 'success');
-                                    this.downloadFile(response.data.response.url);
+                                    this.downloadFile(response.data.response.url, response.data.response.title);
                                 }, function (response) {
                                     app.console(response.data);
                                 }
@@ -249,11 +270,10 @@
             /**
              * Непосредственно загрузка файла.
              */
-            downloadFile(url){
+            downloadFile(url, title){
                 var element = document.createElement('a');
 
                 element.setAttribute('href', url);
-                element.setAttribute('download', 'file-name');
 
                 app.console(element.getAttribute('href'));
 
@@ -262,7 +282,7 @@
 
                 element.click();
 
-                document.body.removeChild(element);
+//                document.body.removeChild(element);
             },
             /**
              * Останавливаем воспроизведение трека.
@@ -281,6 +301,17 @@
              */
             timeToHumans(time){
                 return app.timeToHumans(time);
+            },
+            /**
+             * Update current time
+             */
+            onTimeUpdateListener: function (audio) {
+                var currentTime = parseInt(audio.currentTime);
+                this.player.currentTime = this.timeToHumans(currentTime);
+
+                if (currentTime > 30) {
+                    audio.pause();
+                }
             }
         }
     }

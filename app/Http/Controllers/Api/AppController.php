@@ -111,6 +111,7 @@ class AppController extends Controller
         return ResponseController::success(0, [
             'resolve' => trans('api.50'),
             'url'     => route('download', ['id' => $file_id]),
+            'title'   => $title,
         ]);
     }
 
@@ -128,12 +129,13 @@ class AppController extends Controller
      */
     private function saveFileToDatabase($filename, $title)
     {
-        $file = File::firstOrNew([
+        $file = File::withTrashed()->firstOrNew([
             'filename' => $filename,
         ]);
 
         $file->title      = $title;
         $file->expired_at = Carbon::now()->addMinutes((int)config('vk.files_expired_in', 10));
+        $file->deleted_at = null;
         $file->save();
 
         return $file->id;

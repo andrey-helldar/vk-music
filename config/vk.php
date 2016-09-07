@@ -55,5 +55,5 @@ return [
     /**
      * Срок жизни файла в минутах.
      */
-    'files_expired_in' => 20,
+    'files_expired_in' => 10,
 ];

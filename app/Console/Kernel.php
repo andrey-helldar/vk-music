@@ -4,6 +4,7 @@ namespace VKMUSIC\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use VKMUSIC\Console\Commands\DeleteFiles;
 use VKMUSIC\Console\Commands\RequestVk;
 use VKMUSIC\Console\Commands\StaticInfoVk;
 
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         RequestVk::class,
         StaticInfoVk::class,
+        DeleteFiles::class,
     ];
 
     /**
@@ -30,6 +32,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('vk:request')->everyMinute();
         $schedule->command('vk:info')->everyMinute();
+        $schedule->command('vk:files-delete')->everyMinute();
     }
 
     /**

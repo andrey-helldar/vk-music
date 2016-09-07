@@ -92,7 +92,9 @@ class IndexController extends Controller
         $file->downloads++;
         $file->save();
 
-        return response()->download(asset('storage/' . $file->filename), $file->title);
+        $url = \Storage::disk('mp3')->url($file->filename);
+
+        return response()->download(public_path($url), $file->title);
     }
 
 }
