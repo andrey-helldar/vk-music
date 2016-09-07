@@ -5,7 +5,7 @@ namespace VKMUSIC;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class File extends Model
+class VkFile extends Model
 {
     use SoftDeletes;
 

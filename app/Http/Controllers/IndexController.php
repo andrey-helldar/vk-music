@@ -4,7 +4,7 @@ namespace VKMUSIC\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use VKMUSIC\File;
+use VKMUSIC\VkFile;
 use VKMUSIC\Http\Controllers\Auth\VkController;
 use VKMUSIC\Http\Requests;
 
@@ -72,14 +72,14 @@ class IndexController extends Controller
         $validator = \Validator::make([
             'id' => $id,
         ], [
-            'id' => 'required|numeric|min:1|exists:files',
+            'id' => 'required|numeric|min:1|exists:vk_files',
         ]);
 
         if ($validator->fails()) {
             return abort(404);
         }
 
-        $file = File::whereId($id)->where('expired_at', '>', Carbon::now())->first();
+        $file = VkFile::whereId($id)->where('expired_at', '>', Carbon::now())->first();
 
         if (is_null($file)) {
             return abort(404);
@@ -92,9 +92,9 @@ class IndexController extends Controller
         $file->downloads++;
         $file->save();
 
-        $url = \Storage::disk('mp3')->url($file->filename);
+        $url = config('filesystems.disks.mp3.root') . '\\' . $file->filename;
 
-        return response()->download(public_path($url), $file->title);
+        return response()->download($url, $file->title);
     }
 
 }

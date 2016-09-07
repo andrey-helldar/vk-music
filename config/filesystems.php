@@ -64,8 +64,8 @@ return [
 
         'mp3' => [
             'driver'     => 'local',
-            'root'       => storage_path('app/public'),
-            'visibility' => 'public',
+            'root'       => storage_path('app'),
+            'visibility' => 'private',
         ],
 
     ],

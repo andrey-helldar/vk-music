@@ -4,7 +4,7 @@ namespace VKMUSIC\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use VKMUSIC\File;
+use VKMUSIC\VkFile;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 
@@ -129,7 +129,7 @@ class AppController extends Controller
      */
     private function saveFileToDatabase($filename, $title)
     {
-        $file = File::withTrashed()->firstOrNew([
+        $file = VkFile::withTrashed()->firstOrNew([
             'filename' => $filename,
         ]);
 

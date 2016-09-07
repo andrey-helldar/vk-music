@@ -4,7 +4,7 @@ namespace VKMUSIC\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use VKMUSIC\File;
+use VKMUSIC\VkFile;
 
 class DeleteFiles extends Command
 {
@@ -39,7 +39,7 @@ class DeleteFiles extends Command
      */
     public function handle()
     {
-        $items = File::where('expired_at', '<', Carbon::now())->get();
+        $items = VkFile::where('expired_at', '<', Carbon::now())->get();
 
         if (!$items->count()) {
             return;
