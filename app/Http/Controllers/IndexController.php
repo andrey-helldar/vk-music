@@ -4,9 +4,9 @@ namespace VKMUSIC\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use VKMUSIC\VkFile;
 use VKMUSIC\Http\Controllers\Auth\VkController;
 use VKMUSIC\Http\Requests;
+use VKMUSIC\VkFile;
 
 class IndexController extends Controller
 {
@@ -94,7 +94,9 @@ class IndexController extends Controller
 
         $url = config('filesystems.disks.mp3.root') . '\\' . $file->filename;
 
-        return response()->download($url, $file->title);
+        return response()->download($url, $file->title, [
+            'Content-Type' => 'audio/mpeg',
+        ]);
     }
 
 }

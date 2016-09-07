@@ -29,6 +29,7 @@
  *  22. Flow Text
  *  23. Collections
  *  24. Progress Bar
+ *  25. Audio
  */
 
 /* 1. Colors
@@ -294,4 +295,18 @@ $collection-link-color: $secondary-color !default;
 /* 24. Progress Bar
    ========================================================================== */
 
-$progress-bar-color: $secondary-color !default;
+$progress-bar-color: color('green', 'lighten-2') !default;
+
+/* 25. Audio
+   ========================================================================== */
+$audio-primary-color: $primary-color !default;
+$audio-secondary-color: $secondary-color !default;
+$audio-playing-color: color('green', 'darken-1') !default;
+$audio-playing-button-color: color('red', 'darken-2') !default;
+
+$audio-artist-font-size: 1rem;
+$audio-title-font-size: 1.3rem;
+$audio-icon-font-size: 1.64rem;
+
+$audio-artist-font-weight: 300;
+$audio-title-font-weight: 500;

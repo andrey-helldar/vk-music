@@ -1,9 +1,23 @@
 @charset "UTF-8";
 
 @mixin transition($time) {
-    -webkit-transition: all $time;
-    -moz-transition: all $time;
-    -ms-transition: all $time;
-    -o-transition: all $time;
-    transition: all $time;
+  -webkit-transition: all $time;
+  -moz-transition: all $time;
+  -ms-transition: all $time;
+  -o-transition: all $time;
+  transition: all $time;
+}
+
+@mixin positionGradient($fromColor, $toColor, $centerPosition) {
+  background: $fromColor;
+  background: -moz-linear-gradient(left, $fromColor 0%, $fromColor $centerPosition, $toColor $centerPosition, $toColor 100%);
+  background: -webkit-linear-gradient(left, $fromColor 0%, $fromColor $centerPosition, $toColor $centerPosition, $toColor 100%);
+  background: linear-gradient(to right, $fromColor 0%, $fromColor $centerPosition, $toColor $centerPosition, $toColor 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$fromColor', endColorstr='$toColor', GradientType=1);
+}
+
+@mixin borderRadius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
 }

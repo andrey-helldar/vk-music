@@ -11,16 +11,20 @@
                 </li>
 
                 <li class="audio-actions">
+                    <div class="progress">
+                        <div class="determinate"></div>
+                    </div>
+
                     <ul>
-                        <li class="audio-play">
-                            <i class="material-icons waves-effect waves-light" @click="audioPlayOrPause(item, $index)">play_arrow</i>
+                        <li class="audio-play valign-wrapper">
+                            <i class="material-icons waves-effect waves-light valign" @click="audioPlayOrPause(item, $index)">play_arrow</i>
                         </li>
                         <li class="audio-duration">
                             <span>{{ timeToHumans(item.duration) }}</span>
                             <span v-if="audio.index === $index">/ {{ timeToHumans(audio.currentTime) }}</span>
                         </li>
-                        <li class="audio-download">
-                            <i class="material-icons" @click="download(item)">file_download</i>
+                        <li class="audio-download valign-wrapper">
+                            <i class="material-icons waves-effect waves-light valign" @click="download(item)">file_download</i>
                         </li>
                     </ul>
                 </li>
@@ -41,31 +45,31 @@
     export default {
         data(){
             return {
-                items:   [],
-                genres:  [],
-                vk:      {
+                items: [],
+                genres: [],
+                vk: {
                     offset: 0
                 },
                 loading: {
-                    wait:     false,
+                    wait: false,
                     position: ''
                 },
-                msg:     {
-                    text:        'Check...',
+                msg: {
+                    text: 'Check...',
                     description: '',
-                    style:       'yellow darken-2',
-                    show:        true,
-                    time:        0
+                    style: 'yellow darken-2',
+                    show: true,
+                    time: 0
                 },
-                audio:   {
-                    player:      false,
-                    index:       -1,
-                    currentTime: -1,
-                    duration:    -1,
-                    title:       '',
-                    class:       'audio-playing',
-                    buttons:     {
-                        play:  'play_arrow',
+                audio: {
+                    player: false,
+                    index: -1,
+                    currentTime: 0,
+                    duration: 0,
+                    title: '',
+                    class: 'audio-playing',
+                    buttons: {
+                        play: 'play_arrow',
                         pause: 'stop'
                     }
                 },
@@ -85,7 +89,7 @@
              */
             getAudio(){
                 this.$http.post('/api/audios.user', {
-                            offset: this.offset
+                            offset: this.vk.offset
                         }
                 )
                         .then(function (response) {
@@ -264,6 +268,12 @@
                     parent.onTimeUpdateListener(this);
                 };
 
+                this.audio.player.onpause = function () {
+                    if (parent.audio.player.ended === true) {
+                        parent.audioPause();
+                    }
+                };
+
                 var elemAudio = $('.audio:eq(' + index + ')');
                 var elemAudioIcon = elemAudio.find('.audio-actions .audio-play i');
 
@@ -276,13 +286,14 @@
             audioPause(index){
                 if (this.audio.player !== false) {
                     app.info('Stopped: ' + this.audio.title);
+                    this.backgroundColor(false);
 
                     this.audio.player.pause();
 
                     this.audio.player = false;
                     this.audio.index = -1;
-                    this.audio.currentTime = -1;
-                    this.audio.duration = -1;
+                    this.audio.currentTime = 0;
+                    this.audio.duration = 0;
                     this.audio.title = '';
                 }
 
@@ -294,7 +305,9 @@
              */
             onTimeUpdateListener: function (player) {
                 var currentTime = parseInt(player.currentTime);
-                this.audio.currentTime = this.timeToHumans(currentTime);
+
+                this.audio.currentTime = currentTime;
+                this.backgroundColor();
 
                 if (currentTime > 30) {
                     this.audioPause();
@@ -304,10 +317,13 @@
              * Основная форма загрузки файла с системой кэширования.
              */
             download(item){
+                var title = item.artist.trim() + ' - ' + item.title.trim();
+                app.info('Downloading: ' + title, 'info');
+
                 this.$http.post('/api/download', {
-                            url:      item.url,
-                            artist:   item.artist.trim(),
-                            title:    item.title.trim(),
+                            url: item.url,
+                            artist: item.artist.trim(),
+                            title: item.title.trim(),
                             duration: item.duration,
                             owner_id: item.owner_id
                         }
@@ -335,7 +351,7 @@
 
                 element.click();
 
-//                document.body.removeChild(element);
+                document.body.removeChild(element);
             },
             /**
              * Транслируем глобальную функцию преобразования времени.
@@ -345,6 +361,33 @@
              */
             timeToHumans(time){
                 return app.timeToHumans(time);
+            },
+            /**
+             * Изменение размера бэкграунда.
+             *
+             * @param colorize
+             */
+            backgroundColor(colorize = true){
+                var progressBar = $('.audio-playing .progress .determinate');
+
+                if (colorize === false) {
+                    progressBar.css({
+                        width: '0%'
+                    });
+                    return;
+                }
+
+                var duration = this.audio.duration;
+                var currentTime = this.audio.currentTime;
+                var width = (currentTime / duration) * 100;
+
+                if (width > 100) {
+                    width = 100;
+                }
+
+                progressBar.css({
+                    width: width + '%'
+                });
             }
         }
     }
