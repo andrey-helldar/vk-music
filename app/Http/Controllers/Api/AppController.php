@@ -4,9 +4,9 @@ namespace VKMUSIC\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use VKMUSIC\VkFile;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
+use VKMUSIC\VkFile;
 
 class AppController extends Controller
 {
@@ -109,7 +109,9 @@ class AppController extends Controller
         $file_id = $this->saveFileToDatabase($filename, $title);
 
         return ResponseController::success(0, [
-            'resolve' => trans('api.50'),
+            'resolve' => trans('api.50', [
+                'filename' => $request->artist . ' - ' . $request->title,
+            ]),
             'url'     => route('download', ['id' => $file_id]),
             'title'   => $title,
         ]);

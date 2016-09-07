@@ -318,7 +318,7 @@
              */
             download(item){
                 var title = item.artist.trim() + ' - ' + item.title.trim();
-                app.info('Downloading: ' + title, 'info');
+                app.info('Preparing to download:<br>' + title, 'info');
 
                 this.$http.post('/api/download', {
                             url: item.url,

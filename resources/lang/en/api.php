@@ -17,5 +17,5 @@ return [
 
     40 => 'The data was successfully uploaded. Processing ...',
 
-    50 => 'Downloading file...',
+    50 => 'Download:<br>:filename',
 ];
