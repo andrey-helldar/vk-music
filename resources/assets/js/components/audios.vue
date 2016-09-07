@@ -1,9 +1,5 @@
 <template>
     <div class="row">
-        <div class="col s12 m6 offset-m3" v-if="player.duration > 0">
-            <h5>{{ player.currentTime }}</h5>
-        </div>
-
         <div class="col s12 m3" v-for="item in items">
             <ul class="audio">
                 <li class="audio-title">
@@ -17,17 +13,17 @@
                 <li class="audio-actions">
                     <ul>
                         <li class="audio-play">
-                            <i class="material-icons waves-effect waves-light" @click="play(item, $index)">play_arrow</i>
+                            <i class="material-icons waves-effect waves-light" @click="audioPlayOrPause(item, $index)">play_arrow</i>
                         </li>
                         <li class="audio-duration">
-                            {{ timeToHumans(item.duration) }}
+                            <span>{{ timeToHumans(item.duration) }}</span>
+                            <span v-if="audio.index === $index">/ {{ timeToHumans(audio.currentTime) }}</span>
                         </li>
                         <li class="audio-download">
                             <i class="material-icons" @click="download(item)">file_download</i>
                         </li>
                     </ul>
                 </li>
-
             </ul>
         </div>
     </div>
@@ -61,14 +57,18 @@
                     show:        true,
                     time:        0
                 },
-                player:  {
-                    cache:       false,
-                    artist:      '',
+                audio:   {
+                    player:      false,
+                    index:       -1,
+                    currentTime: -1,
+                    duration:    -1,
                     title:       '',
-                    currentTime: '00:00',
-                    duration:    0,
-                    url:         ''
-                }
+                    class:       'audio-playing',
+                    buttons:     {
+                        play:  'play_arrow',
+                        pause: 'stop'
+                    }
+                },
             }
         },
         ready() {
@@ -188,9 +188,9 @@
                         function () {
                             if (parent.loading.wait === false) {
                                 clearInterval(checkAudio);
+                            } else {
+                                parent.getAudioLoaded();
                             }
-
-                            parent.getAudioLoaded();
                         }, 3000, parent
                 );
             },
@@ -229,23 +229,76 @@
                         }, 1000, parent
                 );
             },
-            play(item, index){
-                app.info('Playing: ' + item.artist.trim() + ' - ' + item.title.trim());
+            /**
+             * Старт/стоп воспроизведения звука.
+             */
+            audioPlayOrPause(item, index){
+                if (this.audio.index === -1) {
+                    this.audioPlay(item, index);
+                } else {
+                    if (this.audio.index === index) {
+                        this.audioPause(index);
+                    } else {
+                        this.audioPause(index);
+                        this.audioPlay(item, index);
+                    }
+                }
+            },
+            /**
+             * Начало воспроизведения звука.
+             */
+            audioPlay(item, index){
+                this.audio.index = index;
+                this.audio.currentTime = 0;
+                this.audio.duration = item.duration;
+                this.audio.title = item.artist.trim() + ' - ' + item.title.trim();
 
-                this.player.artist = item.artist.trim();
-                this.player.title = item.title.trim();
-                this.player.currentTime = '00:00';
-                this.player.duration = item.duration;
-                this.player.url = item.url;
+                app.info('Playing: ' + this.audio.title);
 
-                var audio = new Audio(item.url);
-                audio.play();
+                this.audio.player = new Audio(item.url);
+                this.audio.player.play();
 
                 var parent = this;
 
-                audio.ontimeupdate = function () {
+                this.audio.player.ontimeupdate = function () {
                     parent.onTimeUpdateListener(this);
                 };
+
+                var elemAudio = $('.audio:eq(' + index + ')');
+                var elemAudioIcon = elemAudio.find('.audio-actions .audio-play i');
+
+                elemAudio.addClass(this.audio.class);
+                elemAudioIcon.text(this.audio.buttons.pause);
+            },
+            /**
+             * Остановка воспроизведения.
+             */
+            audioPause(index){
+                if (this.audio.player !== false) {
+                    app.info('Stopped: ' + this.audio.title);
+
+                    this.audio.player.pause();
+
+                    this.audio.player = false;
+                    this.audio.index = -1;
+                    this.audio.currentTime = -1;
+                    this.audio.duration = -1;
+                    this.audio.title = '';
+                }
+
+                $('.audio').removeClass(this.audio.class);
+                $('.audio .audio-actions .audio-play i').text(this.audio.buttons.play);
+            },
+            /**
+             * Обновление времени проигрываемого трека.
+             */
+            onTimeUpdateListener: function (player) {
+                var currentTime = parseInt(player.currentTime);
+                this.audio.currentTime = this.timeToHumans(currentTime);
+
+                if (currentTime > 30) {
+                    this.audioPause();
+                }
             },
             /**
              * Основная форма загрузки файла с системой кэширования.
@@ -285,15 +338,6 @@
 //                document.body.removeChild(element);
             },
             /**
-             * Останавливаем воспроизведение трека.
-             */
-            playerStop(){
-                this.player.artist = '';
-                this.player.title = '';
-                this.player.duration = 0;
-                this.player.url = '';
-            },
-            /**
              * Транслируем глобальную функцию преобразования времени.
              *
              * @param time
@@ -301,17 +345,6 @@
              */
             timeToHumans(time){
                 return app.timeToHumans(time);
-            },
-            /**
-             * Update current time
-             */
-            onTimeUpdateListener: function (audio) {
-                var currentTime = parseInt(audio.currentTime);
-                this.player.currentTime = this.timeToHumans(currentTime);
-
-                if (currentTime > 30) {
-                    audio.pause();
-                }
             }
         }
     }
