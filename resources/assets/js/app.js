@@ -35,9 +35,9 @@ if (components.length) {
 new Vue({
         el:      'main',
         methods: {
-            showLoader(text = 'Loading...', description = ''){
+            showLoader(text = 'Loading...', description = '', style_type = 'wait'){
                 var loaderElement = this.$children[1];
-                loaderElement.showLoader(text, description);
+                loaderElement.showLoader(text, description, style_type);
             },
             hideLoader(){
                 var loaderElement = this.$children[1];

@@ -15,6 +15,18 @@
         background-color: #FFFFFF;
         width: 100%;
         padding: 100px 20px;
+
+        .loader-text {
+            font-weight: 300;
+        }
+
+        .loader-description {
+            font-weight: 300;
+        }
+
+        .loader-duration {
+            font-weight: 400;
+        }
     }
 
     @media #{$small-and-down} {

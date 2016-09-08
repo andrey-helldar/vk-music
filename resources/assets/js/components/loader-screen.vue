@@ -1,11 +1,11 @@
 <template>
     <div class="loader-screen valign-wrapper" v-if="show">
-        <div class="row valign center-align loader-content" :class="[style.selected]">
-            <h3>{{ text }}</h3>
+        <div class="row valign center-align loader-content">
+            <h2 class="loader-text" :class="[style.selected]">{{ text }}</h2>
 
-            <h5 v-if="description.length">{{ description }}</h5>
+            <h5 class="loader-description" v-if="description.length">{{ description }}</h5>
 
-            <h6>{{ timeToHumans(time) }}</h6>
+            <h6 class="loader-duration">{{ timeToHumans(time) }}</h6>
         </div>
     </div>
 </template>
@@ -19,9 +19,9 @@
                 time:          0,
                 style_type:    'wait',
                 style:         {
-                    selected: 'blue-text text-darken-1',
-                    wait:     'blue-text text-darken-1',
-                    check:    'yellow-text text-darken-2'
+                    selected: 'blue-text text-darken-2',
+                    wait:     'blue-text text-darken-2',
+                    check:    'amber-text text-darken-2'
                 },
                 timerInterval: undefined
             }
@@ -36,8 +36,6 @@
             style_type: {
                 handler: function (newValue, oldValue) {
                     var style = this.style[newValue];
-
-                    app.console(style);
 
                     if (style === undefined) {
                         style = this.style.wait;
@@ -85,7 +83,7 @@
              * Таймер отсчета времени ожидания.
              */
             timer(){
-                if (this.timerInterval !== undefined) {
+                if (this.timerInterval !== undefined && this.time > 0) {
                     return;
                 }
 

@@ -23,20 +23,16 @@
 
                 li {
                     display: block;
-                    font-size: $audio-title-font-size;
-                    font-weight: $audio-title-font-weight;
+                    font-size: $audio-artist-font-size;
+                    font-weight: $audio-artist-font-weight;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     overflow: hidden;
 
-                    &:first-child {
-                        font-size: $audio-artist-font-size;
-                        font-weight: $audio-artist-font-weight;
-                    }
-
-                    &:last-child {
-                        font-size: $audio-artist-font-size;
-                        font-weight: $audio-artist-font-weight;
+                    &:nth-child(2) {
+                        font-size: $audio-title-font-size;
+                        font-weight: $audio-title-font-weight;
+                        color: $audio-title-font-color;
                     }
                 }
             }
@@ -49,6 +45,7 @@
                 vertical-align: middle;
 
                 li {
+                    font-weight: $audio-content-font-weight;
                     display: inline-block;
                     height: 100%;
                     width: calc(95% / 3);

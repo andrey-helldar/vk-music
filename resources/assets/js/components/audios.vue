@@ -93,8 +93,7 @@
             },
             'loading': {
                 handler: function (newValue, oldValue) {
-                    this.$parent.showLoader('Please, wait...', newValue);
-                    app.console(newValue);
+                    this.$parent.showLoader('Please, wait...', newValue.position);
                 },
                 deep:    true
             }
@@ -235,13 +234,15 @@
              * @param {string} status
              */
             setStatus(status){
+                var position = this.loading.position;
+
                 switch (status) {
                     case 'check':
-                        this.$parent.showLoader('Check...', '', 'check');
+                        this.$parent.showLoader('Check...', position, 'check');
                         break;
 
                     case 'wait':
-                        this.$parent.showLoader('Please, wait...', '', 'wait');
+                        this.$parent.showLoader('Please, wait...', position, 'wait');
                         break;
 
                     case 'send':
