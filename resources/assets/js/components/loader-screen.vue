@@ -33,6 +33,9 @@
             app.console('Component Loader Screen ready.');
         },
         watch:   {
+            /**
+             * Изменяем стиль элементов.
+             */
             style_type: {
                 handler: function (newValue, oldValue) {
                     var style = this.style[newValue];
@@ -42,6 +45,18 @@
                     }
 
                     this.style.selected = style;
+                }
+            },
+            /**
+             * Отслеживаем слишком долгие запросы.
+             */
+            time:       {
+                handler: function (newValue, oldValue) {
+                    if (newValue > 300) {
+                        this.text = 'Whoops...';
+                        this.description = 'Something went wrong. We reload the page ...';
+                        location.reload();
+                    }
                 }
             }
         },

@@ -189,7 +189,7 @@
              * Загрузка следующих аудиозаписей.
              */
             moreAudio(){
-                this.loader.showLoader = false;
+                this.loading.showLoader = false;
                 this.getAudio();
             },
             /**
@@ -237,9 +237,9 @@
             setStatus(status){
                 var position = this.loading.position;
 
-                var notify = function (text, description, style) {
-                    if (this.loading.showLoader === true) {
-                        this.$parent.showLoader('Check...', position, 'check');
+                var notify = function (parent, text, description, style) {
+                    if (parent.loading.showLoader === true) {
+                        parent.$parent.showLoader(text, description, style);
                     } else {
                         app.info(text);
                     }
@@ -247,15 +247,15 @@
 
                 switch (status) {
                     case 'check':
-                        notify('Check...', position, 'check');
+                        notify(this, 'Check...', position, 'check');
                         break;
 
                     case 'wait':
-                        notify('Please, wait...', position, 'wait');
+                        notify(this, 'Please, wait...', position, 'wait');
                         break;
 
                     case 'send':
-                        notify('Sending request...');
+                        notify(this, 'Sending request...');
                         break;
 
                     default:
