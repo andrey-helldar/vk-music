@@ -35,10 +35,10 @@
 {{-- Content --}}
 <main>
     <header>
-        <topmenu></topmenu>
+        <topmenu v-ref:top-menu></topmenu>
     </header>
 
-    <loader-screen></loader-screen>
+    <loader-screen v-ref:loader-screen></loader-screen>
 
     @yield('content')
 </main>

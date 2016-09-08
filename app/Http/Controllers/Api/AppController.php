@@ -23,17 +23,20 @@ class AppController extends Controller
     {
         $menu = [
             [
-                'url'       => '/',
-                'title'     => 'Your audio',
+                'url'       => '#my',
+                'api'       => '/api/audios.user',
+                'title'     => 'My Audios',
                 'is_active' => false,
             ],
             [
-                'url'       => '/',
+                'url'       => '#recommendations',
+                'api'       => '/api/audio.getRecommendations',
                 'title'     => 'Recommended',
                 'is_active' => false,
             ],
             [
-                'url'       => '/',
+                'url'       => '#popular',
+                'api'       => '/api/audio.getPopular',
                 'title'     => 'Popular',
                 'is_active' => false,
             ],

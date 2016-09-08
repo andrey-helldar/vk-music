@@ -8,7 +8,7 @@
         @if(Auth::guest())
             <vk-auth></vk-auth>
         @else
-            <audios></audios>
+            <audios v-ref:audios></audios>
         @endif
 
     </div>

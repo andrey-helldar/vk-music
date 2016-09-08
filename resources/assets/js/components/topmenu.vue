@@ -6,7 +6,7 @@
 
                 <ul class="right hide-on-med-and-down">
                     <li v-for="item in items" :class="{active: item.is_active}">
-                        <a href="{{ item.url }}">
+                        <a href="{{ item.url }}" @click="setPage($index)">
                             {{ item.title }}
                         </a>
                     </li>
@@ -14,7 +14,7 @@
 
                 <ul class="side-nav" id="mobile-demo">
                     <li v-for="item in items" :class="{active: item.is_active}">
-                        <a href="{{ item.url }}">
+                        <a href="{{ item.url }}" @click="setPage($index)">
                             {{ item.title }}
                         </a>
                     </li>
@@ -32,7 +32,7 @@
             }
         },
         ready() {
-            app.console('Component Topmenu ready.');
+            app.console('Component Top Menu ready.');
         },
         asyncData(){
             this.getTopmenu();
@@ -57,31 +57,71 @@
             },
             /**
              * Проверка активности элементов.
-             *
-             * @returns {boolean}
              */
             checkActivity(){
-                var isActive = false;
+                var keyActive = -1;
 
                 this.items.forEach(
-                        function (item) {
+                        function (item, key) {
                             if (item.is_active == true) {
-                                isActive = true;
+                                keyActive = key;
                             }
                         }
                 );
 
-                return isActive;
+                return keyActive;
             },
             /**
              * Установка дефолтного значения активности элемента меню.
              */
             setTopMenuActiveDefault(){
-                var isActive = this.checkActivity();
+                var keyActive = this.checkActivity();
 
-                if (isActive === false && this.items.length) {
-                    this.items[0].is_active = true;
+                if (keyActive < 0 && this.items.length) {
+                    this.setSelectItem(0);
                 }
+            },
+            /**
+             * Меняем активный элемент меню.
+             */
+            setPage(index){
+                var item = this.items[index];
+
+                if (item.api === undefined) {
+                    this.$parent.showLoader('Please, wait...', 'Redirecting to ' + item.title);
+                    location.href = item.url;
+                    return false;
+                }
+
+                this.setSelectItem(index);
+                this.setAudioData(this.items[index]);
+
+                return false;
+            },
+            /**
+             * Устанавливаем выделение в меню.
+             *
+             * @param index
+             */
+            setSelectItem(index){
+                this.items.forEach(function (item, key) {
+                    item.is_active = (key == index);
+                });
+            },
+            /**
+             * Загружаем аудио.
+             *
+             * @param item
+             */
+            setAudioData(item){
+                this.$root.$refs.loaderScreen.showLoader();
+                var audio = this.$root.$refs.audios;
+
+                audio.activePage.title = item.title;
+                audio.activePage.url = item.api;
+
+                audio.items = [];
+                audio.getAudio(true);
             }
         }
     }

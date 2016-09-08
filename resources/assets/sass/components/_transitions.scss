@@ -11,7 +11,7 @@
 
 // Top
 .top-transition {
-    @include transition(top .5s ease);
+    @include transition(top .3s ease);
 }
 
 .top-enter, .top-leave {

@@ -1,5 +1,5 @@
 <template>
-    <h3>Your audios</h3>
+    <h3>{{ activePage.title }}</h3>
 
     <div class="input-field">
         <input id="search" type="search" required v-model="filterKey">
@@ -77,6 +77,10 @@
                         pause: 'stop'
                     }
                 },
+                activePage:  {
+                    title: 'Your audio',
+                    url:   '/api/audios.user'
+                }
             }
         },
         ready() {
@@ -84,18 +88,18 @@
         },
         asyncData(){
             this.getGenres();
-            this.getAudio();
+            this.getAudio(true);
         },
         watch:   {
             'items':   {
                 handler: function (newValue, oldValue) {
-                    this.$parent.hideLoader();
+                    this.$root.hideLoader();
                 }
             },
             'loading': {
                 handler: function (newValue, oldValue) {
                     if (this.loading.showLoader === true) {
-                        this.$parent.showLoader('Please, wait...', newValue.position);
+                        this.$root.showLoader('Please, wait...', newValue.position);
                     }
                 },
                 deep:    true
@@ -105,10 +109,12 @@
             /**
              * Загрузка списка аудио.
              */
-            getAudio(){
+            getAudio(enableLoader = false){
+                this.loading.showLoader = enableLoader;
+
                 this.setStatus('send');
 
-                this.$http.post('/api/audios.user', {
+                this.$http.post(this.activePage.url, {
                             offset: this.vk.offset
                         }
                 )
@@ -140,7 +146,7 @@
             getAudioLoaded(){
                 this.setStatus('check');
 
-                this.$http.get('/api/audios.user')
+                this.$http.get(this.activePage.url)
                         .then(function (response) {
                                     app.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
@@ -240,7 +246,7 @@
                 var notify = function (parent, text, description, style, showModal = true) {
                     if (parent.loading.showLoader === true) {
 //                        if (showModal === true) {
-                        parent.$parent.showLoader(text, description, style);
+                        parent.$root.showLoader(text, description, style);
 //                        }
                     } else {
                         app.info(text, 'info', 1000);
@@ -261,7 +267,7 @@
                         break;
 
                     default:
-                        this.$parent.hideLoader();
+                        this.$root.hideLoader();
                 }
             },
             /**
