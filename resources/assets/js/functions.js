@@ -13,17 +13,27 @@ function isScrolledIntoView(element) {
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
-$(document).ready(function () {
-    $(window).scroll(function () {
+$(document).ready(
+    function () {
+        $('select').material_select();
+        $('.modal-trigger').leanModal();
+        $(".button-collapse").sideNav();
+        $('.tooltipped').tooltip({delay: 50});
 
-        /**
-         * Загрузка аудио по списку.
-         * @type {any}
-         */
-        //var moreAudio = $('.more-audio');
-        //
-        //if (isScrolledIntoView(moreAudio)) {
-        //    moreAudio.click();
-        //}
-    });
-});
+        Materialize.updateTextFields();
+
+
+        $(window).scroll(function () {
+
+            /**
+             * Загрузка аудио по списку.
+             * @type {any}
+             */
+            //var moreAudio = $('.more-audio');
+            //
+            //if (isScrolledIntoView(moreAudio)) {
+            //    moreAudio.click();
+            //}
+        });
+    }
+);

@@ -73,13 +73,18 @@ window.app = {
      *
      * @param {string} text
      * @param {string} style
+     * @param {int} delay
      */
-    info: function (text, style = 'info') {
+    info: function (text, style = 'info', delay = 4000) {
         if (app.empty(style)) {
             style = 'info';
         }
 
-        Materialize.toast(text, 4000, app.toast.style[style]);
+        if (delay < 1000 || delay === undefined) {
+            delay = 4000;
+        }
+
+        Materialize.toast(text, delay, app.toast.style[style]);
     },
 
     /**
@@ -213,14 +218,3 @@ Vue.config.devtools = app.debug; // DevTools mode is only available in developme
 Vue.config.debug = app.debug; // Debug mode is only available in development build. In production set FALSE !
 Vue.config.silent = !app.debug; //Suppress all Vue.js logs and warnings.
 Vue.config.unsafeDelimiters = ['{!!', '!!}']; // Change the raw HTML interpolation delimiters.
-
-
-$(document).ready(
-    function () {
-        $('.modal-trigger').leanModal();
-        $('select').material_select();
-        $(".button-collapse").sideNav();
-
-        Materialize.updateTextFields();
-    }
-);

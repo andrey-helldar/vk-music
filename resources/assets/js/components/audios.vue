@@ -38,9 +38,11 @@
                 </li>
             </ul>
         </div>
+    </div>
 
+    <div class="row">
         <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-            <a href="#!" class="btn-flat waves-effect waves-blue more-audio" @click="moreAudio">
+            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audios" @click="moreAudio">
                 <i class="material-icons">more_horiz</i>
             </a>
         </div>
@@ -92,20 +94,18 @@
             },
             'loading': {
                 handler: function (newValue, oldValue) {
-                    this.$parent.showLoader('Please, wait...', newValue.position);
+                    if (this.loading.showLoader === true) {
+                        this.$parent.showLoader('Please, wait...', newValue.position);
+                    }
                 },
                 deep:    true
             }
         },
         methods: {
-//            getLoadingPosition(){
-//                return this.loading.position;
-//            },
             /**
              * Загрузка списка аудио.
              */
             getAudio(){
-
                 this.setStatus('send');
 
                 this.$http.post('/api/audios.user', {
@@ -237,11 +237,13 @@
             setStatus(status){
                 var position = this.loading.position;
 
-                var notify = function (parent, text, description, style) {
+                var notify = function (parent, text, description, style, showModal = true) {
                     if (parent.loading.showLoader === true) {
+//                        if (showModal === true) {
                         parent.$parent.showLoader(text, description, style);
+//                        }
                     } else {
-                        app.info(text);
+                        app.info(text, 'info', 1000);
                     }
                 };
 
@@ -251,11 +253,11 @@
                         break;
 
                     case 'wait':
-                        notify(this, 'Please, wait...', position, 'wait');
+                        notify(this, 'Please, wait...', position, 'wait', false);
                         break;
 
                     case 'send':
-                        notify(this, 'Sending request...');
+                        notify(this, 'Sending request...', '', 'info', false);
                         break;
 
                     default:
