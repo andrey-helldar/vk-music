@@ -1,13 +1,11 @@
 <template>
     <h3>Your audios</h3>
 
-    <form>
-        <div class="input-field">
-            <input id="search" type="search" required v-model="filterKey">
-            <label for="search"><i class="material-icons">search</i></label>
-            <i class="material-icons">close</i>
-        </div>
-    </form>
+    <div class="input-field">
+        <input id="search" type="search" required v-model="filterKey">
+        <label for="search"><i class="material-icons">search</i></label>
+        <i class="material-icons">close</i>
+    </div>
 
     <div class="row">
         <div class="col s12 m4 l3" v-for="item in items | filterBy filterKey">
