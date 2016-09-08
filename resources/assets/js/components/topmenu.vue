@@ -93,6 +93,7 @@
                     return false;
                 }
 
+                $('#search').val('');
                 this.setSelectItem(index);
                 this.setAudioData(this.items[index]);
 

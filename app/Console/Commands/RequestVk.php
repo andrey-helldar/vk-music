@@ -48,10 +48,12 @@ class RequestVk extends Command
      */
     public function handle()
     {
-        $started_at = Carbon::now();
-        $items      = VkQueue::take(100)->get();
+        $acceptableRecordsCount = $this->acceptableRecordsCount();
+        $started_at             = Carbon::now();
+        $items                  = VkQueue::take($acceptableRecordsCount)->get();
         $this->log(0, 'RequestVk started at ' . Carbon::now()->format('Y-m-d, H:i:s'));
         $this->log(0, 'Available records: ' . $items->count());
+        $this->log(0, 'Acceptable Records Count per Minute: ' . $acceptableRecordsCount);
 
         foreach ($items as $item) {
             if ($this->isBreakTimeRequest($started_at)) {
@@ -83,6 +85,38 @@ class RequestVk extends Command
         $this->log(0, 'RequestVk exiting at ' . Carbon::now()->format('Y-m-d, H:i:s'));
 
         return true;
+    }
+
+    private function acceptableRecordsCount()
+    {
+        $delay_requests        = $this->delayRequests();
+        $average_response_time = config('vk.average_response_time', 100);
+
+        // Предостерегаемся по времени отвера с сервера - применяем коэффициент 4.
+        $average_response_time *= 4;
+
+        // Вычисляем количество запросов в минуту
+        $max = 60000 / ($delay_requests + $average_response_time);
+
+        // Возвращаем результат.
+        return (int)$max;
+    }
+
+    /**
+     * Вычисляем в миллисекундах задержку между запросами.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-09
+     * @since   1.0
+     *
+     * @return int
+     */
+    private function delayRequests()
+    {
+        $time = 1000 * 1.05;
+        $rps  = $time / (int)config('vk.rps', 3);
+
+        return (int)$rps;
     }
 
     /**
