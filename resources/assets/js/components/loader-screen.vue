@@ -83,7 +83,7 @@
              * Таймер отсчета времени ожидания.
              */
             timer(){
-                if (this.timerInterval !== undefined && this.time > 0) {
+                if (this.timerInterval !== undefined && this.show !== false) {
                     return;
                 }
 
@@ -92,6 +92,7 @@
                         function () {
                             if (parent.show === false) {
                                 clearInterval(parent.timerInterval);
+                                parent.timerInterval = undefined;
                             } else {
                                 parent.time++;
                             }

@@ -150,7 +150,7 @@
 
                                         case 502:
                                             app.info(response.statusText + '<br>Reloading this page...', 'error');
-                                            window.location.reload();
+                                            location.reload();
                                             break;
 
                                         case 500:
@@ -163,7 +163,7 @@
 
                                         case 401:
                                             app.console(response.statusText, 'info');
-                                            window.location.href = '/';
+                                            location.href = '/';
                                             break;
 
                                             // 304 Not Modified
