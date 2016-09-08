@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+//  Fade
+.fade-transition {
+    @include transition(opacity .3s ease);
+}
+
+.fade-enter, .fade-leave {
+    opacity: 0;
+}
+
+// Top
+.top-transition {
+    @include transition(top .5s ease);
+}
+
+.top-enter, .top-leave {
+    top: -100%;
+}

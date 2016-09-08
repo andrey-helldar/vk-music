@@ -1,5 +1,5 @@
 <template>
-    <div class="loader-screen valign-wrapper" v-if="show">
+    <div class="loader-screen valign-wrapper" v-if="show" :transition="transitionName">
         <div class="row valign center-align loader-content">
             <h2 class="loader-text" :class="[style.selected]">{{ text }}</h2>
 
@@ -13,17 +13,18 @@
     export default{
         data(){
             return {
-                show:          true,
-                text:          'Loading...',
-                description:   '',
-                time:          0,
-                style_type:    'wait',
-                style:         {
+                show:           true,
+                transitionName: 'top',
+                text:           'Loading...',
+                description:    '',
+                time:           0,
+                style_type:     'wait',
+                style:          {
                     selected: 'blue-text text-darken-2',
                     wait:     'blue-text text-darken-2',
                     check:    'amber-text text-darken-2'
                 },
-                timerInterval: undefined
+                timerInterval:  undefined
             }
         },
         ready() {
