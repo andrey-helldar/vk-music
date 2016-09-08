@@ -44,9 +44,9 @@ Route::group([
     Route::get('audio.recommendations', 'Api\AudioController@getRecommendations');
 
     // Запрос популярных треков.
-//    Route::post('audio.popular', 'Api\AudioController@storePopular');
+    Route::post('audio.popular', 'Api\AudioController@storePopular');
     // Получение треков пользователя.
-//    Route::get('audio.user', 'Api\AudioController@getPopular');
+    Route::get('audio.popular', 'Api\AudioController@getPopular');
 
 
 });

@@ -96,7 +96,7 @@ class AudioController extends Controller
         return VkController::createRequest('audio.getRecommendations', array_merge([
             'need_user' => 0,
             'offset'    => 0,
-            'count'     => config('vk.count_records', 50),
+            'count'     => config('vk.count_records_force', 50),
         ], $this->ownerId($request->owner_type, $request->owner_id)));
     }
 
@@ -177,11 +177,11 @@ class AudioController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    function getPopular(Request $request)
+    function storePopular(Request $request)
     {
         $validator = \Validator::make($request->all(), [
             'genre_id' => 'numeric|min:0|max:100',
-            'offset'   => 'string',
+            'offset'   => 'numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -192,7 +192,48 @@ class AudioController extends Controller
             'only_eng' => 0,
             'genre_id' => (int)($request->genre_id ?: 0),
             'offset'   => (int)($request->offset ?: 0),
-            'count'    => config('vk.count_records', 20),
+            'count'    => config('vk.count_records_force', 50),
+        ]);
+    }
+
+    /**
+     * Возврат полученных популярных аудиозаписей.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-09
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    function getPopular()
+    {
+        $user     = \Auth::user();
+        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.getPopular')->where('updated_at', '<', $user->token->expired_at)->first();
+        $position = $this->getQueuePosition('audio.getPopular', $user->id);
+
+        if (is_null($response)) {
+            return ResponseController::error(0, [
+                'resolve'     => trans('api.21'),
+                'description' => trans('api.12', ['position' => $position]),
+            ], 406);
+        }
+
+        $items = json_decode($response->context)->response;
+
+        if (!empty($items->error)) {
+            return ResponseController::error(0, [
+                'resolve'     => trans('api.1'),
+                'description' => trans('api.12', ['position' => $position]),
+            ], 406);
+        }
+
+        $response->delete();
+
+        return ResponseController::success(0, [
+            'resolve'     => trans('api.40'),
+            'items'       => $items,
+            'count_all'   => count($items),
+            'count_query' => config('vk.count_records', 50),
         ]);
     }
 
