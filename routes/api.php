@@ -27,16 +27,28 @@ Route::group([
         'auth.check',
     ],
 ], function () {
-    // Добавление запроса списка.
-    Route::post('audios.user', 'Api\AudiosController@storeAudios');
-    Route::post('audios.popular', 'Api\AudiosController@getPopularAudios');
-
-    // Проверка ответов.
-    Route::get('audios.user', 'Api\AudiosController@getAudios');
     // Получение идентификаторов жанров.
-    Route::get('audios.genres', 'Api\AudiosController@getGenres');
-
+    Route::get('audio.genres', 'Api\AudioController@getGenres');
+    // Запрос на формирование ссылки для скачивания файла.
     Route::post('download', 'Api\AppController@postDownloadFile');
+
+
+    // Запрос треков пользователя.
+    Route::post('audio.user', 'Api\AudioController@storeAudio');
+    // Получение треков пользователя.
+    Route::get('audio.user', 'Api\AudioController@getAudio');
+
+    // Запрос рекомендуемых треков пользователя.
+    Route::post('audio.recommendations', 'Api\AudioController@storeRecommendations');
+    // Получение рекомендуемых треков пользователя.
+    Route::get('audio.recommendations', 'Api\AudioController@getRecommendations');
+
+    // Запрос популярных треков.
+//    Route::post('audio.popular', 'Api\AudioController@storePopular');
+    // Получение треков пользователя.
+//    Route::get('audio.user', 'Api\AudioController@getPopular');
+
+
 });
 
 Route::any('{slug?}', function () {

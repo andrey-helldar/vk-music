@@ -18,7 +18,7 @@ var components = [
         'search',
         'filter',
         'topmenu',
-        'audios',
+        'audio',
         'vk-auth',
         'vk-verify'
     ];

@@ -115,7 +115,7 @@
              */
             setAudioData(item){
                 this.$root.$refs.loaderScreen.showLoader();
-                var audio = this.$root.$refs.audios;
+                var audio = this.$root.$refs.audio;
 
                 audio.activePage.title = item.title;
                 audio.activePage.url = item.api;
