@@ -25,7 +25,7 @@
 <header>
     <div class="container">
         <h1>
-            <a href="/">
+            <a href="{{ route('index') }}">
                 <img src="{{ asset('images/logotype.svg') }}" alt="" class="logotype">
             </a>
         </h1>
@@ -33,7 +33,15 @@
 </header>
 
 {{-- Content --}}
-@yield('content')
+<main>
+    <header>
+        <topmenu></topmenu>
+    </header>
+
+    <loader-screen></loader-screen>
+
+    @yield('content')
+</main>
 {{-- // Content --}}
 
 @include('layouts.footer')

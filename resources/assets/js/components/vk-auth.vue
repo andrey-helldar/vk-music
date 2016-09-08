@@ -28,12 +28,21 @@
         asyncData(){
             this.getVkParams();
         },
+        watch:   {
+            'vk.client_id': {
+                handler: function (newValue, oldValue) {
+                    this.$parent.hideLoader();
+                },
+                deep:    true
+            }
+        },
         methods: {
             getVkParams(){
                 this.$http.get('/api/vk.params')
                         .then(function (response) {
                                     this.vk = response.data.response;
                                 }, function (response) {
+                                    this.vk.client_id = 0;
                                     app.info('Error loading parameters. Please, reload this page.', 'error');
                                 }
                         );

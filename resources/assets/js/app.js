@@ -16,6 +16,7 @@ require('./bootstrap');
 var components = [
         'loader-screen',
         'search',
+        'filter',
         'topmenu',
         'audios',
         'vk-auth',
@@ -32,6 +33,16 @@ if (components.length) {
 }
 
 new Vue({
-        el: 'main',
+        el:      'main',
+        methods: {
+            showLoader(text = 'Loading...', description = ''){
+                var loaderElement = this.$children[1];
+                loaderElement.showLoader(text, description);
+            },
+            hideLoader(){
+                var loaderElement = this.$children[1];
+                loaderElement.hideLoader();
+            }
+        }
     }
 );

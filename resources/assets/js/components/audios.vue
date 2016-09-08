@@ -3,14 +3,14 @@
 
     <form>
         <div class="input-field">
-            <input id="search" type="search" required>
+            <input id="search" type="search" required v-model="filterKey">
             <label for="search"><i class="material-icons">search</i></label>
             <i class="material-icons">close</i>
         </div>
     </form>
 
     <div class="row">
-        <div class="col s12 m3" v-for="item in items">
+        <div class="col s12 m4 l3" v-for="item in items | filterBy filterKey">
             <ul class="audio">
                 <li class="audio-title">
                     <ul>
@@ -30,8 +30,8 @@
                             <i class="material-icons waves-effect waves-light valign" @click="audioPlayOrPause(item, $index)">play_arrow</i>
                         </li>
                         <li class="audio-duration">
-                            <span>{{ timeToHumans(item.duration) }}</span>
-                            <span v-if="audio.index === $index">/ {{ timeToHumans(audio.currentTime) }}</span>
+                            <span v-if="audio.index !== $index">{{ timeToHumans(item.duration) }}</span>
+                            <span v-if="audio.index === $index">{{ timeToHumans(audio.currentTime) }}</span>
                         </li>
                         <li class="audio-download valign-wrapper">
                             <i class="material-icons waves-effect waves-light valign" @click="download(item)">file_download</i>
@@ -47,46 +47,32 @@
             </a>
         </div>
     </div>
-
-    <div class="row" v-if="msg.show">
-        <div class="white-text col s8 offset-s2 m4 offset-m4 center-align transition" :class="[msg.style]">
-            <h2>{{ msg.text }}</h2>
-            <h5 v-if="msg.description.length">{{ msg.description }}</h5>
-            <h6>{{ timeToHumans(msg.time) }}</h6>
-        </div>
-    </div>
 </template>
 
 <script>
     export default {
         data(){
             return {
-                items: [],
-                genres: {},
-                vk: {
-                    offset: 0,
+                searchQuery: '',
+                items:       [],
+                genres:      {},
+                vk:          {
+                    offset:    0,
                     count_all: 0
                 },
-                loading: {
-                    wait: false,
+                loading:     {
+                    wait:     false,
                     position: ''
                 },
-                msg: {
-                    text: 'Check...',
-                    description: '',
-                    style: 'yellow darken-2',
-                    show: true,
-                    time: 0
-                },
-                audio: {
-                    player: false,
-                    index: -1,
+                audio:       {
+                    player:      false,
+                    index:       -1,
                     currentTime: 0,
-                    duration: 0,
-                    title: '',
-                    class: 'audio-playing',
-                    buttons: {
-                        play: 'play_arrow',
+                    duration:    0,
+                    title:       '',
+                    class:       'audio-playing',
+                    buttons:     {
+                        play:  'play_arrow',
                         pause: 'stop'
                     }
                 },
@@ -96,15 +82,33 @@
             app.console('Component Audios ready.');
         },
         asyncData(){
-            this.setStatusTime();
             this.getGenres();
             this.getAudio();
         },
+        watch:   {
+            'items':   {
+                handler: function (newValue, oldValue) {
+                    this.$parent.hideLoader();
+                }
+            },
+            'loading': {
+                handler: function (newValue, oldValue) {
+                    this.$parent.showLoader('Please, wait...', newValue);
+                    app.console(newValue);
+                },
+                deep:    true
+            }
+        },
         methods: {
+//            getLoadingPosition(){
+//                return this.loading.position;
+//            },
             /**
              * Загрузка списка аудио.
              */
             getAudio(){
+                this.setStatus('send');
+
                 this.$http.post('/api/audios.user', {
                             offset: this.vk.offset
                         }
@@ -125,6 +129,7 @@
                                             break;
 
                                         default:
+                                            this.setStatus('hide');
                                             app.info(response.data.error, 'error');
                                     }
                                 }
@@ -135,6 +140,7 @@
              */
             getAudioLoaded(){
                 this.setStatus('check');
+
                 this.$http.get('/api/audios.user')
                         .then(function (response) {
                                     app.info(response.data.response.resolve, 'success');
@@ -142,8 +148,6 @@
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
-
-                                    this.setStatus('hide');
                                 }, function (response) {
                                     switch (response.status) {
 
@@ -157,7 +161,7 @@
                                             break;
 
                                         case 406:
-                                            this.msg.description = response.data.error.description;
+                                            this.loading.position = response.data.error.description;
                                             break;
 
                                         case 401:
@@ -167,7 +171,7 @@
 
                                             // 304 Not Modified
                                         case 304:
-                                            this.loading.position = response.data.response.description;
+                                            this.loading.position = response.data.error.description;
                                             break;
 
                                             // 204 No Content
@@ -177,6 +181,7 @@
                                         default:
                                             app.console(response.status + ' ' + response.statusText, 'error');
                                     }
+
                                     this.setStatus('wait');
                                 }
                         );
@@ -232,33 +237,20 @@
             setStatus(status){
                 switch (status) {
                     case 'check':
-                        this.msg.show = true;
-                        this.msg.text = 'Check...';
-                        this.msg.style = 'yellow darken-2';
+                        this.$parent.showLoader('Check...', '', 'check');
                         break;
 
                     case 'wait':
-                        this.msg.show = true;
-                        this.msg.text = 'Waiting...';
-                        this.msg.style = 'blue';
+                        this.$parent.showLoader('Please, wait...', '', 'wait');
+                        break;
+
+                    case 'send':
+                        this.$parent.showLoader('Sending request...');
                         break;
 
                     default:
-                        clearInterval(this.msg.timer);
-                        this.msg.show = false;
-                        this.msg.time = 0;
+                        this.$parent.hideLoader();
                 }
-            },
-            /**
-             * Отображение секунд ожидания.
-             */
-            setStatusTime(){
-                var parent = this;
-
-                setInterval(function (parent) {
-                            parent.msg.time++;
-                        }, 1000, parent
-                );
             },
             /**
              * Старт/стоп воспроизведения звука.
@@ -370,9 +362,9 @@
                 app.info('Preparing to download:<br>' + title, 'info');
 
                 this.$http.post('/api/download', {
-                            url: item.url,
-                            artist: item.artist.trim(),
-                            title: item.title.trim(),
+                            url:      item.url,
+                            artist:   item.artist.trim(),
+                            title:    item.title.trim(),
                             duration: item.duration,
                             owner_id: item.owner_id
                         }

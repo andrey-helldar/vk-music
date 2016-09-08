@@ -55,14 +55,14 @@ Vue.http.interceptors.push(
 window.app = {
     debug: true, // Global parameter to settings of Vue.js.
     trans: [], // Перевод элементов.
-    page: 0, // Номер текущей страницы. Нумерация начинается с нуля.
+    page:  0, // Номер текущей страницы. Нумерация начинается с нуля.
 
     // Стили всплывающих уведомлений.
     toast: {
         style: {
-            error: 'red white-text',
+            error:   'red white-text',
             success: 'green white-text',
-            info: 'blue white-text'
+            info:    'blue white-text'
         }
     },
 
@@ -201,7 +201,7 @@ window.app = {
         }
 
         return arr;
-    },
+    }
 };
 
 /**

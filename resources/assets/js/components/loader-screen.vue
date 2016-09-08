@@ -1,9 +1,9 @@
 <template>
-    <div class="loader-screen valign-wrapper" v-if="show" :transition="fade" :transition-mode="out-in">
+    <div class="loader-screen valign-wrapper" v-if="show">
         <div class="row valign center-align loader-content" :class="[style.selected]">
-            <h2>{{ text }}</h2>
+            <h3>{{ text }}</h3>
 
-            <h4 v-if="description.length">{{ description }}</h4>
+            <h5 v-if="description.length">{{ description }}</h5>
 
             <h6>{{ timeToHumans(time) }}</h6>
         </div>
@@ -13,28 +13,48 @@
     export default{
         data(){
             return {
-                show:        false,
-                text:        'Loading...',
-                description: 'test',
-                time:        0,
-                style:       {
+                show:          true,
+                text:          'Loading...',
+                description:   '',
+                time:          0,
+                style_type:    'wait',
+                style:         {
                     selected: 'blue-text text-darken-1',
                     wait:     'blue-text text-darken-1',
                     check:    'yellow-text text-darken-2'
-                }
+                },
+                timerInterval: undefined
             }
         },
         ready() {
+            // Запускаем отображение при инициализации компонента.
+            this.showLoader();
+
             app.console('Component Loader Screen ready.');
         },
-        asyncData(){
-//            this.showLoader();
+        watch:   {
+            style_type: {
+                handler: function (newValue, oldValue) {
+                    var style = this.style[newValue];
+
+                    app.console(style);
+
+                    if (style === undefined) {
+                        style = this.style.wait;
+                    }
+
+                    this.style.selected = style;
+                }
+            }
         },
         methods: {
             /**
              * Запускаем лоадер.
              */
-            showLoader(){
+            showLoader(text = 'Loading...', description = '', style_type = 'wait'){
+                this.style_type = style_type;
+                this.text = this.checkTextLength(text, 'Loading...');
+                this.description = this.checkTextLength(description);
                 this.show = true;
                 this.timer();
             },
@@ -42,26 +62,50 @@
              * Прячем лоадер.
              */
             hideLoader(){
+                this.style_type = 'wait';
                 this.show = false;
                 this.text = 'Loading...';
                 this.time = 0;
             },
             /**
+             * Проверяем длину текста.
+             */
+            checkTextLength(text, defaultText = ''){
+                if (text.length === 0 || text === undefined) {
+                    if (defaultText.length !== 0) {
+                        text = defaultText;
+                    } else {
+                        text = '';
+                    }
+                }
+
+                return text;
+            },
+            /**
              * Таймер отсчета времени ожидания.
              */
             timer(){
-                var parent = this;
+                if (this.timerInterval !== undefined) {
+                    return;
+                }
 
-                var timerInterval = setInterval(
+                var parent = this;
+                this.timerInterval = setInterval(
                         function () {
                             if (parent.show === false) {
-                                clearInterval(timerInterval);
+                                clearInterval(parent.timerInterval);
                             } else {
                                 parent.time++;
                             }
                         }, 1000, parent
                 );
             },
+            /**
+             * Переводим время в человеко-понятный формат.
+             *
+             * @param time
+             * @returns {*|string}
+             */
             timeToHumans(time){
                 return app.timeToHumans(time);
             }

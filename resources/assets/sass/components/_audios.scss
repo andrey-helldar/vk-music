@@ -1,155 +1,155 @@
 @charset "UTF-8";
 
 .audio {
-  padding: 0;
-  margin: 5px 0;
-  border-top: 1px solid transparent;
-  border-bottom: 2px solid $audio-primary-color;
+    padding: 0;
+    margin: 5px 0;
+    border-top: 1px solid transparent;
+    border-bottom: 2px solid $audio-primary-color;
 
-  @include transition(0.2s);
-
-  * {
     @include transition(0.2s);
-  }
 
-  li {
-    display: block;
-
-    &.audio-title {
-      ul {
-        padding: 0;
-        margin: 5px 0;
-        vertical-align: middle;
-
-        li {
-          display: block;
-          font-size: $audio-title-font-size;
-          font-weight: $audio-title-font-weight;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-
-          &:first-child {
-            font-size: $audio-artist-font-size;
-            font-weight: $audio-artist-font-weight;
-          }
-
-          &:last-child {
-            font-size: $audio-artist-font-size;
-            font-weight: $audio-artist-font-weight;
-          }
-        }
-      }
+    * {
+        @include transition(0.2s);
     }
 
-    &.audio-actions {
-      ul {
-        margin: auto auto;
-        text-align: center;
-        vertical-align: middle;
-
-        li {
-          display: inline-block;
-          height: 100%;
-          width: calc(95% / 3);
-          vertical-align: middle;
-
-          &.audio-play {
-            text-align: left;
-
-            i {
-              color: $audio-primary-color;
-              font-size: $audio-icon-font-size;
-              cursor: pointer;
-            }
-          }
-
-          &.audio-duration {
-            text-align: center;
-            font-size: $audio-artist-font-size;
-            font-weight: $audio-title-font-size;
-            padding: 0 3px;
-          }
-
-          &.audio-download {
-            text-align: right;
-
-            i {
-              color: $audio-primary-color;
-              font-size: $audio-icon-font-size;
-              cursor: pointer;
-            }
-          }
-        }
-      }
-
-      .progress {
-        display: none;
-      }
-    }
-  }
-
-  &:hover {
-    border-top: 1px solid $audio-secondary-color;
-    border-bottom: 2px solid $audio-secondary-color;
-
-    .audio-actions {
-      .audio-play {
-        i {
-          color: $audio-secondary-color;
-        }
-      }
-
-      .audio-download {
-        i {
-          color: $audio-secondary-color;
-        }
-      }
-    }
-  }
-
-  &.audio-playing {
-    border-top: 1px solid $audio-playing-color;
-    border-bottom: 2px solid $audio-playing-color;
-    position: relative;
-
-    .audio-actions {
-      z-index: auto;
-      position: relative;
-
-      .audio-play {
-        i {
-          color: $audio-playing-button-color;
-        }
-      }
-
-      .audio-download {
-        i {
-          color: $audio-playing-color;
-        }
-      }
-
-      ul {
-        z-index: auto;
-      }
-
-      .progress {
-        background-color: lighten($progress-bar-color, 30%);
+    li {
         display: block;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        margin: 0;
-        height: 100%;
-        z-index: -1;
 
-        @include borderRadius(0px);
+        &.audio-title {
+            ul {
+                padding: 0;
+                margin: 5px 0;
+                vertical-align: middle;
 
-        .determinate {
-          background-color: $progress-bar-color;
+                li {
+                    display: block;
+                    font-size: $audio-title-font-size;
+                    font-weight: $audio-title-font-weight;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+
+                    &:first-child {
+                        font-size: $audio-artist-font-size;
+                        font-weight: $audio-artist-font-weight;
+                    }
+
+                    &:last-child {
+                        font-size: $audio-artist-font-size;
+                        font-weight: $audio-artist-font-weight;
+                    }
+                }
+            }
         }
 
-      }
+        &.audio-actions {
+            ul {
+                margin: auto auto;
+                text-align: center;
+                vertical-align: middle;
+
+                li {
+                    display: inline-block;
+                    height: 100%;
+                    width: calc(95% / 3);
+                    vertical-align: middle;
+
+                    &.audio-play {
+                        text-align: left;
+
+                        i {
+                            color: $audio-primary-color;
+                            font-size: $audio-icon-font-size;
+                            cursor: pointer;
+                        }
+                    }
+
+                    &.audio-duration {
+                        text-align: center;
+                        font-size: $audio-artist-font-size;
+                        font-weight: $audio-title-font-size;
+                        padding: 0 3px;
+                    }
+
+                    &.audio-download {
+                        text-align: right;
+
+                        i {
+                            color: $audio-primary-color;
+                            font-size: $audio-icon-font-size;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+            .progress {
+                display: none;
+            }
+        }
     }
-  }
+
+    &:hover {
+        border-top: 1px solid $audio-secondary-color;
+        border-bottom: 2px solid $audio-secondary-color;
+
+        .audio-actions {
+            .audio-play {
+                i {
+                    color: $audio-secondary-color;
+                }
+            }
+
+            .audio-download {
+                i {
+                    color: $audio-secondary-color;
+                }
+            }
+        }
+    }
+
+    &.audio-playing {
+        border-top: 1px solid $audio-playing-color;
+        border-bottom: 2px solid $audio-playing-color;
+        position: relative;
+
+        .audio-actions {
+            z-index: auto;
+            position: relative;
+
+            .audio-play {
+                i {
+                    color: $audio-playing-button-color;
+                }
+            }
+
+            .audio-download {
+                i {
+                    color: $audio-playing-color;
+                }
+            }
+
+            ul {
+                z-index: auto;
+            }
+
+            .progress {
+                background-color: lighten($progress-bar-color, 30%);
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                margin: 0;
+                height: 100%;
+                z-index: -1;
+
+                @include borderRadius(0px);
+
+                .determinate {
+                    background-color: $progress-bar-color;
+                }
+
+            }
+        }
+    }
 }

@@ -1,27 +1,18 @@
 <template>
-    <div>
-        <header-component/>
-        <div>this is template body</div>
-        <other-component/>
-    </div>
+    <form>
+        <div class="input-field">
+            <input id="search" type="search" required v-model="searchQuery">
+            <label for="search"><i class="material-icons">search</i></label>
+            <i class="material-icons">close</i>
+        </div>
+    </form>
 </template>
-<style>
-    body{
-        background-color:#ff0000;
-    }
-</style>
 <script>
-    import HeaderComponent from './components/header.vue'
-    import OtherComponent from './components/other.vue'
     export default{
         data(){
-            return{
-                msg:'hello vue'
+            return {
+                searchQuery: ''
             }
         },
-        components:{
-            'other-component':OtherComponent,
-            HeaderComponent,
-        }
     }
 </script>

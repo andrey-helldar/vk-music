@@ -36,7 +36,7 @@ class AudiosController extends Controller
         return VkController::createRequest('audio.get', array_merge([
             'need_user' => 0,
             'offset'    => (int)($request->offset ?: 0),
-            'count'     => config('vk.count_records', 50),
+            'count'     => config('vk.count_records', 48),
         ], $this->ownerId($request->owner_type, $request->owner_id)));
     }
 
