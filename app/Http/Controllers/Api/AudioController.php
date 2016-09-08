@@ -21,7 +21,7 @@ class AudiosController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    function storeAudios(Request $request)
+    function storeAudio(Request $request)
     {
         $validator = \Validator::make($request->all(), [
             'offset'     => 'numeric|min:0',
@@ -81,7 +81,7 @@ class AudiosController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    function getPopularAudios(Request $request)
+    function getPopular(Request $request)
     {
         $validator = \Validator::make($request->all(), [
             'genre_id' => 'numeric|min:0|max:100',
@@ -100,9 +100,9 @@ class AudiosController extends Controller
         ]);
     }
 
-    function getGroupAudios(Request $request)
+    function getGroup(Request $request)
     {
-        return $this->getAudios();
+        return $this->getAudio();
     }
 
     /**
@@ -114,7 +114,7 @@ class AudiosController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    function getAudios()
+    function getAudio()
     {
         $user     = \Auth::user();
         $response = VkResponse::whereUserId($user->id)->whereMethod('audio.get')->where('updated_at', '<', $user->token->expired_at)->first();
