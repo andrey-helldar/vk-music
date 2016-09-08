@@ -40,7 +40,7 @@
         </div>
 
         <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-            <a href="#!" class="btn-flat waves-effect waves-blue" @click="moreAudio">
+            <a href="#!" class="btn-flat waves-effect waves-blue more-audio" @click="moreAudio">
                 <i class="material-icons">more_horiz</i>
             </a>
         </div>
@@ -59,8 +59,9 @@
                     count_all: 0
                 },
                 loading:     {
-                    wait:     false,
-                    position: ''
+                    wait:       false,
+                    position:   '',
+                    showLoader: true
                 },
                 audio:       {
                     player:      false,
@@ -104,6 +105,7 @@
              * Загрузка списка аудио.
              */
             getAudio(){
+
                 this.setStatus('send');
 
                 this.$http.post('/api/audios.user', {
@@ -187,6 +189,7 @@
              * Загрузка следующих аудиозаписей.
              */
             moreAudio(){
+                this.loader.showLoader = false;
                 this.getAudio();
             },
             /**
@@ -234,17 +237,25 @@
             setStatus(status){
                 var position = this.loading.position;
 
+                var notify = function (text, description, style) {
+                    if (this.loading.showLoader === true) {
+                        this.$parent.showLoader('Check...', position, 'check');
+                    } else {
+                        app.info(text);
+                    }
+                };
+
                 switch (status) {
                     case 'check':
-                        this.$parent.showLoader('Check...', position, 'check');
+                        notify('Check...', position, 'check');
                         break;
 
                     case 'wait':
-                        this.$parent.showLoader('Please, wait...', position, 'wait');
+                        notify('Please, wait...', position, 'wait');
                         break;
 
                     case 'send':
-                        this.$parent.showLoader('Sending request...');
+                        notify('Sending request...');
                         break;
 
                     default:

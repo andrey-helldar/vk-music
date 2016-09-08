@@ -8,6 +8,7 @@ window._ = require('lodash');
 
 window.$ = window.jQuery = require('jquery');
 require('../vendor/materialize-css/js/bin/materialize.min');
+require('./functions');
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces

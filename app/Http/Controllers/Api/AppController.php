@@ -29,17 +29,17 @@ class AppController extends Controller
             ],
             [
                 'url'       => '/',
-                'title'     => 'Components',
+                'title'     => 'Recommended',
                 'is_active' => false,
             ],
             [
                 'url'       => '/',
-                'title'     => 'Javascript',
+                'title'     => 'Popular',
                 'is_active' => false,
             ],
             [
                 'url'       => '/',
-                'title'     => 'Mobile',
+                'title'     => 'Groups',
                 'is_active' => false,
             ],
         ];
