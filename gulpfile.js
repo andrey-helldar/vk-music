@@ -15,29 +15,27 @@ elixir.config.sourcemaps = true;
  |
  */
 
-elixir(mix =>
-       {
-           var
-               assets       = 'resources/assets/',
-               vendor       = '../vendor/',
-               node_modules = '../../../node_modules/';
+elixir(mix => {
+        var
+            assets       = 'resources/assets/',
+            node_modules = '../../../node_modules/';
 
-           mix
-               .sass('app.scss', 'public/css/app.css')
+        mix
+            .sass('app.scss', 'public/css/app.css')
 
-               .copy(assets + 'images', 'public/images')
-               .copy(assets + 'vendor/materialize-css/fonts', 'public/build/fonts')
+            .copy(assets + 'images', 'public/images')
+            .copy(node_modules + 'materialize-css/fonts', 'public/build/fonts')
 
-               .webpack('app.js')
+            .webpack('app.js')
 
-               /*
-                * Version
-                */
-               .version(
-                   [
-                       'css/app.css',
-                       'js/app.js'
-                   ]
-               );
-       }
+            /*
+             * Version
+             */
+            .version(
+                [
+                    'css/app.css',
+                    'js/app.js'
+                ]
+            );
+    }
 );
