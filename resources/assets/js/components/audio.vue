@@ -204,7 +204,6 @@
             getGenres(){
                 this.$http.get('/api/audio.genres')
                         .then(function (response) {
-//                                    this.genres = app.toArray(response.data.response.genres);
                                     this.genres = response.data.response.genres;
                                 }, function (response) {
                                     this.genres = {};
