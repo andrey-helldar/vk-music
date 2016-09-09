@@ -7,7 +7,8 @@ window._ = require('lodash');
  */
 
 window.$ = window.jQuery = require('jquery');
-require('materialize-css');
+require('./materialize.min');
+//require('materialize-css');
 
 require('./functions');
 
