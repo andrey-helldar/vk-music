@@ -6,16 +6,15 @@
     },
     "devDependencies": {
         "gulp": "^3.9.1",
-        "node-sass": "^3.9.3",
         "jquery": "^3.1.0",
-        "hammerjs": "^2.0.8",
         "laravel-elixir": "^6.0.0-9",
         "laravel-elixir-vue": "^0.1.4",
         "laravel-elixir-webpack-official": "^1.0.2",
         "lodash": "^4.14.0",
-        "materialize-css": "^0.97.7",
         "vue": "^1.0.26",
-        "vue-resource": "^1.0.0",
-        "vue-async-data": "^1.0.2"
+        "vue-resource": "^0.9.3",
+        "vue-async-data": "^1.0.2",
+        "hammerjs": "^2.0.8",
+        "materialize-css": "^0.97.7"
     }
 }
