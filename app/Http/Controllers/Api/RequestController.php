@@ -27,13 +27,13 @@ class RequestController extends Controller
     {
         $started_at = 0;
         $stopped_at = 0;
-        
+
         try {
             $http       = new \GuzzleHttp\Client;
             $started_at = microtime(true);
             $response   = $http->request($method, $uri, [
                 'headers'     => [
-                    'User-Agent' => 'AI RUS/8.0',
+                    'User-Agent' => env('APP_USER_AGENT', 'AI RUS/8.0'),
                     'Accept'     => 'application/json',
                 ],
                 'form_params' => $formData,
@@ -46,18 +46,20 @@ class RequestController extends Controller
             }
         } finally {
             self::calculateAverageRequestTime($started_at, $stopped_at);
+            $delay_requests = self::vkRequestsParams();
+            usleep($delay_requests->delay_micro);
         }
-
-        usleep(self::delayRequests());
 
         return json_decode($response);
     }
 
     /**
-     * Сохранение значения времени ответа для последующего вычисления.
+     * Сохранение значения времени каждого ответа от VK API
+     *  для последующего вычисления максимально достустимого количества
+     *  запросов в минуту.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-09
+     * @version 2016-09-10
      * @since   1.0
      *
      * @param $started_at
@@ -70,31 +72,62 @@ class RequestController extends Controller
 
         $equals = (int)($stopped_at - $started_at);
 
-        \Log::alert(sprintf("Started at: %s; Stopped at: %s; Equals: %s", $started_at, $stopped_at, $equals));
-
         ResponseTime::create([
             'time' => $equals,
         ]);
     }
 
     /**
-     * Таймаут между запросами в микросекундах.
+     * Вычисляем в миллисекундах задержку между запросами.
+     *
+     * На выходе получаем массив:
+     * [
+     *     delay       - время ожидания в миллисекундах
+     *     delay_micro - время ожидания в микросекундах
+     *     rps         - количество запросов в секунду
+     *     records     - максимальное количество записей, которое может отработать скрипт в минуту.
+     * ]
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-04
+     * @version 2016-09-11
      * @since   1.0
      *
-     * @return mixed
+     * @return object|mixed
      */
-    private static function delayRequests()
+    public static function vkRequestsParams()
     {
-        $minutes = 60 * 24;
+        $time = (int)config('vk.cache_delay', 30);
 
-        return \Cache::remember('delayRequests', $minutes, function () {
-            $time = 1000 * 1.05;
-            $rps  = $time / (int)config('vk.rps', 3);
+        if (typeOf($time) != 'integer' || $time < 1) {
+            $time = 30;
+        }
 
-            return $rps * 1000;
+        $config = config('vk', []);
+
+        return \Cache::remember('vkRequestsParams', $time, function () use ($config) {
+            $rps                  = (int)config('vk.rps', 3);
+            $response_time_factor = (double)config('vk.request_time_factor', 1.05);
+            $time_standard        = 1000 * $response_time_factor;
+            $delay                = (int)($time_standard / $rps) + 1;
+            $response_time        = ResponseTime::where('created_at', '>', Carbon::now()->addHour(-1))->avg();
+            // Корректируем время.
+            $response_time = abs($response_time ?: 0);
+
+            if ((int)($delay - $response_time) > 0) {
+                $delay -= $response_time;
+            }
+
+            $delay   = $delay > 0 ? $delay : 0;
+            $rps     = $time_standard / ($response_time + $delay);
+            $records = 60 * $rps * (double)config('vk.records_factor', 0.9);
+
+            return (object)[
+                'delay'       => (int)$delay,
+                'delay_micro' => (int)($delay * 1000),
+                'rps'         => (int)$rps,
+                'records'     => (int)$records,
+            ];
         });
     }
+}
 }
