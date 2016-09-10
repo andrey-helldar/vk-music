@@ -34,7 +34,7 @@ class RequestVk extends Command
     /**
      * Create a new command instance.
      *
-     * RequestVk constructor.
+     * @return void
      */
     public function __construct()
     {
