@@ -102,9 +102,7 @@ class RequestController extends Controller
             $time = 30;
         }
 
-        $config = config('vk', []);
-
-        return \Cache::remember('vkRequestsParams', $time, function () use ($config) {
+        return \Cache::remember('vkRequestsParams', $time, function () {
             $rps                  = (int)config('vk.rps', 3);
             $response_time_factor = (double)config('vk.request_time_factor', 1.05);
             $time_standard        = 1000 * $response_time_factor;
@@ -129,5 +127,4 @@ class RequestController extends Controller
             ];
         });
     }
-}
 }
