@@ -166,8 +166,8 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
+        //        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        //        Barryvdh\Debugbar\ServiceProvider::class,
         GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
         Laracasts\Generators\GeneratorsServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,

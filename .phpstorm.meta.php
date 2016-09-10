@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-09-09.
+    * Generated on 2016-09-10.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -40,8 +40,6 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'view.finder' instanceof \Illuminate\View\FileViewFinder,
             'view' instanceof \Illuminate\View\Factory,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'GrahamCampbell\Exceptions\ExceptionIdentifier' instanceof \GrahamCampbell\Exceptions\ExceptionIdentifier,
             'GrahamCampbell\Exceptions\ExceptionInfo' instanceof \GrahamCampbell\Exceptions\ExceptionInfo,
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
@@ -51,6 +49,11 @@ namespace PHPSTORM_META {
             'command.laracasts.migrate.pivot' instanceof \Laracasts\Generators\Commands\PivotMigrationMakeCommand,
             'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
             'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
+            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
+            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
+            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
@@ -132,9 +135,6 @@ namespace PHPSTORM_META {
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
-            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
-            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
-            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
         ],
         \Illuminate\Contracts\Container\Container::make('') => [
             '' == '@',
@@ -167,8 +167,6 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'view.finder' instanceof \Illuminate\View\FileViewFinder,
             'view' instanceof \Illuminate\View\Factory,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'GrahamCampbell\Exceptions\ExceptionIdentifier' instanceof \GrahamCampbell\Exceptions\ExceptionIdentifier,
             'GrahamCampbell\Exceptions\ExceptionInfo' instanceof \GrahamCampbell\Exceptions\ExceptionInfo,
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
@@ -178,6 +176,11 @@ namespace PHPSTORM_META {
             'command.laracasts.migrate.pivot' instanceof \Laracasts\Generators\Commands\PivotMigrationMakeCommand,
             'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
             'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
+            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
+            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
+            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
@@ -259,9 +262,6 @@ namespace PHPSTORM_META {
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
-            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
-            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
-            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
         ],
         \App::make('') => [
             '' == '@',
@@ -294,8 +294,6 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'view.finder' instanceof \Illuminate\View\FileViewFinder,
             'view' instanceof \Illuminate\View\Factory,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'GrahamCampbell\Exceptions\ExceptionIdentifier' instanceof \GrahamCampbell\Exceptions\ExceptionIdentifier,
             'GrahamCampbell\Exceptions\ExceptionInfo' instanceof \GrahamCampbell\Exceptions\ExceptionInfo,
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
@@ -305,6 +303,11 @@ namespace PHPSTORM_META {
             'command.laracasts.migrate.pivot' instanceof \Laracasts\Generators\Commands\PivotMigrationMakeCommand,
             'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
             'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
+            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
+            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
+            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
@@ -386,9 +389,6 @@ namespace PHPSTORM_META {
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
-            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
-            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
-            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
         ],
         \app('') => [
             '' == '@',
@@ -421,8 +421,6 @@ namespace PHPSTORM_META {
             'view.engine.resolver' instanceof \Illuminate\View\Engines\EngineResolver,
             'view.finder' instanceof \Illuminate\View\FileViewFinder,
             'view' instanceof \Illuminate\View\Factory,
-            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
-            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'GrahamCampbell\Exceptions\ExceptionIdentifier' instanceof \GrahamCampbell\Exceptions\ExceptionIdentifier,
             'GrahamCampbell\Exceptions\ExceptionInfo' instanceof \GrahamCampbell\Exceptions\ExceptionInfo,
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
@@ -432,6 +430,11 @@ namespace PHPSTORM_META {
             'command.laracasts.migrate.pivot' instanceof \Laracasts\Generators\Commands\PivotMigrationMakeCommand,
             'League\OAuth2\Server\AuthorizationServer' instanceof \League\OAuth2\Server\AuthorizationServer,
             'League\OAuth2\Server\ResourceServer' instanceof \League\OAuth2\Server\ResourceServer,
+            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
+            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
+            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
+            'debugbar' instanceof \Barryvdh\Debugbar\LaravelDebugbar,
+            'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Contracts\Broadcasting\Broadcaster' instanceof \Illuminate\Broadcasting\Broadcasters\LogBroadcaster,
@@ -513,9 +516,6 @@ namespace PHPSTORM_META {
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
-            'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
-            'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
-            'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
         ],
     ];
 }

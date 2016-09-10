@@ -23,8 +23,8 @@ Route::post('vk.verify', 'Auth\VkController@postVerify');
 
 Route::group([
     'middleware' => [
-        'auth.check',
         'auth:api',
+        'auth.check',
     ],
 ], function () {
     // Получение идентификаторов жанров.
