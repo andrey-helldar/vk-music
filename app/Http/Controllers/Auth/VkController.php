@@ -98,9 +98,16 @@ class VkController extends Controller
             'user_id' => $user->id,
         ]);
 
+        // Проверяем, если токен нулевой длины (бесконечный), то ставим его на год.
+        if ($expires_in == 0) {
+            $expired_at = Carbon::now()->addYear(1);
+        } else {
+            $expired_at = Carbon::now()->addSeconds($expires_in - 5);
+        }
+
         $vk_user->user_vk      = $user_vk;
         $vk_user->access_token = $access_token;
-        $vk_user->expired_at   = Carbon::now()->addSeconds($expires_in - 5);
+        $vk_user->expired_at   = $expired_at;
         $vk_user->save();
 
         // Аутентификация пользователя.

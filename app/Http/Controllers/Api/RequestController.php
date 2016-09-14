@@ -2,6 +2,7 @@
 
 namespace VKMUSIC\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
@@ -107,7 +108,8 @@ class RequestController extends Controller
             $response_time_factor = (double)config('vk.request_time_factor', 1.05);
             $time_standard        = 1000 * $response_time_factor;
             $delay                = (int)($time_standard / $rps) + 1;
-            $response_time        = ResponseTime::where('created_at', '>', Carbon::now()->addHour(-1))->avg();
+            $response_time        = ResponseTime::where('created_at', '>', Carbon::now()->addHour(-1))->avg('time');
+
             // Корректируем время.
             $response_time = abs($response_time ?: 0);
 
