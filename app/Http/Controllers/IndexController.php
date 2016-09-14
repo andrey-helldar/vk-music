@@ -48,7 +48,7 @@ class IndexController extends Controller
             }
         }
 
-        return view('verify')->withErrors($content->error->error_description);
+        return view('verify')->withErrors($request->error_description);
     }
 
     /**
