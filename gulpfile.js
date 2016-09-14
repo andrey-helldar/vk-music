@@ -23,6 +23,10 @@ elixir(mix => {
         mix
             .sass('app.scss', 'public/css/app.css')
 
+            //.scripts([
+            //    'functions.js'
+            //], 'public/js/lib.js')
+
             .copy(assets + 'images', 'public/images')
             .copy(node_modules + 'materialize-css/fonts', 'public/build/fonts')
 
@@ -34,7 +38,8 @@ elixir(mix => {
             .version(
                 [
                     'css/app.css',
-                    'js/app.js'
+                    'js/app.js',
+                    //'js/lib.js'
                 ]
             );
     }

@@ -31,6 +31,9 @@
             // Запускаем отображение при инициализации компонента.
             this.showLoader();
 
+            // Если на странице найден блок с определенным классом - вырубаем лоадер.
+            this.hideOnClass('loader-screen-hide');
+
             app.console('Component Loader Screen ready.');
         },
         watch:   {
@@ -123,6 +126,19 @@
              */
             timeToHumans(time){
                 return app.timeToHumans(time);
+            },
+            /**
+             * Если на странице найден элемент с тегом "loader-screen-hide" - скрываем лоадер.
+             */
+            hideOnClass(codeClass){
+                if ($('*').is('.' + codeClass)) {
+                    // Создадим секундную видимость лоадера))
+                    var parent = this;
+
+                    setTimeout(function () {
+                        parent.hideLoader();
+                    }, 1000);
+                }
             }
         }
     }

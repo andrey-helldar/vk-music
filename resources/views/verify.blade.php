@@ -6,7 +6,7 @@
     <div class="container">
 
         @if(count($errors->messages()))
-            <div class="row">
+            <div class="row loader-screen-hide">
                 <div class="col s12 m6 offset-m3 center-align">
                     <h3>Warning!</h3>
 
