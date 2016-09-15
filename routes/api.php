@@ -48,7 +48,8 @@ Route::group([
     // Получение треков пользователя.
     Route::get('audio.popular', 'Api\AudioController@getPopular');
 
-
+    // Получение информации о текущем пользователе, записанной в локальной базе.
+    Route::get('current.user.info', 'Api\AppController@getCurrentUserInfo');
 });
 
 Route::any('{slug?}', function () {

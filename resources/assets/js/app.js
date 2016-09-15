@@ -34,14 +34,48 @@ if (components.length) {
 
 new Vue({
         el:      'main',
+        data:    {
+            user: {
+                info: {}
+            }
+        },
+        ready(){
+            app.console('Component Main ready.');
+
+            this.getUserInfo();
+        },
         methods: {
+            /**
+             * Обображение лоадера.
+             *
+             * @param text
+             * @param description
+             * @param style_type
+             */
             showLoader(text = 'Loading...', description = '', style_type = 'wait'){
                 var loaderElement = this.$refs.loaderScreen;
                 loaderElement.showLoader(text, description, style_type);
             },
+            /**
+             * Скрытие лоадера.
+             */
             hideLoader(){
                 var loaderElement = this.$refs.loaderScreen;
                 loaderElement.hideLoader();
+            },
+            /**
+             * Получение информации о текущем пользователе.
+             */
+            getUserInfo(){
+                this.$http.get('/api/current.user.info').then(
+                    function (response) {
+                        if (response.data.error == undefined) {
+                            this.user.info = response.data.response;
+                        }
+                    }, function (response) {
+                        //app.info(response.data.error, 'error');
+                    }
+                );
             }
         }
     }

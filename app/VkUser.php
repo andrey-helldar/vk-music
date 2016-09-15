@@ -16,7 +16,7 @@ class VkUser extends Model
      * @since   1.0
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    protected function user()
+    public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 use VKMUSIC\VkFile;
+use VKMUSIC\VkUser;
 
 class AppController extends Controller
 {
@@ -152,5 +153,34 @@ class AppController extends Controller
         $file->save();
 
         return $file->id;
+    }
+
+    /**
+     * Получение информации о текущем пользователе, записанной в локальной базе.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-15
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function getCurrentUserInfo()
+    {
+        $user_vk = VkUser::whereUserId(\Auth::user()->id)->first();
+
+        if (is_null($user_vk)) {
+            return ResponseController::error(trans('api.60'));
+        }
+
+        return ResponseController::success(0, [
+            'user_vk'         => $user_vk->user_vk,
+            'first_name'      => $user_vk->first_name,
+            'last_name'       => $user_vk->last_name,
+            'first_name_case' => json_decode($user_vk->first_name_case),
+            'last_name_case'  => json_decode($user_vk->last_name_case),
+            'photo'           => $user_vk->photo,
+            'lang'            => $user_vk->lang,
+            'is_deactivated'  => $user_vk->is_deactivated,
+        ]);
     }
 }

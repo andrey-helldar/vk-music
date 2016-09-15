@@ -18,4 +18,6 @@ return [
     40 => 'The data was successfully uploaded. Processing ...',
 
     50 => 'Download:<br>:filename',
+
+    60 => 'User not found',
 ];

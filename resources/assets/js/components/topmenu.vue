@@ -4,6 +4,14 @@
             <div class="nav-wrapper">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
+                <ul class="left">
+                    <li>
+                        <a href="/">
+                            Hello, {{ user('first_name', 'Guest') }}!
+                        </a>
+                    </li>
+                </ul>
+
                 <ul class="right hide-on-med-and-down">
                     <li v-for="item in items" :class="{active: item.is_active}">
                         <a href="{{ item.url }}" @click="setPage($index)">
@@ -123,6 +131,26 @@
 
                 audio.items = [];
                 audio.getAudio(true);
+            },
+            /**
+             * Получение параметра пользователя из родительского элемента.
+             *
+             * @param param
+             * @param defaultText
+             * @returns {*}
+             */
+            user(param, defaultText = undefined){
+                var data = this.$root.$data.user.info[param];
+
+                if (data === undefined) {
+                    if (defaultText !== undefined) {
+                        return defaultText;
+                    }
+
+                    return '';
+                }
+
+                return data;
             }
         }
     }
