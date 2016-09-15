@@ -20,6 +20,7 @@ var components = [
         'topmenu',
         'audio',
         'friends',
+        'groups',
         'vk-auth',
         'vk-verify'
     ];

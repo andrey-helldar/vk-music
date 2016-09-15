@@ -112,23 +112,31 @@ class IndexController extends Controller
         return redirect()->route('index');
     }
 
+    /**
+     * Список контактов пользователя.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-16
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getFriends()
     {
         return view('friends');
     }
 
-    public function getFriendsSlug($slug = null)
-    {
-
-    }
-
+    /**
+     * Список групп пользователя.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-16
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getGroups()
     {
-
-    }
-
-    public function getGroupsSlug($slug = null)
-    {
-
+        return view('groups');
     }
 }

@@ -73,7 +73,7 @@
                     offset:    0,
                     count_all: 0
                 },
-                url:            '/api/friends.get',
+                url:            '/api/friends.user',
                 selectedUserId: 0
             }
         },

@@ -1,6 +1,6 @@
 <template>
     <h3>
-        Friends
+        Groups
         <sup class="grey-text text-lighten-2" v-if="items.length">
             {{ items.length }} / {{ vk.count_all }}
         </sup>
@@ -73,7 +73,7 @@
                     offset:    0,
                     count_all: 0
                 },
-                url:            '/api/friends.get',
+                url:            '/api/friends.user',
                 selectedUserId: 0
             }
         },

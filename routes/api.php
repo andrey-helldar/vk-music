@@ -49,9 +49,14 @@ Route::group([
     Route::get('audio.popular', 'Api\AudioController@getPopular');
 
     // Запрос списка контактов.
-    Route::post('friends.get', 'Api\FriendsController@storeFriends');
+    Route::post('friends.user', 'Api\FriendsController@storeFriends');
     //Получение списка контактов.
-    Route::get('friends.get', 'Api\FriendsController@getFriends');
+    Route::get('friends.user', 'Api\FriendsController@getFriends');
+
+    // Запрос списка групп.
+    Route::post('groups.user', 'Api\GroupsController@storeGroups');
+    //Получение списка групп.
+    Route::get('groups.user', 'Api\GroupsController@getGroups');
 
     // Получение информации о текущем пользователе, записанной в локальной базе.
     Route::get('current.user.info', 'Api\AppController@getCurrentUserInfo');
