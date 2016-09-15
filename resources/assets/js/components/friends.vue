@@ -238,7 +238,7 @@
                 }
             },
             getFriendAudios(item){
-                app.console(item);
+                this.setAudioData(item);
             },
             /**
              * Загрузка следующих друзей.
@@ -246,6 +246,21 @@
             moreFriends(){
                 this.loading.showLoader = false;
                 this.getFriends();
+            },
+            /**
+             * Загружаем аудио.
+             *
+             * @param item
+             */
+            setAudioData(item){
+                this.$root.$refs.loaderScreen.showLoader();
+                var audio = this.$root.$refs.audio;
+
+                audio.activePage.title = 'Audios '.this.$root.$data.user.info.first_name_case.acc;
+//                audio.activePage.url = item.api;
+
+                audio.items = [];
+                audio.getAudio(true);
             },
         }
     }
