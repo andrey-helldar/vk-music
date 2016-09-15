@@ -3,6 +3,7 @@
 namespace VKMUSIC\Console\Commands;
 
 use Illuminate\Console\Command;
+use VKMUSIC\VkError;
 use VKMUSIC\VkResponse;
 use VKMUSIC\VkUser;
 
@@ -13,7 +14,7 @@ class StaticInfoVk extends Command
      *
      * @var string
      */
-    protected $signature = 'vk:info';
+    protected $signature = 'vk:static-info';
 
     /**
      * The console command description.
@@ -88,10 +89,20 @@ class StaticInfoVk extends Command
             return;
         }
 
-        $item = json_decode($item->context);
+        $response = json_decode($item->context);
 
-        $user_vk->lang = $item->response->lang;
-        $user_vk->save();
+        if (isset($response->response)) {
+            $user_vk->lang = $response->response->lang;
+            $user_vk->save();
+
+            return;
+        }
+
+        VkError::create([
+            'user_id' => $item->user_id,
+            'method'  => $item->method,
+            'context' => $item->context,
+        ]);
     }
 
     /**
@@ -114,6 +125,7 @@ class StaticInfoVk extends Command
         }
 
         $item = json_decode($item->context);
+        $item = $item->response[0];
 
         $user_vk->first_name      = $item->first_name;
         $user_vk->last_name       = $item->last_name;
@@ -134,7 +146,12 @@ class StaticInfoVk extends Command
             'abl' => $item->last_name_abl,
         ]);
         $user_vk->photo           = $item->photo_100;
-        $user_vk->is_deactivated  = $item->deactivated ?: false;
+        $user_vk->is_deactivated  = $item->deactivated ?? false;
         $user_vk->save();
+
+        // Обновляем имя юзера на сайте
+        $user       = $user_vk->user;
+        $user->name = sprintf("%s %s", $user_vk->first_name, $user_vk->last_name);
+        $user->save();
     }
 }

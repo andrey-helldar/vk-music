@@ -125,7 +125,7 @@ class VkController extends Controller
      *
      * @return bool
      */
-    function getAccountInfo($user_vk)
+    function getUsersGet($user_vk)
     {
         if (\Auth::guest()) {
             return false;
@@ -198,7 +198,7 @@ class VkController extends Controller
         $this->checkUserAccount($response->user_id, $response->access_token, $response->expires_in);
 
         // Запрашиваем получение расширенной информации об аккаунте пользователя.
-        $this->getAccountInfo($response->user_id);
+        $this->getUsersGet($response->user_id);
 
         return ResponseController::success(32);
     }
