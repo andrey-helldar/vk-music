@@ -121,8 +121,9 @@ class AppController extends Controller
 
         if (!\Storage::disk($disk)->exists($filename)) {
             try {
-                $file_content = file_get_contents($url);
-                \Storage::disk($disk)->put($filename, $file_content);
+                $http = new \GuzzleHttp\Client;
+                $file = $http->get($url);
+                \Storage::disk($disk)->put($filename, $file->getBody());
             } catch (FatalErrorException $e) {
                 return ResponseController::error(0, $e->getMessage());
             }

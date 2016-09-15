@@ -30,52 +30,28 @@ class RequestController extends Controller
         $stopped_at = 0;
 
         try {
-            $http       = new \GuzzleHttp\Client;
-            $started_at = microtime(true);
-            $response   = $http->request($method, $uri, [
+            $delay_requests = self::vkRequestsParams();
+            $http           = new \GuzzleHttp\Client;
+            $started_at     = microtime(true);
+            $response       = $http->request($method, $uri, [
                 'headers'     => [
-                    'User-Agent' => env('APP_USER_AGENT', 'AI RUS/8.0'),
+                    'User-Agent' => env('APP_USER_AGENT', 'AI_RUS/8.0'),
                     'Accept'     => 'application/json',
                 ],
                 'form_params' => $formData,
+                'delay'       => $delay_requests->delay,
             ]);
-            $stopped_at = microtime(true);
-            $response   = $response->getBody()->getContents();
+            $stopped_at     = microtime(true);
+            $response       = $response->getBody()->getContents();
         } catch (RequestException $exception) {
             if ($exception->getResponse()) {
                 $response = $exception->getResponse()->getBody()->getContents();
             }
         } finally {
             self::calculateAverageRequestTime($started_at, $stopped_at);
-            $delay_requests = self::vkRequestsParams();
-            usleep($delay_requests->delay_micro);
         }
 
         return json_decode($response);
-    }
-
-    /**
-     * Сохранение значения времени каждого ответа от VK API
-     *  для последующего вычисления максимально достустимого количества
-     *  запросов в минуту.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-10
-     * @since   1.0
-     *
-     * @param $started_at
-     * @param $stopped_at
-     */
-    private static function calculateAverageRequestTime($started_at, $stopped_at)
-    {
-        $started_at = round($started_at * 1000);
-        $stopped_at = round($stopped_at * 1000);
-
-        $equals = (int)($stopped_at - $started_at);
-
-        ResponseTime::create([
-            'time' => $equals,
-        ]);
     }
 
     /**
@@ -128,5 +104,29 @@ class RequestController extends Controller
                 'records'     => (int)$records,
             ];
         });
+    }
+
+    /**
+     * Сохранение значения времени каждого ответа от VK API
+     *  для последующего вычисления максимально достустимого количества
+     *  запросов в минуту.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-10
+     * @since   1.0
+     *
+     * @param $started_at
+     * @param $stopped_at
+     */
+    private static function calculateAverageRequestTime($started_at, $stopped_at)
+    {
+        $started_at = round($started_at * 1000);
+        $stopped_at = round($stopped_at * 1000);
+
+        $equals = (int)($stopped_at - $started_at);
+
+        ResponseTime::create([
+            'time' => $equals,
+        ]);
     }
 }
