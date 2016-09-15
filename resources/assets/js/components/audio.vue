@@ -38,6 +38,10 @@
                 </li>
             </ul>
         </div>
+
+        <div class="col s12 m8 offset-m2 center-align grey-text text-darken-1" v-if="!items.length">
+            No audios :(
+        </div>
     </div>
 
     <div class="row">
@@ -174,6 +178,14 @@
                                         case 406:
                                             this.loading.position = response.data.error.description;
                                             break;
+
+                                        case 403:
+                                            app.info(response.data.error.resolve, 'error');
+                                            this.loading.wait = false;
+                                            this.vk.offset = 0;
+                                            this.vk.count_all = [];
+                                            this.items = [];
+                                            return;
 
                                         case 401:
                                             app.console(response.statusText, 'info');

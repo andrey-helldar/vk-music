@@ -5,6 +5,7 @@ namespace VKMUSIC\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
+use VKMUSIC\VkError;
 use VKMUSIC\VkQueue;
 use VKMUSIC\VkResponse;
 
@@ -266,21 +267,30 @@ class AudioController extends Controller
             ], 406);
         }
 
-        $items = json_decode($response->context)->response;
+        $item = json_decode($response->context);
 
-        if (!empty($items->error)) {
+        if (isset($item->error)) {
+            VkError::create([
+                'user_id' => $response->user_id,
+                'method'  => $response->method,
+                'context' => $response->context,
+            ]);
+
+            $response->delete();
+
             return ResponseController::error(0, [
-                'resolve'     => trans('api.1'),
+                'resolve'     => $item->error->error_msg,
                 'description' => trans('api.12', ['position' => $position]),
-            ], 406);
+            ], 403);
         }
 
+        $item = $item->response;
         $response->delete();
 
         return ResponseController::success(0, [
             'resolve'     => trans('api.40'),
-            'items'       => $items->items,
-            'count_all'   => $items->count,
+            'items'       => $item->items,
+            'count_all'   => $item->count,
             'count_query' => config('vk.count_records', 50),
         ]);
     }

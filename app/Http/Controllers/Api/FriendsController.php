@@ -3,9 +3,8 @@
 namespace VKMUSIC\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-
-use VKMUSIC\Http\Requests;
 use VKMUSIC\Http\Controllers\Controller;
+use VKMUSIC\Http\Requests;
 use VKMUSIC\VkQueue;
 use VKMUSIC\VkResponse;
 
@@ -64,7 +63,7 @@ class FriendsController extends Controller
             ], 406);
         }
 
-        $items = json_decode($response->context)->response;
+        $items = json_decode($response->context);
 
         if (!empty($items->error)) {
             return ResponseController::error(0, [
@@ -73,6 +72,7 @@ class FriendsController extends Controller
             ], 406);
         }
 
+        $items = $items->response;
         $response->delete();
 
         return ResponseController::success(0, [
