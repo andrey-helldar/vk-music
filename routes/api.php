@@ -48,6 +48,11 @@ Route::group([
     // Получение треков пользователя.
     Route::get('audio.popular', 'Api\AudioController@getPopular');
 
+    // Запрос списка контактов.
+    Route::post('friends.get', 'Api\FriendsController@storeFriends');
+    //Получение списка контактов.
+    Route::get('friends.get', 'Api\FriendsController@getFriends');
+
     // Получение информации о текущем пользователе, записанной в локальной базе.
     Route::get('current.user.info', 'Api\AppController@getCurrentUserInfo');
 });

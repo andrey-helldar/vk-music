@@ -35,7 +35,7 @@ class AudioController extends Controller
 
         return VkController::createRequest('audio.get', array_merge([
             'need_user' => 0,
-            'offset'    => (int)($request->offset ?: 0),
+            'offset'    => (int)($request->offset ?? 0),
             'count'     => config('vk.count_records', 20),
         ], $this->ownerId($request->owner_type, $request->owner_id)));
     }
@@ -112,7 +112,8 @@ class AudioController extends Controller
     function getRecommendations()
     {
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.getRecommendations')->where('updated_at', '<', $user->token->expired_at)->first();
+        $response =
+            VkResponse::whereUserId($user->id)->whereMethod('audio.getRecommendations')->where('updated_at', '<', $user->token->expired_at)->first();
         $position = $this->getQueuePosition('audio.getRecommendations', $user->id);
 
         if (is_null($response)) {
@@ -163,7 +164,7 @@ class AudioController extends Controller
 
         $position = VkQueue::where('id', '<=', $order->id)->count();
 
-        return $position ?: 1;
+        return $position ?? 1;
     }
 
     /**
@@ -190,8 +191,8 @@ class AudioController extends Controller
 
         return VkController::createRequest('audio.getPopular', [
             'only_eng' => 0,
-            'genre_id' => (int)($request->genre_id ?: 0),
-            'offset'   => (int)($request->offset ?: 0),
+            'genre_id' => (int)($request->genre_id ?? 0),
+            'offset'   => (int)($request->offset ?? 0),
             'count'    => config('vk.count_records_force', 50),
         ]);
     }

@@ -21,7 +21,29 @@ Route::get('verify', [
     'uses'       => 'IndexController@getVerify',
 ]);
 
-Route::get('storage/{slug?}', 'IndexController@getStorageBlocked');
+/**
+ * Получение списка контактов.
+ */
+Route::get('friends', [
+    'as'   => 'friends',
+    'uses' => 'IndexController@getFriends',
+]);
+/**
+ * Получение аудиозаписей конкретного пользователя.
+ */
+Route::get('friends/{slug}', 'IndexController@getFriendsSlug');
+
+/**
+ * Получение списка групп пользователя.
+ */
+Route::get('groups', [
+    'as'   => 'groups',
+    'uses' => 'IndexController@getGroups',
+]);
+/**
+ * Получение списка аудио конкретной группы.
+ */
+Route::get('groups/{slug}', 'IndexController@getGroupsSlug');
 
 /**
  * Скачивание файла.

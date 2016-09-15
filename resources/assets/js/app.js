@@ -19,6 +19,7 @@ var components = [
         'filter',
         'topmenu',
         'audio',
+        'friends',
         'vk-auth',
         'vk-verify'
     ];

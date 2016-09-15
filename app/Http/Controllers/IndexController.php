@@ -111,4 +111,24 @@ class IndexController extends Controller
 
         return redirect()->route('index');
     }
+
+    public function getFriends()
+    {
+        return view('friends');
+    }
+
+    public function getFriendsSlug($slug = null)
+    {
+
+    }
+
+    public function getGroups()
+    {
+
+    }
+
+    public function getGroupsSlug($slug = null)
+    {
+
+    }
 }

@@ -42,7 +42,8 @@
 
     <div class="row">
         <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio" @click="moreAudio">
+            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio"
+               @click="moreAudio">
                 <i class="material-icons">more_horiz</i>
             </a>
         </div>

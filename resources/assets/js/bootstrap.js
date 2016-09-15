@@ -21,9 +21,11 @@ require('./functions');
 window.Vue = require('vue');
 var VueResource = require('vue-resource');
 var VueAsyncData = require('vue-async-data');
+//var VueRouter = require('vue-router');
 
 Vue.use(VueResource);
 Vue.use(VueAsyncData);
+//Vue.use(VueRouter);
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

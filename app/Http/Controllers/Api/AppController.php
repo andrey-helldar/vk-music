@@ -42,7 +42,12 @@ class AppController extends Controller
                 'is_active' => false,
             ],
             [
-                'url'       => '/',
+                'url'       => route('friends'),
+                'title'     => 'Friends',
+                'is_active' => false,
+            ],
+            [
+                'url'       => route('groups'),
                 'title'     => 'Groups',
                 'is_active' => false,
             ],
