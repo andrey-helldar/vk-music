@@ -26,12 +26,6 @@
                     <p>
                         <span class="green-text" v-if="item.online">Online</span>
                         <span class="grey-text" v-else>Offline</span>
-
-                        <br>
-
-                        <a href="https://vk.com/id{{ item.id }}">
-                            Open profile
-                        </a>
                     </p>
 
                     <a class="secondary-content" href="#!" @click="getFriendAudios(item)">
@@ -237,9 +231,6 @@
                         this.$root.hideLoader();
                 }
             },
-            getFriendAudios(item){
-                this.setAudioData(item);
-            },
             /**
              * Загрузка следующих друзей.
              */
@@ -252,14 +243,18 @@
              *
              * @param item
              */
-            setAudioData(item){
+            getFriendAudios(item){
                 this.$root.$refs.loaderScreen.showLoader();
                 var audio = this.$root.$refs.audio;
 
-                audio.activePage.title = 'Audios '.this.$root.$data.user.info.first_name_case.acc;
-//                audio.activePage.url = item.api;
-
+                audio.activePage.title = 'Audios: ' + item.first_name + ' ' + item.last_name;
+                audio.activePage.url = '/api/audio.user';
+                audio.vk.count_all = 0;
+                audio.vk.offset = 0;
+                audio.vk.owner_id = item.id;
+                audio.vk.owner_type = 'user';
                 audio.items = [];
+
                 audio.getAudio(true);
             },
         }

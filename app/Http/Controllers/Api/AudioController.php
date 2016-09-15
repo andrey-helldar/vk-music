@@ -26,7 +26,7 @@ class AudioController extends Controller
         $validator = \Validator::make($request->all(), [
             'offset'     => 'numeric|min:0',
             'owner_type' => 'string',
-            'owner_id'   => 'string',
+            'owner_id'   => 'numeric',
         ]);
 
         if ($validator->fails()) {
@@ -57,9 +57,11 @@ class AudioController extends Controller
         switch ($type) {
             case 'group':
                 $owner_id = abs($id) * -1;
+                break;
 
             case 'user':
                 $owner_id = abs($id);
+                break;
 
             default:
                 $owner_id = \Auth::user()->token->user_vk;
@@ -112,8 +114,7 @@ class AudioController extends Controller
     function getRecommendations()
     {
         $user     = \Auth::user();
-        $response =
-            VkResponse::whereUserId($user->id)->whereMethod('audio.getRecommendations')->where('updated_at', '<', $user->token->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.getRecommendations')->where('updated_at', '<', $user->token->expired_at)->first();
         $position = $this->getQueuePosition('audio.getRecommendations', $user->id);
 
         if (is_null($response)) {

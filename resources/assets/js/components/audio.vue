@@ -109,15 +109,20 @@
         methods: {
             /**
              * Загрузка списка аудио.
+             *
+             * @param {bool}    enableLoader    Включить ли отображение лоадер скрина.
+             * @param {Object}  postData        Передача дополнительных данных в запрос.
              */
-            getAudio(enableLoader = false){
+            getAudio(enableLoader = false, postData = {}){
                 this.loading.showLoader = enableLoader;
 
                 this.setStatus('send');
 
-                this.$http.post(this.activePage.url, {
-                            offset: this.vk.offset
-                        }
+                this.$http.post(this.activePage.url, Object.assign({
+                            offset:     this.vk.offset,
+                            owner_type: this.vk.owner_type,
+                            owner_id:   this.vk.owner_id
+                        }, postData)
                 )
                         .then(function (response) {
                                     app.info(response.data.response.resolve, 'success');

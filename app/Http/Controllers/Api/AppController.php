@@ -4,6 +4,7 @@ namespace VKMUSIC\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 use VKMUSIC\VkFile;
@@ -119,8 +120,12 @@ class AppController extends Controller
         $title         = sprintf("%s - %s.%s", $request->artist, $request->title, $extension);
 
         if (!\Storage::disk($disk)->exists($filename)) {
-            $file_content = file_get_contents($url);
-            \Storage::disk($disk)->put($filename, $file_content);
+            try {
+                $file_content = file_get_contents($url);
+                \Storage::disk($disk)->put($filename, $file_content);
+            } catch (FatalErrorException $e) {
+                return ResponseController::error(0, $e->getMessage());
+            }
         }
 
         $file_id = $this->saveFileToDatabase($filename, $title);
