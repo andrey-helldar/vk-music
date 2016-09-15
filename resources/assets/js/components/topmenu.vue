@@ -4,7 +4,8 @@
             <div class="nav-wrapper">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-                <ul class="left">
+                <!--start: Пункт с именем юзера-->
+                <ul class="left hide-on-med-and-down">
                     <li>
                         <a href="/">
                             Hello, {{ user('first_name', 'Guest') }}!
@@ -12,7 +13,16 @@
                     </li>
                 </ul>
 
-                <ul class="right hide-on-med-and-down">
+                <ul class="right hide-on-med-and-up">
+                    <li>
+                        <a href="/">
+                            Hello, {{ user('first_name', 'Guest') }}!
+                        </a>
+                    </li>
+                </ul>
+                <!--end: Пункт с именем юзера-->
+
+                <ul class="right show-on-large-only">
                     <li v-for="item in items" :class="{active: item.is_active}">
                         <a href="{{ item.url }}" @click="setPage($index)">
                             {{ item.title }}
