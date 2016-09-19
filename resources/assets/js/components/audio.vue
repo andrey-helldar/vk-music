@@ -1,5 +1,8 @@
 <template>
-    <h3>{{ activePage.title }}</h3>
+    <h3>
+        <i class="material-icons">audiotrack</i>
+        {{ activePage.title }}
+    </h3>
 
     <div class="input-field">
         <input id="search" type="search" required v-model="filterKey">
@@ -8,7 +11,7 @@
     </div>
 
     <div class="row">
-        <div class="col s12 m4 l3" v-for="item in items | filterBy filterKey">
+        <div class="col s6 m4 l3" v-for="item in items | filterBy filterKey">
             <ul class="audio">
                 <li class="audio-title">
                     <ul>
@@ -39,8 +42,12 @@
             </ul>
         </div>
 
-        <div class="col s12 m8 offset-m2 center-align grey-text text-darken-1" v-if="!items.length">
-            No audios :(
+        <div class="col s12 m8 offset-m2 center-align" v-if="!items.length">
+            <div class="card-panel materialize-red">
+                <div class="white-text">
+                    <h6>No audios</h6>
+                </div>
+            </div>
         </div>
     </div>
 

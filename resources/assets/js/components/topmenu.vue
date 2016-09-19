@@ -22,7 +22,7 @@
                 </ul>
                 <!--end: Пункт с именем юзера-->
 
-                <ul class="right show-on-large-only">
+                <ul class="right hide-on-med-and-down">
                     <li v-for="item in items" :class="{active: item.is_active}">
                         <a href="{{ item.url }}" @click="setPage($index)">
                             {{ item.title }}
@@ -114,6 +114,8 @@
                 $('#search').val('');
                 this.setSelectItem(index);
                 this.setAudioData(this.items[index]);
+
+                $(".button-collapse").sideNav('hide');
 
                 return false;
             },
