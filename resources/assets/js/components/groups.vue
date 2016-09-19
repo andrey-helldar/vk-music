@@ -19,23 +19,17 @@
                 <li class="collection-item avatar" v-if="items.length" v-for="item in items | filterBy filterKey">
                     <img class="circle" alt="Avatar" v-bind:src="item.photo_50">
                     <span class="title">
-                        {{ item.first_name }}
-                        {{ item.last_name }}
+                        {{ item.name }}
                     </span>
 
-                    <p>
-                        <span class="green-text" v-if="item.online">Online</span>
-                        <span class="grey-text" v-else>Offline</span>
-                    </p>
-
-                    <a class="secondary-content" href="#!" @click="getFriendAudios(item)">
+                    <a class="secondary-content" href="#!" @click="getGroupAudios(item)">
                         <i class="material-icons">send</i>
                     </a>
                 </li>
 
                 <li class="collection-item avatar" v-if="!items.length">
                     <i class="material-icons circle">account_circle</i>
-                    <span class="title">No friends</span>
+                    <span class="title">No groups</span>
                     <p>
                         ...no audios...<br>
                         ...no actions...
@@ -51,8 +45,8 @@
 
         <div class="row">
             <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-                <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
-                   @click="moreFriends">
+                <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more groups"
+                   @click="moreGroups">
                     <i class="material-icons">more_horiz</i>
                 </a>
             </div>
@@ -73,15 +67,15 @@
                     offset:    0,
                     count_all: 0
                 },
-                url:            '/api/friends.user',
+                url:            '/api/groups.user',
                 selectedUserId: 0
             }
         },
         ready(){
-            app.console('Component Friends ready.');
+            app.console('Component Groups ready.');
         },
         asyncData(){
-            this.getFriends();
+            this.getGroups();
         },
         watch:   {
             'items':   {
@@ -102,7 +96,7 @@
             /**
              * Получение списка контактов.
              */
-            getFriends(){
+            getGroups(){
                 this.$http.post(this.url, {
                             count:  100,
                             offset: this.vk.offset,
@@ -134,7 +128,7 @@
             /**
              * Проверка выполненных запросов и вывод записей на экран.
              */
-            getFriendsLoaded(){
+            getGroupsLoaded(){
                 this.setStatus('check');
 
                 this.$http.get(this.url)
@@ -192,7 +186,7 @@
                             if (parent.loading.wait === false) {
                                 clearInterval(checkAudio);
                             } else {
-                                parent.getFriendsLoaded();
+                                parent.getGroupsLoaded();
                             }
                         }, 3000, parent
                 );
@@ -234,29 +228,29 @@
             /**
              * Загрузка следующих друзей.
              */
-            moreFriends(){
+            moreGroups(){
                 this.loading.showLoader = false;
-                this.getFriends();
+                this.getGroups();
             },
             /**
              * Загружаем аудио.
              *
              * @param item
              */
-            getFriendAudios(item){
+            getGroupAudios(item){
                 this.$root.$refs.loaderScreen.showLoader();
                 var audio = this.$root.$refs.audio;
 
-                audio.activePage.title = 'Audios: ' + item.first_name + ' ' + item.last_name;
+                audio.activePage.title = 'Audios: ' + item.name;
                 audio.activePage.url = '/api/audio.user';
                 audio.vk.count_all = 0;
                 audio.vk.offset = 0;
                 audio.vk.owner_id = item.id;
-                audio.vk.owner_type = 'user';
+                audio.vk.owner_type = 'group';
                 audio.items = [];
 
                 audio.getAudio(true);
-            },
+            }
         }
     }
 </script>

@@ -87,4 +87,29 @@ class VkController extends Controller
     {
         VkResponse::whereUserId($user_id)->whereMethod($method)->delete();
     }
+
+    /**
+     * Считаем позицию запроса пользователя в очереди.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-15
+     * @since   1.0
+     *
+     * @param $method
+     * @param $user_id
+     *
+     * @return int
+     */
+    public static function queuePosition($method, $user_id)
+    {
+        $order = VkQueue::whereMethod($method)->whereUserId($user_id)->first();
+
+        if (is_null($order)) {
+            return 1;
+        }
+
+        $position = VkQueue::where('id', '<=', $order->id)->count();
+
+        return $position ?? 1;
+    }
 }

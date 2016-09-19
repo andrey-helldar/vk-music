@@ -5,11 +5,12 @@ namespace VKMUSIC\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
-use VKMUSIC\VkQueue;
 use VKMUSIC\VkResponse;
 
 class FriendsController extends Controller
 {
+    private $method = 'friends.get';
+
     /**
      * Запрос списка контактов пользователя.
      *
@@ -33,7 +34,7 @@ class FriendsController extends Controller
             return ResponseController::error(0, $validator->errors()->all());
         }
 
-        return VkController::createRequest('friends.get', [
+        return VkController::createRequest($this->method, [
             'offset' => (int)($request->offset ?? 0),
             'count'  => config('vk.count_records', 20),
             'fields' => $request->fields ?? '',
@@ -51,10 +52,9 @@ class FriendsController extends Controller
      */
     public function getFriends()
     {
-        $method   = 'friends.get';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
-        $position = $this->getQueuePosition($method, $user->id);
+        $response = VkResponse::whereUserId($user->id)->whereMethod($this->method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $position = VkController::queuePosition($this->method, $user->id);
 
         if (is_null($response)) {
             return ResponseController::error(0, [
@@ -81,30 +81,5 @@ class FriendsController extends Controller
             'count_all'   => $items->count,
             'count_query' => config('vk.count_records', 50),
         ]);
-    }
-
-    /**
-     * Считаем позицию запроса пользователя в очереди.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-15
-     * @since   1.0
-     *
-     * @param $method
-     * @param $user_id
-     *
-     * @return int
-     */
-    private function getQueuePosition($method, $user_id)
-    {
-        $order = VkQueue::whereMethod($method)->whereUserId($user_id)->first();
-
-        if (is_null($order)) {
-            return 1;
-        }
-
-        $position = VkQueue::where('id', '<=', $order->id)->count();
-
-        return $position ?? 1;
     }
 }

@@ -114,9 +114,10 @@ class AudioController extends Controller
      */
     function getRecommendations()
     {
+        $method   = 'audio.getRecommendations';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.getRecommendations')->where('updated_at', '<', $user->token->expired_at)->first();
-        $position = $this->getQueuePosition('audio.getRecommendations', $user->id);
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
             return ResponseController::error(0, [
@@ -142,31 +143,6 @@ class AudioController extends Controller
             'count_all'   => $items->count,
             'count_query' => config('vk.count_records', 50),
         ]);
-    }
-
-    /**
-     * Считаем позицию запроса пользователя в очереди.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-07
-     * @since   1.0
-     *
-     * @param $method
-     * @param $user_id
-     *
-     * @return int
-     */
-    private function getQueuePosition($method, $user_id)
-    {
-        $order = VkQueue::whereMethod($method)->whereUserId($user_id)->first();
-
-        if (is_null($order)) {
-            return 1;
-        }
-
-        $position = VkQueue::where('id', '<=', $order->id)->count();
-
-        return $position ?? 1;
     }
 
     /**
@@ -210,9 +186,10 @@ class AudioController extends Controller
      */
     function getPopular()
     {
+        $method   = 'audio.getPopular';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.getPopular')->where('updated_at', '<', $user->token->expired_at)->first();
-        $position = $this->getQueuePosition('audio.getPopular', $user->id);
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
             return ResponseController::error(0, [
@@ -256,9 +233,10 @@ class AudioController extends Controller
      */
     function getAudio()
     {
+        $method   = 'audio.get';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod('audio.get')->where('updated_at', '<', $user->token->expired_at)->first();
-        $position = $this->getQueuePosition('audio.get', $user->id);
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
             return ResponseController::error(0, [

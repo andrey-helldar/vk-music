@@ -18,7 +18,7 @@ return [
      *
      * @see https://vk.com/dev/permissions
      */
-    'scopes'                => 'offline,audio,groups,+256',
+    'scopes'                => 'offline,audio,groups,friends,email,+256',
 
     /**
      * Адрес, на который будет переадресован пользователь после прохождения авторизации.
