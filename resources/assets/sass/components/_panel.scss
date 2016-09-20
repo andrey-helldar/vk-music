@@ -11,7 +11,7 @@
     background-color: $panel-background-color;
     color: $panel-primary-color;
 
-    margin: 20px auto;
+    margin: 10px auto;
     z-index: auto;
 
     @include transition(.25s);
@@ -72,7 +72,7 @@
 
 @media #{$medium-and-down} {
     .panel {
-        margin: 10px auto;
+        margin: 5px auto;
 
         .panel-image {
             i {
@@ -91,7 +91,6 @@
 @media #{$small-and-down} {
     .panel {
         display: block;
-        margin: 5px auto;
 
         .panel-image {
             display: block;

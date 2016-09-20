@@ -1,17 +1,17 @@
 <template>
     <div class="row">
 
-        <div class="col s6">
+        <div class="col s6" v-for="item in items" v-if="item.panel.is_show === true">
             <div class="panel hoverable">
                 <div class="panel-image">
-                    <i class="material-icons">audiotrack</i>
+                    <i class="material-icons">{{ item.panel.icon }}</i>
                 </div>
                 <div class="panel-content">
-                    <h2>My audios</h2>
-                    <p>This is a description</p>
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.panel.description }}</p>
 
                     <div class="panel-action">
-                        <a href="#">
+                        <a href="{{ item.url }}">
                             Go to page
                         </a>
                     </div>
@@ -47,6 +47,8 @@
                             app.info(response.data.error, 'error');
                         }
                 );
+
+                this.$root.hideLoader();
             }
         }
     }

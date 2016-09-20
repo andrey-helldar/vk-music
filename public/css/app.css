@@ -5715,7 +5715,7 @@ nav .container {
   min-height: 50px;
   background-color: white;
   color: #3f51b5;
-  margin: 20px auto;
+  margin: 10px auto;
   z-index: auto;
   -webkit-transition: 0.25s;
   transition: 0.25s; }
@@ -5758,7 +5758,7 @@ nav .container {
 
 @media only screen and (max-width: 992px) {
   .panel {
-    margin: 10px auto; }
+    margin: 5px auto; }
     .panel .panel-image i {
       font-size: 4.5rem; }
     .panel .panel-content h2 {
@@ -5766,8 +5766,7 @@ nav .container {
 
 @media only screen and (max-width: 600px) {
   .panel {
-    display: block;
-    margin: 5px auto; }
+    display: block; }
     .panel .panel-image {
       display: block;
       width: 100%;

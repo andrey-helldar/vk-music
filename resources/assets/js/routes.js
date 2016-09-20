@@ -3,7 +3,12 @@ var router = new VueRouter();
 router.map({
     '/my':              {},
     '/recommendations': {},
-    '/popular':         {},
-    '/friends':         {},
-    '/groups':          {}
+    '/popular':         {}
+});
+
+router.redirect({
+    '*':        '/404',
+    '/search':  '/search',
+    '/groups':  '/groups',
+    '/friends': '/friends'
 });

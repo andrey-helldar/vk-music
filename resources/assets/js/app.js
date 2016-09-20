@@ -21,6 +21,7 @@ var components = [
         'audio',
         'friends',
         'groups',
+        'index',
         'vk-auth',
         'vk-verify'
     ];
@@ -91,6 +92,7 @@ window.appVue = new Vue({
              */
             loadAudios(url = '/api/audio.user', title = 'Your audio', owner_id = 0, owner_type = 'default', postData = {}){
                 this.showLoader();
+                this.getCurrentPage();
 
                 var audio = this.$refs.audio;
                 audio.activePage.title = title;
@@ -102,7 +104,25 @@ window.appVue = new Vue({
                 audio.items = [];
 
                 audio.getAudio(true, postData);
+            },
+            getCurrentPage(){
+                var sharp = window.location.href.indexOf('#');
+
+                if (sharp !== false) {
+                    var page = window.location.href.substr(sharp + 1);
+                    var url = '';
+
+                    switch (page) {
+                        default:
+                            url:'/api/audio.user'
+                    }
+                }
             }
         }
     }
 );
+
+/**
+ * Routes.
+ */
+//require('./routes');

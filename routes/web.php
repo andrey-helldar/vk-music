@@ -22,6 +22,14 @@ Route::get('verify', [
 ]);
 
 /**
+ * Основной список работы с аудио.
+ */
+Route::get('audio', [
+    'as'   => 'audio',
+    'uses' => 'IndexController@getAudio',
+]);
+
+/**
  * Получение списка контактов.
  */
 Route::get('friends', [
@@ -54,6 +62,9 @@ Route::get('download/{id?}', [
     'uses'       => 'IndexController@getDownloadFile',
 ]);
 
+/**
+ * Выход
+ */
 Route::get('logout', [
     'as'   => 'logout',
     'uses' => 'IndexController@getLogout',

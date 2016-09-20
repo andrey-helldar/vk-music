@@ -152,4 +152,17 @@ class IndexController extends Controller
     {
         return view('groups');
     }
+
+    /**
+     * Страница со списком аудио.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-20
+     * @since   1.0
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getAudio()
+    {
+        return view('audio');
+    }
 }

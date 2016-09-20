@@ -136,17 +136,7 @@
              * @param item
              */
             setAudioData(item){
-                this.$root.$refs.loaderScreen.showLoader();
-                var audio = this.$root.$refs.audio;
-
-                audio.activePage.title = item.title;
-                audio.activePage.url = item.api;
-                audio.vk.count_all = 0;
-                audio.vk.offset = 0;
-                audio.vk.owner_type = 'current';
-                audio.items = [];
-
-                audio.getAudio(true);
+                this.$root.loadAudios(item.api, item.title);
             },
             /**
              * Получение параметра пользователя из родительского элемента.

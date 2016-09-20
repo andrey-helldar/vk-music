@@ -25,38 +25,68 @@ class AppController extends Controller
     {
         $menu = [
             [
-                'url'       => '#my',
+                'url'       => '/audio#my',
                 'api'       => '/api/audio.user',
                 'title'     => 'My Audio',
                 'is_active' => false,
+                'panel'     => [
+                    'is_show'     => true,
+                    'icon'        => 'audiotrack',
+                    'description' => 'It is a new text',
+                ],
             ],
             [
-                'url'       => '#recommendations',
+                'url'       => '/audio#recommendations',
                 'api'       => '/api/audio.recommendations',
                 'title'     => 'Recommendations',
                 'is_active' => false,
+                'panel'     => [
+                    'is_show'     => true,
+                    'icon'        => 'thumb_up',
+                    'description' => 'It is a new text',
+                ],
             ],
             [
-                'url'       => '#popular',
+                'url'       => '/audio#popular',
                 'api'       => '/api/audio.popular',
                 'title'     => 'Popular',
                 'is_active' => false,
+                'panel'     => [
+                    'is_show'     => true,
+                    'icon'        => 'trending_up',
+                    'description' => 'It is a new text',
+                ],
             ],
             [
                 'url'       => route('friends'),
                 'title'     => 'Friends',
                 'is_active' => false,
+                'panel'     => [
+                    'is_show'     => true,
+                    'icon'        => 'sentiment_satisfied',
+                    'description' => 'It is a new text',
+                ],
             ],
             [
                 'url'       => route('groups'),
                 'title'     => 'Groups',
                 'is_active' => false,
+                'panel'     => [
+                    'is_show'     => true,
+                    'icon'        => 'group',
+                    'description' => 'It is a new text',
+                ],
             ],
             [
                 'url'       => route('search'),
                 'icon'      => 'search',
-                'title'     => '',
+                'title'     => 'Search',
                 'is_active' => false,
+                'panel'     => [
+                    'is_show'     => true,
+                    'icon'        => 'search',
+                    'description' => 'It is a new text',
+                ],
             ],
         ];
 
