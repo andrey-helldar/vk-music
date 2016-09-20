@@ -30,6 +30,7 @@
  *  23. Collections
  *  24. Progress Bar
  *  25. Audio
+ *  26. Panel
  */
 
 /* 1. Colors
@@ -40,8 +41,8 @@ $primary-color-light: color("indigo", "lighten-1") !default;
 $primary-color-dark: color("indigo", "darken-4") !default;
 
 $secondary-color: color("light-blue", "lighten-2") !default;
-$primary-color-light: color("light-blue", "lighten-4") !default;
-$primary-color-dark: color("light-blue", "darken-1") !default;
+$secondary-color-light: color("light-blue", "lighten-4") !default;
+$secondary-color-dark: color("light-blue", "darken-1") !default;
 
 $success-color: color("green", "base") !default;
 $error-color: color("red", "base") !default;
@@ -313,3 +314,24 @@ $audio-icon-font-size: 1.64rem;
 $audio-artist-font-weight: 300;
 $audio-title-font-weight: 400;
 $audio-content-font-weight: 400;
+
+/* 26. Panel
+   ========================================================================== */
+$panel-min-height: 50px;
+$panel-background-color: rgba(255, 255, 255, 1) !default;
+$panel-background-color-hover: rgba(255, 255, 255, .85) !default;
+
+$panel-icon-font-size: 6rem;
+$panel-icon-font-weight: 300;
+$panel-icon-width-hover: 30%;
+
+$panel-header-font-size: $h4-fontsize * .8;
+$panel-header-font-weight: 300;
+
+$panel-primary-color: $primary-color;
+$panel-primary-color-light: $primary-color-light;
+$panel-primary-color-dark: $primary-color-dark;
+
+$panel-secondary-color: $secondary-color;
+$panel-secondary-color-light: $secondary-color-light;
+$panel-secondary-color-dark: $secondary-color-dark;

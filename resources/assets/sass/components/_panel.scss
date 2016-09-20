@@ -1,0 +1,129 @@
+
+.panel {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    min-height: $panel-min-height;
+
+    background-color: $panel-background-color;
+    color: $panel-primary-color;
+
+    margin: 20px auto;
+    z-index: auto;
+
+    @include transition(.25s);
+
+    * {
+        @include transition(.25s);
+    }
+
+    .panel-image {
+        display: inline-block;
+        margin: auto;
+        vertical-align: middle;
+        width: $panel-icon-width-hover;
+        height: 100%;
+        z-index: +1;
+
+        i {
+            font-size: $panel-icon-font-size;
+            font-weight: $panel-icon-font-weight;
+        }
+    }
+
+    .panel-content {
+        background-color: $panel-background-color;
+        text-align: center;
+        display: inline-block;
+        overflow: hidden;
+        margin: auto;
+        padding: 10px;
+        vertical-align: middle;
+        width: 100% - $panel-icon-width-hover;
+        height: 100%;
+        z-index: +2;
+
+        h2 {
+            font-size: $panel-header-font-size;
+            font-weight: $panel-header-font-weight;
+        }
+
+        .panel-action {
+            text-align: center;
+        }
+    }
+
+    &:hover {
+        .panel-image {
+            color: $panel-secondary-color;
+            width: 0%;
+        }
+
+        .panel-content {
+            background-color: $panel-background-color-hover;
+            width: 100%;
+            text-align: left;
+        }
+    }
+}
+
+@media #{$medium-and-down} {
+    .panel {
+        margin: 10px auto;
+
+        .panel-image {
+            i {
+                font-size: $panel-icon-font-size * .75;
+            }
+        }
+
+        .panel-content {
+            h2 {
+                font-size: $panel-header-font-size * .75;
+            }
+        }
+    }
+}
+
+@media #{$small-and-down} {
+    .panel {
+        display: block;
+        margin: 5px auto;
+
+        .panel-image {
+            display: block;
+            width: 100%;
+            height: auto;
+
+            i {
+                font-size: $panel-icon-font-size * .65;
+            }
+        }
+
+        .panel-content {
+            display: block;
+            width: 100%;
+            height: auto;
+
+            h2 {
+                font-size: $panel-header-font-size * .65;
+                margin: auto;
+            }
+        }
+
+        &:hover {
+            .panel-image {
+                color: $panel-secondary-color;
+                width: 100%;
+            }
+
+            .panel-content {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+}

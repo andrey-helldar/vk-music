@@ -3,11 +3,12 @@
 @section('site_title')
 
 @section('content')
-    <div class="container audio-auto-loading">
+    <div class="container">
 
         @if(Auth::guest())
             <vk-auth></vk-auth>
         @else
+            <span class="audio-auto-loading hide"></span>
             <audio v-ref:audio></audio>
         @endif
 

@@ -1630,6 +1630,7 @@
  *  23. Collections
  *  24. Progress Bar
  *  25. Audio
+ *  26. Panel
  */
 /* 1. Colors
    ========================================================================== */
@@ -1680,6 +1681,8 @@
 /* 24. Progress Bar
    ========================================================================== */
 /* 25. Audio
+   ========================================================================== */
+/* 26. Panel
    ========================================================================== */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
@@ -5700,6 +5703,90 @@ nav .container {
 
 .top-enter, .top-leave {
   top: -100%; }
+
+.panel {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  text-align: center;
+  min-height: 50px;
+  background-color: white;
+  color: #3f51b5;
+  margin: 20px auto;
+  z-index: auto;
+  -webkit-transition: 0.25s;
+  transition: 0.25s; }
+  .panel * {
+    -webkit-transition: 0.25s;
+    transition: 0.25s; }
+  .panel .panel-image {
+    display: inline-block;
+    margin: auto;
+    vertical-align: middle;
+    width: 30%;
+    height: 100%;
+    z-index: +1; }
+    .panel .panel-image i {
+      font-size: 6rem;
+      font-weight: 300; }
+  .panel .panel-content {
+    background-color: white;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+    margin: auto;
+    padding: 10px;
+    vertical-align: middle;
+    width: 70%;
+    height: 100%;
+    z-index: +2; }
+    .panel .panel-content h2 {
+      font-size: 1.824rem;
+      font-weight: 300; }
+    .panel .panel-content .panel-action {
+      text-align: center; }
+  .panel:hover .panel-image {
+    color: #4fc3f7;
+    width: 0%; }
+  .panel:hover .panel-content {
+    background-color: rgba(255, 255, 255, 0.85);
+    width: 100%;
+    text-align: left; }
+
+@media only screen and (max-width: 992px) {
+  .panel {
+    margin: 10px auto; }
+    .panel .panel-image i {
+      font-size: 4.5rem; }
+    .panel .panel-content h2 {
+      font-size: 1.368rem; } }
+
+@media only screen and (max-width: 600px) {
+  .panel {
+    display: block;
+    margin: 5px auto; }
+    .panel .panel-image {
+      display: block;
+      width: 100%;
+      height: auto; }
+      .panel .panel-image i {
+        font-size: 3.9rem; }
+    .panel .panel-content {
+      display: block;
+      width: 100%;
+      height: auto; }
+      .panel .panel-content h2 {
+        font-size: 1.1856rem;
+        margin: auto; }
+    .panel:hover .panel-image {
+      color: #4fc3f7;
+      width: 100%; }
+    .panel:hover .panel-content {
+      width: 100%;
+      text-align: center; } }
 
 /* ==========================================================================
    SOFEE variables
