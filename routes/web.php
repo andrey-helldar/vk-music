@@ -38,6 +38,14 @@ Route::get('groups', [
 ]);
 
 /**
+ * Поиск аудиозаписей.
+ */
+Route::get('search', [
+    'as'   => 'search',
+    'uses' => 'IndexController@getSearch',
+]);
+
+/**
  * Скачивание файла.
  */
 Route::get('download/{id?}', [

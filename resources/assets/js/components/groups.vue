@@ -8,7 +8,7 @@
 
     <div class="input-field">
         <input id="search" type="search" required v-model="filterKey">
-        <label for="search"><i class="material-icons">search</i></label>
+        <label for="search"><i class="material-icons">filter_list</i></label>
         <i class="material-icons">close</i>
     </div>
 
@@ -235,18 +235,7 @@
              * @param item
              */
             getGroupAudios(item){
-                this.$root.$refs.loaderScreen.showLoader();
-                var audio = this.$root.$refs.audio;
-
-                audio.activePage.title = item.name;
-                audio.activePage.url = '/api/audio.user';
-                audio.vk.count_all = 0;
-                audio.vk.offset = 0;
-                audio.vk.owner_id = item.id;
-                audio.vk.owner_type = 'group';
-                audio.items = [];
-
-                audio.getAudio(true);
+                this.$root.loadAudios('/api/audio.user', item.name, item.id, 'group');
             }
         }
     }

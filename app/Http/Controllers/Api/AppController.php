@@ -52,6 +52,12 @@ class AppController extends Controller
                 'title'     => 'Groups',
                 'is_active' => false,
             ],
+            [
+                'url'       => route('search'),
+                'icon'      => 'search',
+                'title'     => '',
+                'is_active' => false,
+            ],
         ];
 
         if (\Auth::check()) {

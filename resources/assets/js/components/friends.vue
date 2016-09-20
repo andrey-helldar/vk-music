@@ -242,19 +242,10 @@
              * @param item
              */
             getFriendAudios(item){
-                this.$root.$refs.loaderScreen.showLoader();
-                var audio = this.$root.$refs.audio;
+                var title = item.first_name + ' ' + item.last_name;
 
-                audio.activePage.title = item.first_name + ' ' + item.last_name;
-                audio.activePage.url = '/api/audio.user';
-                audio.vk.count_all = 0;
-                audio.vk.offset = 0;
-                audio.vk.owner_id = item.id;
-                audio.vk.owner_type = 'user';
-                audio.items = [];
-
-                audio.getAudio(true);
-            },
+                this.$root.loadAudios('/api/audio.user', title, item.id, 'user');
+            }
         }
     }
 </script>

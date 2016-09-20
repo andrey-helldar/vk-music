@@ -89,7 +89,7 @@ class AudioController extends Controller
         $validator = \Validator::make($request->all(), [
             'offset'     => 'numeric|min:0',
             'owner_type' => 'string',
-            'owner_id'   => 'string',
+            'owner_id'   => 'numeric',
         ]);
 
         if ($validator->fails()) {
@@ -269,6 +269,93 @@ class AudioController extends Controller
             'resolve'     => trans('api.40'),
             'items'       => $item->items,
             'count_all'   => $item->count,
+            'count_query' => config('vk.count_records', 50),
+        ]);
+    }
+
+    /**
+     * Запрос на поиск аудиозаписей по искомой фразе.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-20
+     * @since   1.0
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    function storeSearch(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'owner_type' => 'string',
+            'owner_id'   => 'numeric',
+            'q'          => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseController::error(0, $validator->errors()->all());
+        }
+
+        $count = config('vk.count_records_force', 100) * 3;
+
+        return VkController::createRequest('audio.search', array_merge([
+            'offset'         => 0,
+            'count'          => $count < 300 ? $count : 300,
+            'q'              => trim($request->q),
+            'auto_complete'  => 1,
+            'lyrics'         => 0,
+            'performer_only' => 0,
+            'sort'           => 2,
+            'search_own'     => 0,
+        ], $this->ownerId($request->owner_type, $request->owner_id)));
+    }
+
+    /**
+     * Получение и обработка ответа с найденными аудиозаписями по поисковой фразе.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-20
+     * @since   1.0
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    function getSearch()
+    {
+        $method   = 'audio.search';
+        $user     = \Auth::user();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $position = VkController::queuePosition($method, $user->id);
+
+        if (is_null($response)) {
+            return ResponseController::error(0, [
+                'resolve'     => trans('api.21'),
+                'description' => trans('api.12', ['position' => $position]),
+            ], 406);
+        }
+
+        $item = json_decode($response->context);
+
+        if (isset($item->error)) {
+            VkError::create([
+                'user_id' => $response->user_id,
+                'method'  => $response->method,
+                'context' => $response->context,
+            ]);
+
+            $response->delete();
+
+            return ResponseController::error(0, [
+                'resolve'     => $item->error->error_msg,
+                'description' => trans('api.12', ['position' => $position]),
+            ], 403);
+        }
+
+        $item = $item->response;
+        $response->delete();
+
+        return ResponseController::success(0, [
+            'resolve'     => trans('api.40'),
+            'items'       => $item->items,
+            'count_all'   => count($item->items),
             'count_query' => config('vk.count_records', 50),
         ]);
     }

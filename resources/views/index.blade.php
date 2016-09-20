@@ -3,7 +3,7 @@
 @section('site_title')
 
 @section('content')
-    <div class="container">
+    <div class="container audio-auto-loading">
 
         @if(Auth::guest())
             <vk-auth></vk-auth>

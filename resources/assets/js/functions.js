@@ -13,14 +13,27 @@ function isScrolledIntoView(element) {
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
 
+/**
+ * Загрузка аудио на страницах без автозагрузки)
+ */
+function loadAudios(codeElem = '.audio-auto-loading') {
+    if ($('*').is(codeElem)) {
+        appVue.loadAudios();
+    }
+}
+
 $(document).ready(
     function () {
         $('select').material_select();
         $('.modal-trigger').leanModal();
         $(".button-collapse").sideNav();
-        $('.tooltipped').tooltip({delay: 50});
+        $('.character-counter').characterCounter();
+        $('.tooltipped').tooltip({
+            delay: 50
+        });
 
         Materialize.updateTextFields();
+        loadAudios();
 
 
         $(window).scroll(function () {

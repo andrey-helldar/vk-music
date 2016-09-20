@@ -6,7 +6,7 @@
 
     <div class="input-field">
         <input id="search" type="search" required v-model="filterKey">
-        <label for="search"><i class="material-icons">search</i></label>
+        <label for="search"><i class="material-icons">filter_list</i></label>
         <i class="material-icons">close</i>
     </div>
 
@@ -100,7 +100,7 @@
         },
         asyncData(){
             this.getGenres();
-            this.getAudio(true);
+//            this.getAudio(true);
         },
         watch:   {
             'items':   {

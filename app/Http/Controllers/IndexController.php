@@ -25,6 +25,19 @@ class IndexController extends Controller
     }
 
     /**
+     * Страница для поиска аудиозаписей в ВК.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-20
+     * @since   1.0
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getSearch()
+    {
+        return view('search');
+    }
+
+    /**
      * Страница подтверждения доступа.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>

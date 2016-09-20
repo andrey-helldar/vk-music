@@ -34,7 +34,7 @@ if (components.length) {
     );
 }
 
-new Vue({
+window.appVue = new Vue({
         el:      'main',
         data:    {
             user: {
@@ -78,6 +78,30 @@ new Vue({
                         //app.info(response.data.error, 'error');
                     }
                 );
+            },
+            /**
+             * Передача параметра на загрузку аудио.
+             * Необходимо при работе с некоторыми страницами.
+             *
+             * @param url
+             * @param title
+             * @param owner_id
+             * @param owner_type
+             * @param postData
+             */
+            loadAudios(url = '/api/audio.user', title = 'Your audio', owner_id = 0, owner_type = 'default', postData = {}){
+                this.showLoader();
+
+                var audio = this.$refs.audio;
+                audio.activePage.title = title;
+                audio.activePage.url = url;
+                audio.vk.count_all = 0;
+                audio.vk.offset = 0;
+                audio.vk.owner_id = owner_id;
+                audio.vk.owner_type = owner_type;
+                audio.items = [];
+
+                audio.getAudio(true, postData);
             }
         }
     }

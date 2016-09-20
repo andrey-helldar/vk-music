@@ -48,6 +48,15 @@ Route::group([
     // Получение треков пользователя.
     Route::get('audio.popular', 'Api\AudioController@getPopular');
 
+    /**
+     * Запрос на поиск треков.
+     */
+    Route::post('audio.search', 'Api\AudioController@storeSearch');
+    /**
+     * Получение найденных треков.
+     */
+    Route::get('audio.search', 'Api\AudioController@getSearch');
+
     // Запрос списка контактов.
     Route::post('friends.user', 'Api\FriendsController@storeFriends');
     //Получение списка контактов.

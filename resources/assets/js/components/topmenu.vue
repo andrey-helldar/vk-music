@@ -25,6 +25,7 @@
                 <ul class="right hide-on-med-and-down">
                     <li v-for="item in items" :class="{active: item.is_active}">
                         <a href="{{ item.url }}" @click="setPage($index)">
+                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
                             {{ item.title }}
                         </a>
                     </li>
