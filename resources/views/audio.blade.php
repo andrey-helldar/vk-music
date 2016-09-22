@@ -8,9 +8,8 @@
         @if(Auth::guest())
             <vk-auth></vk-auth>
         @else
-            {{--<span class="audio-auto-loading hide"></span>--}}
-            {{--<audio v-ref:audio></audio>--}}
-            <router-view></router-view>
+            <span class="audio-auto-loading hide"></span>
+            <audio v-ref:audio></audio>
         @endif
 
     </div>
