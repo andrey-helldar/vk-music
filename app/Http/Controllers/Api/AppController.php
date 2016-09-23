@@ -31,58 +31,64 @@ class AppController extends Controller
                 'is_active' => false,
                 'panel'     => [
                     'is_show'     => true,
+                    'show_title'  => true,
                     'icon'        => 'audiotrack',
                     'description' => 'It is a new text',
                 ],
             ],
             [
-                'url'       => '/audio#recommendations',
-                'api'       => '/api/audio.recommendations',
-                'title'     => 'Recommendations',
-                'is_active' => false,
-                'panel'     => [
+                'url'        => '/audio#recommendations',
+                'api'        => '/api/audio.recommendations',
+                'title'      => 'Recommendations',
+                'is_active'  => false,
+                'show_title' => true,
+                'panel'      => [
                     'is_show'     => true,
                     'icon'        => 'thumb_up',
                     'description' => 'It is a new text',
                 ],
             ],
             [
-                'url'       => '/audio#popular',
-                'api'       => '/api/audio.popular',
-                'title'     => 'Popular',
-                'is_active' => false,
-                'panel'     => [
+                'url'        => '/audio#popular',
+                'api'        => '/api/audio.popular',
+                'title'      => 'Popular',
+                'is_active'  => false,
+                'show_title' => true,
+                'panel'      => [
                     'is_show'     => true,
                     'icon'        => 'trending_up',
                     'description' => 'It is a new text',
                 ],
             ],
             [
-                'url'       => route('friends'),
-                'title'     => 'Friends',
-                'is_active' => false,
-                'panel'     => [
+                'url'        => route('friends'),
+                'title'      => 'Friends',
+                'is_active'  => false,
+                'show_title' => true,
+                'panel'      => [
                     'is_show'     => true,
                     'icon'        => 'sentiment_satisfied',
                     'description' => 'It is a new text',
                 ],
             ],
             [
-                'url'       => route('groups'),
-                'title'     => 'Groups',
-                'is_active' => false,
-                'panel'     => [
+                'url'        => route('groups'),
+                'title'      => 'Groups',
+                'is_active'  => false,
+                'show_title' => true,
+                'panel'      => [
                     'is_show'     => true,
                     'icon'        => 'group',
                     'description' => 'It is a new text',
                 ],
             ],
             [
-                'url'       => route('search'),
-                'icon'      => 'search',
-                'title'     => 'Search',
-                'is_active' => false,
-                'panel'     => [
+                'url'        => route('search'),
+                'icon'       => 'search',
+                'title'      => 'Search',
+                'is_active'  => false,
+                'show_title' => false,
+                'panel'      => [
                     'is_show'     => true,
                     'icon'        => 'search',
                     'description' => 'It is a new text',

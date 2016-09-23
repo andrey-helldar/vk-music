@@ -90,9 +90,10 @@ window.appVue = new Vue({
              * @param owner_type
              * @param postData
              */
-            loadAudios(url = '/api/audio.user', title = 'Your audio', owner_id = 0, owner_type = 'default', postData = {}){
+            loadAudios(url = '', title = 'Your audio', owner_id = 0, owner_type = 'default', postData = {}){
                 this.showLoader();
-                this.getCurrentPage();
+
+                url = this.getCurrentPage();
 
                 var audio = this.$refs.audio;
                 audio.activePage.title = title;
@@ -107,16 +108,26 @@ window.appVue = new Vue({
             },
             getCurrentPage(){
                 var sharp = window.location.href.indexOf('#');
+                var url = '';
 
                 if (sharp !== false) {
                     var page = window.location.href.substr(sharp + 1);
-                    var url = '';
-
-                    switch (page) {
-                        default:
-                            url:'/api/audio.user'
-                    }
                 }
+
+                switch (page) {
+                    case 'recommendations':
+                        url = '/api/audio.recommendations';
+                        break;
+
+                    case 'popular':
+                        url = '/api/audio.popular';
+                        break;
+
+                    default:
+                        url = '/api/audio.user'
+                }
+
+                return url;
             }
         }
     }
