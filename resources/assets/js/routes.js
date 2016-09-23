@@ -1,14 +1,21 @@
-var router = new VueRouter();
+router.redirect({
+    '/':     '/users',
+    '/test': '/users'
+});
 
 router.map({
-    '/my':              {},
-    '/recommendations': {},
-    '/popular':         {}
+    '/users': {
+        component: {
+            template: '<div><h1>ha ha ha USERS</h1></div>'
+        }
+    },
+    '/test':  {
+        component: {
+            template: '<div><h1>ha ha ha TEST</h1></div>'
+        }
+    }
 });
 
-router.redirect({
-    '*':        '/404',
-    '/search':  '/search',
-    '/groups':  '/groups',
-    '/friends': '/friends'
-});
+var routerApp = Vue.extend();
+
+router.start(routerApp, '#test');

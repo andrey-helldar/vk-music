@@ -16,6 +16,10 @@ Route::get('/', [
     'uses' => 'IndexController@getIndex',
 ]);
 
+Route::get('test', function () {
+    return view('test');
+});
+
 Route::get('verify', [
     'middleware' => ['guest'],
     'uses'       => 'IndexController@getVerify',

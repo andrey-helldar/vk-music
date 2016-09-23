@@ -21,11 +21,11 @@ require('./functions');
 window.Vue = require('vue');
 var VueResource = require('vue-resource');
 var VueAsyncData = require('vue-async-data');
-//var VueRouter = require('vue-router');
+var VueRouter = require('vue-router');
 
 Vue.use(VueResource);
 Vue.use(VueAsyncData);
-//Vue.use(VueRouter);
+Vue.use(VueRouter);
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -222,3 +222,12 @@ Vue.config.devtools = app.debug; // DevTools mode is only available in developme
 Vue.config.debug = app.debug; // Debug mode is only available in development build. In production set FALSE !
 Vue.config.silent = !app.debug; //Suppress all Vue.js logs and warnings.
 Vue.config.unsafeDelimiters = ['{!!', '!!}']; // Change the raw HTML interpolation delimiters.
+
+/**
+ * Routing
+ */
+window.router = new VueRouter({
+    history: app.debug
+});
+
+require('./routes');

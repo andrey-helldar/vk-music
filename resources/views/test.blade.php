@@ -3,9 +3,11 @@
 @section('site_title')
 
 @section('content')
-    <div class="container">
+    <div class="container loader-screen-hide">
 
-        <index></index>
+        <div id="test" v-cloak>
+            <router-view class="test"></router-view>
+        </div>
 
     </div>
 @endsection
