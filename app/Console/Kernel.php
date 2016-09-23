@@ -16,7 +16,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        RequestVk::class,
         StaticInfoVk::class,
         DeleteFiles::class,
     ];
@@ -30,7 +29,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('vk:request')->everyMinute();
         $schedule->command('vk:static-info')->everyMinute();
         $schedule->command('vk:files-delete')->everyMinute();
     }

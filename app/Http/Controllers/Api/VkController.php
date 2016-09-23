@@ -10,6 +10,21 @@ use VKMUSIC\VkResponse;
 
 class VkController extends Controller
 {
+    private static $user = null;
+
+    /**
+     * Проверка сущетсвования модели юзера в переменной.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-23
+     * @since   1.0
+     */
+    private static function checkUser()
+    {
+        if (is_null(self::$user)) {
+            self::$user = \Auth::user();
+        }
+    }
 
     /**
      * Добавление задания в очередь.
@@ -25,7 +40,7 @@ class VkController extends Controller
      */
     public static function createRequest($method, $context)
     {
-        $user = \Auth::user();
+        self::checkUser();
 
         $validator = \Validator::make([
             'method'  => $method,
@@ -39,53 +54,17 @@ class VkController extends Controller
             return ResponseController::error(0, $validator->errors()->all());
         }
 
-        // Проверяем уникальность запроса.
-        $queue = VkQueue::whereUserId($user->id)->whereMethod($method)->first();
-
-        if (!is_null($queue)) {
-            return ResponseController::error(20);
-        }
-
-        // Удаляем старые полученные данные.
-        self::removeOldResponses($user->id, $method);
-
-        if (Carbon::parse($user->token->expired_at) <= Carbon::now()) {
-            return ResponseController::error(30);
-        }
-
         $context = array_merge($context, [
             'v'            => config('vk.api_version'),
-            'access_token' => $user->token->access_token,
+            'access_token' => self::$user->token->access_token,
         ]);
 
-        $queue_created = VkQueue::create([
-            'user_id'      => $user->id,
-            'access_token' => $user->token->access_token,
-            'method'       => $method,
-            'context'      => json_encode($context),
-        ]);
-
-        $position = VkQueue::where('id', '<=', $queue_created->id)->count();
+        self::sendRequest(self::$user->token->access_token, $method, $context);
 
         return ResponseController::success(0, [
             'resolve'     => trans('api.10'),
-            'description' => trans('api.12', ['position' => $position ?: 1]),
+            'description' => trans('api.12', ['position' => 1]),
         ]);
-    }
-
-    /**
-     * Удаляем старые данные из таблицы, фильтруя по вызываемому методу.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-03
-     * @since   1.0
-     *
-     * @param $user_id
-     * @param $method
-     */
-    private static function removeOldResponses($user_id, $method)
-    {
-        VkResponse::whereUserId($user_id)->whereMethod($method)->delete();
     }
 
     /**
@@ -111,5 +90,77 @@ class VkController extends Controller
         $position = VkQueue::where('id', '<=', $order->id)->count();
 
         return $position ?? 1;
+    }
+
+    /**
+     * Отправка запросов пользователя на сервер.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-23
+     * @since   1.0
+     *
+     * @param $access_token
+     * @param $method
+     * @param $context
+     */
+    private static function sendRequest($access_token, $method, $context)
+    {
+        self::checkUser();
+
+        $response = RequestController::send('POST', 'https://api.vk.com/method/' . $method, $context);
+
+        if (!empty($response->error_description)) {
+            self::storeError(self::$user->id, $method, $access_token, $response->error_description);
+        } else {
+            self::storeSuccess(self::$user->id, $method, $access_token, $response);
+        }
+    }
+
+    /**
+     * Сохранение информации об ошибке.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-03
+     * @since   1.0
+     *
+     * @param $user_id
+     * @param $method
+     * @param $access_token
+     * @param $resolve
+     */
+    private static function storeError($user_id, $method, $access_token, $resolve)
+    {
+        $response               = VkResponse::firstOrNew([
+            'user_id' => $user_id,
+            'method'  => $method,
+        ]);
+        $response->access_token = $access_token;
+        $response->context      = json_encode([
+            'error' => $resolve,
+        ]);
+        $response->save();
+    }
+
+    /**
+     * Сохранение успешной информации.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-03
+     * @since   1.0
+     *
+     * @param $user_id
+     * @param $method
+     * @param $access_token
+     * @param $response_vk
+     */
+    private static function storeSuccess($user_id, $method, $access_token, $response_vk)
+    {
+        $response               = VkResponse::firstOrNew([
+            'user_id' => $user_id,
+            'method'  => $method,
+        ]);
+        $response->access_token = $access_token;
+        $response->context      = json_encode($response_vk);
+        $response->save();
     }
 }
