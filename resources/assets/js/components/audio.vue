@@ -35,6 +35,7 @@
                             <span v-if="audio.index === $index">{{ timeToHumans(audio.currentTime) }}</span>
                         </li>
                         <li class="audio-download valign-wrapper">
+                            <i class="material-icons waves-effect-waves-light valign" @click="addMyAudio(item)">add</i>
                             <i class="material-icons waves-effect waves-light valign" @click="download(item)">file_download</i>
                         </li>
                     </ul>
@@ -471,6 +472,23 @@
                 progressBar.css({
                     width: width + '%'
                 });
+            },
+            /**
+             * Копирует аудиозапись на страницу пользователя или группы.
+             *
+             * @param item
+             */
+            addMyAudio(item){
+                this.$http.post('/api/audio.add', {
+                            audio_id: item.id,
+                            owner_id: item.owner_id
+                        }
+                )
+                        .then(function (response) {
+                                    app.info(response.data.response.resolve, 'success');
+                                }, function (response) {
+                                }
+                        );
             }
         }
     }

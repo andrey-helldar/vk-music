@@ -361,6 +361,34 @@ class AudioController extends Controller
     }
 
     /**
+     * Копирует аудиозапись на страницу пользователя или группы.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-23
+     * @since   1.0
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    function storeAdd(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'audio_id' => 'numeric',
+            'owner_id' => 'numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseController::error(0, $validator->errors()->all());
+        }
+
+        return VkController::createRequest('audio.add', [
+            'audio_id' => $request->audio_id,
+            'owner_id' => $request->owner_id,
+        ]);
+    }
+
+    /**
      * Список жанров музыки.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>

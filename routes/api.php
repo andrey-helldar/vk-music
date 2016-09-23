@@ -57,6 +57,11 @@ Route::group([
      */
     Route::get('audio.search', 'Api\AudioController@getSearch');
 
+    /**
+     * Копирует аудиозапись на страницу пользователя или группы.
+     */
+    Route::post('audio.add', 'Api\AudioController@storeAdd');
+
     // Запрос списка контактов.
     Route::post('friends.user', 'Api\FriendsController@storeFriends');
     //Получение списка контактов.

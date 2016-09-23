@@ -95,6 +95,8 @@ class RequestVk extends Command
      *
      * @param $id
      * @param $msg
+     *
+     * @return bool
      */
     private function log($id, $msg)
     {
@@ -163,7 +165,7 @@ class RequestVk extends Command
      * @param $user_id
      * @param $method
      * @param $access_token
-     * @param $response
+     * @param $response_vk
      */
     private function storeSuccess($user_id, $method, $access_token, $response_vk)
     {
