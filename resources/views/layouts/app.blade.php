@@ -34,12 +34,6 @@
 
 {{-- Content --}}
 <main>
-    <header>
-        <topmenu v-ref:top-menu></topmenu>
-    </header>
-
-    <loader-screen v-ref:loader-screen></loader-screen>
-
     @yield('content')
 </main>
 {{-- // Content --}}

@@ -1,21 +1,25 @@
-router.redirect({
-    '/':     '/users',
-    '/test': '/users'
-});
+//router.redirect({
+//    '/':     '/',
+//});
 
 router.map({
-    '/users': {
-        component: {
-            template: '<div><h1>ha ha ha USERS</h1></div>'
-        }
+    '*':        {
+        component: Vue.component('index')
     },
-    '/test':  {
-        component: {
-            template: '<div><h1>ha ha ha TEST</h1></div>'
-        }
+    '/my':      {
+        component: Vue.component('audio')
+    },
+    '/friends': {
+        component: Vue.component('friends')
+    },
+    '/groups':  {
+        component: Vue.component('groups')
+    },
+    '/search':  {
+        component: Vue.component('search')
     }
 });
 
-var routerApp = Vue.extend();
+//var routerApp = Vue.extend();
 
-router.start(routerApp, '#test');
+//router.start(routerApp, 'main');

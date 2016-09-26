@@ -23,8 +23,8 @@
                 <!--end: Пункт с именем юзера-->
 
                 <ul class="right hide-on-med-and-down">
-                    <li v-for="item in items" :class="{active: item.is_active}">
-                        <a href="{{ item.url }}" @click="setPage($index)">
+                    <li v-for="item in items" v-if="item.is_active">
+                        <a :to="{name: item.route}" @click="setPage($index)">
                             <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
                             <span v-if="item.show_title">
                                 {{ item.title }}
@@ -34,9 +34,12 @@
                 </ul>
 
                 <ul class="side-nav" id="mobile-demo">
-                    <li v-for="item in items" :class="{active: item.is_active}">
-                        <a href="{{ item.url }}" @click="setPage($index)">
-                            {{ item.title }}
+                    <li v-for="item in items" v-if="item.is_active">
+                        <a :to="{name: item.route}" @click="setPage($index)">
+                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
+                            <span v-if="item.show_title">
+                                {{ item.title }}
+                            </span>
                         </a>
                     </li>
                 </ul>

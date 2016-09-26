@@ -12,19 +12,23 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-    // Здесь будем перечислять все загружаемые компоненты
+/**
+ * Здесь будем перечислять все загружаемые компоненты
+ *
+ * @type {string[]}
+ */
 var components = [
-        'loader-screen',
-        'search',
-        'filter',
-        'topmenu',
-        'audio',
-        'friends',
-        'groups',
-        'index',
-        'vk-auth',
-        'vk-verify'
-    ];
+    'loader-screen',
+    'search',
+    'filter',
+    'topmenu',
+    'audio',
+    'friends',
+    'groups',
+    'index',
+    'vk-auth',
+    'vk-verify'
+];
 
 // Компиляция ресурсов в компоненты.
 if (components.length) {
@@ -35,8 +39,43 @@ if (components.length) {
     );
 }
 
+/**
+ * Routing.
+ */
+const router = new VueRouter({
+    history: app.debug,
+    routes:  [
+        {
+            path:      '/my',
+            name:      'my',
+            component: Vue.component('audio')
+        },
+        {
+            path:      '/friends',
+            name:      'friends',
+            component: Vue.component('friends')
+        },
+        {
+            path:      '/groups',
+            name:      'groups',
+            component: Vue.component('groups')
+        },
+        {
+            path:      '/search',
+            name:      'search',
+            component: Vue.component('search')
+        }
+    ]
+});
+
+/**
+ * Application.
+ *
+ * @type {Vue}
+ */
 window.appVue = new Vue({
-        el:      'main',
+        router,
+        //el:      'main',
         data:    {
             user: {
                 info: {}
@@ -131,7 +170,7 @@ window.appVue = new Vue({
             }
         }
     }
-);
+).$mount('main');
 
 /**
  * Routes.

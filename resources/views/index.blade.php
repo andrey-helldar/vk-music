@@ -3,9 +3,10 @@
 @section('site_title')
 
 @section('content')
-    <div class="container">
+    <header>
+        <topmenu v-ref:top-menu></topmenu>
+    </header>
 
-        <index></index>
-
-    </div>
+    <loader-screen v-ref:loader-screen></loader-screen>
+    <div class="container"></div>
 @endsection

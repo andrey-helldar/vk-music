@@ -11,67 +11,67 @@
 |
 */
 
-Route::get('/', [
+Route::get('/{slug?}', [
     'as'   => 'index',
     'uses' => 'IndexController@getIndex',
 ]);
 
-Route::get('test', function () {
-    return view('test');
-});
+//Route::get('test', function () {
+//    return view('test');
+//});
 
-Route::get('verify', [
-    'middleware' => ['guest'],
-    'uses'       => 'IndexController@getVerify',
-]);
+//Route::get('verify', [
+//    'middleware' => ['guest'],
+//    'uses'       => 'IndexController@getVerify',
+//]);
 
 /**
  * Основной список работы с аудио.
  */
-Route::get('audio', [
-    'as'   => 'audio',
-    'uses' => 'IndexController@getAudio',
-]);
+//Route::get('audio', [
+//    'as'   => 'audio',
+//    'uses' => 'IndexController@getAudio',
+//]);
 
 /**
  * Получение списка контактов.
  */
-Route::get('friends', [
-    'as'   => 'friends',
-    'uses' => 'IndexController@getFriends',
-]);
+//Route::get('friends', [
+//    'as'   => 'friends',
+//    'uses' => 'IndexController@getFriends',
+//]);
 
 /**
  * Получение списка групп пользователя.
  */
-Route::get('groups', [
-    'as'   => 'groups',
-    'uses' => 'IndexController@getGroups',
-]);
+//Route::get('groups', [
+//    'as'   => 'groups',
+//    'uses' => 'IndexController@getGroups',
+//]);
 
 /**
  * Поиск аудиозаписей.
  */
-Route::get('search', [
-    'as'   => 'search',
-    'uses' => 'IndexController@getSearch',
-]);
+//Route::get('search', [
+//    'as'   => 'search',
+//    'uses' => 'IndexController@getSearch',
+//]);
 
 /**
  * Скачивание файла.
  */
-Route::get('download/{id?}', [
-    'as'         => 'download',
-    'middleware' => ['auth'],
-    'uses'       => 'IndexController@getDownloadFile',
-]);
+//Route::get('download/{id?}', [
+//    'as'         => 'download',
+//    'middleware' => ['auth'],
+//    'uses'       => 'IndexController@getDownloadFile',
+//]);
 
 /**
  * Выход
  */
-Route::get('logout', [
-    'as'   => 'logout',
-    'uses' => 'IndexController@getLogout',
-]);
+//Route::get('logout', [
+//    'as'   => 'logout',
+//    'uses' => 'IndexController@getLogout',
+//]);
 
 //Auth::routes();

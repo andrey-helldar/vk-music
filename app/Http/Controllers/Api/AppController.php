@@ -23,88 +23,22 @@ class AppController extends Controller
      */
     public function getTopmenu()
     {
-        $menu = [
+        $menu = config('top-menu');
+
+        return ResponseController::success(0, array_merge($menu, [
             [
-                'url'       => '/audio#my',
-                'api'       => '/api/audio.user',
-                'title'     => 'My Audio',
-                'is_active' => false,
-                'panel'     => [
-                    'is_show'     => true,
-                    'show_title'  => true,
-                    'icon'        => 'audiotrack',
-                    'description' => 'It is a new text',
-                ],
-            ],
-            [
-                'url'        => '/audio#recommendations',
-                'api'        => '/api/audio.recommendations',
-                'title'      => 'Recommendations',
-                'is_active'  => false,
-                'show_title' => true,
-                'panel'      => [
-                    'is_show'     => true,
-                    'icon'        => 'thumb_up',
-                    'description' => 'It is a new text',
-                ],
-            ],
-            [
-                'url'        => '/audio#popular',
-                'api'        => '/api/audio.popular',
-                'title'      => 'Popular',
-                'is_active'  => false,
-                'show_title' => true,
-                'panel'      => [
-                    'is_show'     => true,
-                    'icon'        => 'trending_up',
-                    'description' => 'It is a new text',
-                ],
-            ],
-            [
-                'url'        => route('friends'),
-                'title'      => 'Friends',
-                'is_active'  => false,
-                'show_title' => true,
-                'panel'      => [
-                    'is_show'     => true,
-                    'icon'        => 'sentiment_satisfied',
-                    'description' => 'It is a new text',
-                ],
-            ],
-            [
-                'url'        => route('groups'),
-                'title'      => 'Groups',
-                'is_active'  => false,
-                'show_title' => true,
-                'panel'      => [
-                    'is_show'     => true,
-                    'icon'        => 'group',
-                    'description' => 'It is a new text',
-                ],
-            ],
-            [
-                'url'        => route('search'),
-                'icon'       => 'search',
-                'title'      => 'Search',
-                'is_active'  => false,
+                'is_active'  => \Auth::check(),
+                'route'      => 'logout',
+                'icon'       => 'send',
+                'title'      => 'Logout',
                 'show_title' => false,
                 'panel'      => [
-                    'is_show'     => true,
-                    'icon'        => 'search',
-                    'description' => 'It is a new text',
+                    'is_show'     => false,
+                    'icon'        => 'send',
+                    'description' => 'Logout',
                 ],
             ],
-        ];
-
-        if (\Auth::check()) {
-            $menu[] = [
-                'url'       => route('logout'),
-                'title'     => 'Logout',
-                'is_active' => false,
-            ];
-        }
-
-        return ResponseController::success(0, $menu);
+        ]));
     }
 
     /**
