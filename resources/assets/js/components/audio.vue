@@ -97,9 +97,7 @@
             }
         },
         ready() {
-            app.console('Component Audio ready.');
-        },
-        asyncData(){
+            appFunc.console('Component Audio ready.');
             this.getGenres();
 //            this.getAudio(true);
         },
@@ -137,7 +135,7 @@
                         }, postData)
                 )
                         .then(function (response) {
-                                    app.info(response.data.response.resolve, 'success');
+                                    appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
@@ -146,14 +144,14 @@
 
                                     switch (response.data.error_code) {
                                         case 20:
-                                            app.info(response.data.error, 'info');
+                                            appFunc.info(response.data.error, 'info');
                                             this.loading.wait = true;
                                             this.checkTimer();
                                             break;
 
                                         default:
                                             this.setStatus('hide');
-                                            app.info(response.data.error, 'error');
+                                            appFunc.info(response.data.error, 'error');
                                     }
                                 }
                         );
@@ -166,7 +164,7 @@
 
                 this.$http.get(this.activePage.url)
                         .then(function (response) {
-                                    app.info(response.data.response.resolve, 'success');
+                                    appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
@@ -175,12 +173,12 @@
                                     switch (response.status) {
 
                                         case 502:
-                                            app.info(response.statusText + '<br>Reloading this page...', 'error');
+                                            appFunc.info(response.statusText + '<br>Reloading this page...', 'error');
                                             location.reload();
                                             break;
 
                                         case 500:
-                                            app.console(response.statusText, 'warning');
+                                            appFunc.console(response.statusText, 'warning');
                                             break;
 
                                         case 406:
@@ -188,7 +186,7 @@
                                             break;
 
                                         case 403:
-                                            app.info(response.data.error.resolve, 'error');
+                                            appFunc.info(response.data.error.resolve, 'error');
                                             this.loading.wait = false;
                                             this.vk.offset = 0;
                                             this.vk.count_all = [];
@@ -196,7 +194,7 @@
                                             return;
 
                                         case 401:
-                                            app.console(response.statusText, 'info');
+                                            appFunc.console(response.statusText, 'info');
                                             location.href = '/';
                                             break;
 
@@ -210,7 +208,7 @@
                                             break;
 
                                         default:
-                                            app.console(response.status + ' ' + response.statusText, 'error');
+                                            appFunc.console(response.status + ' ' + response.statusText, 'error');
                                     }
 
                                     this.setStatus('wait');
@@ -274,7 +272,7 @@
                         parent.$root.showLoader(text, description, style);
 //                        }
                     } else {
-                        app.info(text, 'info', 1000);
+                        appFunc.info(text, 'info', 1000);
                     }
                 };
 
@@ -319,7 +317,7 @@
                 this.audio.duration = item.duration;
                 this.audio.title = item.artist.trim() + ' - ' + item.title.trim();
 
-                app.info('Playing: ' + this.audio.title);
+                appFunc.info('Playing: ' + this.audio.title);
 
                 this.audio.player = new Audio(item.url);
                 this.audio.player.volume = 1.0;
@@ -348,7 +346,7 @@
              */
             audioPause(){
                 if (this.audio.player !== false) {
-                    app.info('Stopped: ' + this.audio.title);
+                    appFunc.info('Stopped: ' + this.audio.title);
                     this.backgroundColor(false);
 
                     this.audio.player.pause();
@@ -371,7 +369,7 @@
             audioVolume(){
                 var parent = this;
                 var audioSetVolume = setInterval(function () {
-//                    app.console('Volume ' + parent.audio.player.volume);
+//                    appFunc.console('Volume ' + parent.audio.player.volume);
                     var volume = parent.audio.player.volume;
 
                     if (volume <= 0 || volume === undefined) {
@@ -402,7 +400,7 @@
              */
             download(item){
                 var title = item.artist.trim() + ' - ' + item.title.trim();
-                app.info('Preparing to download:<br>' + title, 'info');
+                appFunc.info('Preparing to download:<br>' + title, 'info');
 
                 this.$http.post('/api/download', {
                             url:      item.url,
@@ -413,10 +411,10 @@
                         }
                 )
                         .then(function (response) {
-                                    app.info(response.data.response.resolve, 'success');
+                                    appFunc.info(response.data.response.resolve, 'success');
                                     this.downloadFile(response.data.response.url, response.data.response.title);
                                 }, function (response) {
-                                    app.console(response.data);
+                                    appFunc.console(response.data);
                                 }
                         );
             },
@@ -428,7 +426,7 @@
 
                 element.setAttribute('href', url);
 
-                app.console(element.getAttribute('href'));
+                appFunc.console(element.getAttribute('href'));
 
                 element.style.display = 'none';
                 document.body.appendChild(element);
@@ -444,7 +442,7 @@
              * @returns {*|string}
              */
             timeToHumans(time){
-                return app.timeToHumans(time);
+                return appFunc.timeToHumans(time);
             },
             /**
              * Изменение размера бэкграунда.
@@ -485,7 +483,7 @@
                         }
                 )
                         .then(function (response) {
-                                    app.info(response.data.response.resolve, 'success');
+                                    appFunc.info(response.data.response.resolve, 'success');
                                 }, function (response) {
                                 }
                         );

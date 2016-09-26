@@ -16,7 +16,7 @@
             }
         },
         ready() {
-            app.console('Component VK Verify ready.');
+            appFunc.console('Component VK Verify ready.');
             this.dotButton();
             this.checkGetParams();
         },
@@ -25,7 +25,7 @@
              * Основная функция верификации.
              */
             vkVerify(){
-                app.info('Verifying access token...');
+                appFunc.info('Verifying access token...');
 
                 var
                         uri    = window.location.href,
@@ -33,10 +33,10 @@
 
                 this.$http.post('/api/vk.verify', params)
                         .then(function (response) {
-                                    app.info(response.data.response, 'success');
+                                    appFunc.info(response.data.response, 'success');
                                     window.location.href = '/';
                                 }, function (response) {
-                                    app.info(response.data.error, 'error');
+                                    appFunc.info(response.data.error, 'error');
                                 }
                         );
             },

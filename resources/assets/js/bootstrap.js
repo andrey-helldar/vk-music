@@ -20,12 +20,10 @@ require('./functions');
 
 window.Vue = require('vue');
 var VueResource = require('vue-resource');
-var VueAsyncData = require('vue-async-data');
-window.VueRouter = require('vue-router');
+//var VueAsyncData = require('vue-async-data');
 
 Vue.use(VueResource);
-Vue.use(VueAsyncData);
-Vue.use(VueRouter);
+//Vue.use(VueAsyncData);
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -57,7 +55,7 @@ Vue.http.interceptors.push(
 /**
  * Other
  */
-window.app = {
+window.appFunc = {
     debug: true, // Global parameter to settings of Vue.js.
     trans: [], // Перевод элементов.
     page:  0, // Номер текущей страницы. Нумерация начинается с нуля.
@@ -80,7 +78,7 @@ window.app = {
      * @param {int} delay
      */
     info: function (text, style = 'info', delay = 4000) {
-        if (app.empty(style)) {
+        if (appFunc.empty(style)) {
             style = 'info';
         }
 
@@ -88,7 +86,7 @@ window.app = {
             delay = 4000;
         }
 
-        Materialize.toast(text, delay, app.toast.style[style]);
+        Materialize.toast(text, delay, appFunc.toast.style[style]);
     },
 
     /**
@@ -109,7 +107,7 @@ window.app = {
      * @returns {boolean}
      */
     console: function (data, type) {
-        if (app.debug !== true) {
+        if (appFunc.debug !== true) {
             return false;
         }
 
@@ -133,7 +131,7 @@ window.app = {
 
     build_query(obj) {
         if (typeof obj !== 'array' && typeof obj !== 'object') {
-            app.info('Unknown data', 'error');
+            appFunc.info('Unknown data', 'error');
             return '';
         }
 
@@ -176,9 +174,9 @@ window.app = {
         var seconds = date.getSeconds();
         var exp = [];
 
-        exp = app.pushDateArray(exp, hours);
-        exp = app.pushDateArray(exp, minutes, true);
-        exp = app.pushDateArray(exp, seconds, true);
+        exp = appFunc.pushDateArray(exp, hours);
+        exp = appFunc.pushDateArray(exp, minutes, true);
+        exp = appFunc.pushDateArray(exp, seconds, true);
 
         return exp.join(':');
     },
@@ -206,7 +204,7 @@ window.app = {
      */
     pushDateArray(arr, num = 0, zero = false){
         if (num > 0 || zero === true) {
-            num = app.numAddZero(num);
+            num = appFunc.numAddZero(num);
             arr.push(num);
         }
 
@@ -218,7 +216,7 @@ window.app = {
  * Other parameters of Vue.js.
  */
 Vue.config.async = true;
-Vue.config.devtools = app.debug; // DevTools mode is only available in development build. In production set FALSE !
-Vue.config.debug = app.debug; // Debug mode is only available in development build. In production set FALSE !
-Vue.config.silent = !app.debug; //Suppress all Vue.js logs and warnings.
+Vue.config.devtools = appFunc.debug; // DevTools mode is only available in development build. In production set FALSE !
+Vue.config.debug = appFunc.debug; // Debug mode is only available in development build. In production set FALSE !
+Vue.config.silent = !appFunc.debug; //Suppress all Vue.js logs and warnings.
 Vue.config.unsafeDelimiters = ['{!!', '!!}']; // Change the raw HTML interpolation delimiters.

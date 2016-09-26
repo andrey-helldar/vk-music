@@ -18,15 +18,13 @@
                     display:       'page',
                     scope:         'offline,audio',
                     response_type: 'code',
-                    v:             5.53,
+                    v:             5.53
                 }
             }
         },
         ready() {
-            app.console('Component VK Auth ready.');
-        },
-        asyncData(){
             this.getVkParams();
+            appFunc.console('Component VK Auth ready.');
         },
         watch:   {
             'vk.client_id': {
@@ -43,12 +41,12 @@
                                     this.vk = response.data.response;
                                 }, function (response) {
                                     this.vk.client_id = 0;
-                                    app.info('Error loading parameters. Please, reload this page.', 'error');
+                                    appFunc.info('Error loading parameters. Please, reload this page.', 'error');
                                 }
                         );
             },
             vkAuth(){
-                var query = app.build_query(this.vk);
+                var query = appFunc.build_query(this.vk);
 
                 window.location.href = 'https://oauth.vk.com/authorize?' + query;
             }

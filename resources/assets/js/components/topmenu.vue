@@ -24,7 +24,7 @@
 
                 <ul class="right hide-on-med-and-down">
                     <li v-for="item in items" v-if="item.is_active">
-                        <a :to="{name: item.route}" @click="setPage($index)">
+                        <a to="/" @click="setPage($index)">
                             <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
                             <span v-if="item.show_title">
                                 {{ item.title }}
@@ -35,7 +35,7 @@
 
                 <ul class="side-nav" id="mobile-demo">
                     <li v-for="item in items" v-if="item.is_active">
-                        <a :to="{name: item.route}" @click="setPage($index)">
+                        <a to="/my" @click="setPage($index)">
                             <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
                             <span v-if="item.show_title">
                                 {{ item.title }}
@@ -56,10 +56,8 @@
             }
         },
         ready() {
-            app.console('Component Top Menu ready.');
-        },
-        asyncData(){
             this.getTopmenu();
+            appFunc.console('Component Top Menu ready.');
         },
         methods: {
             /**
@@ -72,10 +70,10 @@
                                 this.items = response.data.response;
                                 this.setTopMenuActiveDefault();
                             } else {
-                                app.info(response.data.error, 'error');
+                                appFunc.info(response.data.error, 'error');
                             }
                         }, function (response) {
-                            app.info(response.data.error, 'error');
+                            appFunc.info(response.data.error, 'error');
                         }
                 );
             },

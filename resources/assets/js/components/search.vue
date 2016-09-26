@@ -20,7 +20,7 @@
             }
         },
         ready(){
-            app.console('Component Search ready.');
+            appFunc.console('Component Search ready.');
         },
         methods: {
             searching(){
@@ -28,7 +28,7 @@
                 var query = form.find('input[name=q]').val();
                 var parent = this;
 
-                app.info('Searching:<br>"' + query + '"...');
+                appFunc.info('Searching:<br>"' + query + '"...');
 
                 this.$root.loadAudios(parent.url, parent.title, 0, 'default', {
                     q: query

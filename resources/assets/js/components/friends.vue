@@ -76,10 +76,8 @@
             }
         },
         ready(){
-            app.console('Component Friends ready.');
-        },
-        asyncData(){
             this.getFriends();
+            appFunc.console('Component Friends ready.');
         },
         watch:   {
             'items':   {
@@ -108,7 +106,7 @@
                         }
                 )
                         .then(function (response) {
-                                    app.info(response.data.response.resolve, 'success');
+                                    appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
@@ -117,14 +115,14 @@
 
                                     switch (response.data.error_code) {
                                         case 20:
-                                            app.info(response.data.error, 'info');
+                                            appFunc.info(response.data.error, 'info');
                                             this.loading.wait = true;
                                             this.checkTimer();
                                             break;
 
                                         default:
                                             this.setStatus('hide');
-                                            app.info(response.data.error, 'error');
+                                            appFunc.info(response.data.error, 'error');
                                     }
                                 }
                         );
@@ -137,7 +135,7 @@
 
                 this.$http.get(this.url)
                         .then(function (response) {
-                                    app.info(response.data.response.resolve, 'success');
+                                    appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
@@ -146,12 +144,12 @@
                                     switch (response.status) {
 
                                         case 502:
-                                            app.info(response.statusText + '<br>Reloading this page...', 'error');
+                                            appFunc.info(response.statusText + '<br>Reloading this page...', 'error');
                                             location.reload();
                                             break;
 
                                         case 500:
-                                            app.console(response.statusText, 'warning');
+                                            appFunc.console(response.statusText, 'warning');
                                             break;
 
                                         case 406:
@@ -159,7 +157,7 @@
                                             break;
 
                                         case 401:
-                                            app.console(response.statusText, 'info');
+                                            appFunc.console(response.statusText, 'info');
                                             location.href = '/';
                                             break;
 
@@ -173,7 +171,7 @@
                                             break;
 
                                         default:
-                                            app.console(response.status + ' ' + response.statusText, 'error');
+                                            appFunc.console(response.status + ' ' + response.statusText, 'error');
                                     }
 
                                     this.setStatus('wait');
@@ -208,7 +206,7 @@
                         parent.$root.showLoader(text, description, style);
 //                        }
                     } else {
-                        app.info(text, 'info', 1000);
+                        appFunc.info(text, 'info', 1000);
                     }
                 };
 

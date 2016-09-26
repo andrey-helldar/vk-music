@@ -6,6 +6,10 @@
 
 require('./bootstrap');
 
+var VueRouter = require('vue-router');
+
+Vue.use(VueRouter);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the body of the page. From here, you may begin adding components to
@@ -45,9 +49,9 @@ if (components.length) {
 const routes = [
     {
         path:      '/',
-        name:      'index',
         component: {
-            template: '<h1>Index page!</h1>'
+            //template: Vue.component('index')
+            template: '<h1 class="loader-screen-hide">I SEE YOU!</h1>'
         }
     },
     {
@@ -75,9 +79,8 @@ const routes = [
 /**
  * Router.
  */
-const routes = new VueRouter({
-    history: false,
-             routes
+const router = new VueRouter({
+    routes
 });
 
 /**
@@ -85,8 +88,9 @@ const routes = new VueRouter({
  *
  * @type {Vue}
  */
-window.appVue = new Vue({
-             routes,
+const app = new Vue({
+    el:      'main',
+             router,
     data:    {
         user: {
             info: {}
@@ -94,7 +98,7 @@ window.appVue = new Vue({
     },
     ready(){
         this.getUserInfo();
-        app.console('Component Main ready.');
+        appFunc.console('Component Main ready.');
     },
     methods: {
         /**
@@ -125,7 +129,7 @@ window.appVue = new Vue({
                         this.user.info = response.data.response;
                     }
                 }, function (response) {
-                    //app.info(response.data.error, 'error');
+                    //appFunc.info(response.data.error, 'error');
                 }
             );
         },
@@ -139,7 +143,7 @@ window.appVue = new Vue({
          * @param owner_type
          * @param postData
          */
-        loadAudios(url = '', title = 'Your audio', owner_id = 0, owner_type = 'default', postData = {}){
+        loadAudios(url = '', title = 'My audios', owner_id = 0, owner_type = 'default', postData = {}){
             this.showLoader();
 
             if (url.length == 0) {
@@ -158,11 +162,4 @@ window.appVue = new Vue({
             audio.getAudio(true, postData);
         }
     }
-}).$mount('main');
-
-/**
- * Route redirecting.
- */
-//router.redirect({
-//    '*': '/'
-//});
+});

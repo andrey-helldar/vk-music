@@ -18,7 +18,7 @@ function isScrolledIntoView(element) {
  */
 function loadAudios(codeElem = '.audio-auto-loading') {
     if ($('*').is(codeElem)) {
-        appVue.loadAudios();
+        app.loadAudios();
     }
 }
 

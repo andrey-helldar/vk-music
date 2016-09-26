@@ -34,7 +34,7 @@
             // Если на странице найден блок с определенным классом - вырубаем лоадер.
             this.hideOnClass('loader-screen-hide');
 
-            app.console('Component Loader Screen ready.');
+            appFunc.console('Component Loader Screen ready.');
         },
         watch:   {
             /**
@@ -125,7 +125,7 @@
              * @returns {*|string}
              */
             timeToHumans(time){
-                return app.timeToHumans(time);
+                return appFunc.timeToHumans(time);
             },
             /**
              * Если на странице найден элемент с тегом "loader-screen-hide" - скрываем лоадер.

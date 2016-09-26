@@ -31,10 +31,8 @@
             }
         },
         ready(){
-            app.console('Component Index ready.');
-        },
-        asyncData(){
             this.getItems();
+            appFunc.console('Component Index ready.');
         },
         methods: {
             getItems(){
@@ -43,12 +41,12 @@
                             if (response.data.error == undefined) {
                                 this.items = response.data.response;
                             } else {
-                                app.info(response.data.error, 'error');
+                                appFunc.info(response.data.error, 'error');
                             }
 
                             this.$root.hideLoader();
                         }, function (response) {
-                            app.info(response.data.error, 'error');
+                            appFunc.info(response.data.error, 'error');
                             this.$root.hideLoader();
                         }
                 );
