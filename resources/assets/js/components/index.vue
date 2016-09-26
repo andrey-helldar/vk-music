@@ -1,24 +1,26 @@
 <template>
-    <div class="row">
+    <div class="container">
+        <div class="row">
 
-        <div class="col s6" v-for="item in items" v-if="item.panel.is_show === true">
-            <div class="panel hoverable">
-                <div class="panel-image">
-                    <i class="material-icons">{{ item.panel.icon }}</i>
-                </div>
-                <div class="panel-content">
-                    <h2>{{ item.title }}</h2>
-                    <p>{{ item.panel.description }}</p>
+            <div class="col s6" v-for="item in items" v-if="item.panel.is_show === true">
+                <div class="panel hoverable">
+                    <div class="panel-image">
+                        <i class="material-icons">{{ item.panel.icon }}</i>
+                    </div>
+                    <div class="panel-content">
+                        <h2>{{ item.title }}</h2>
+                        <p>{{ item.panel.description }}</p>
 
-                    <div class="panel-action">
-                        <a href="{{ item.url }}">
-                            Go to page
-                        </a>
+                        <div class="panel-action">
+                            <a href="{{ item.url }}">
+                                Go to page
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </template>
 <script>
@@ -29,7 +31,7 @@
             }
         },
         ready(){
-            app.console('Component Main ready.');
+            app.console('Component Index ready.');
         },
         asyncData(){
             this.getItems();
@@ -43,12 +45,13 @@
                             } else {
                                 app.info(response.data.error, 'error');
                             }
+
+                            this.$root.hideLoader();
                         }, function (response) {
                             app.info(response.data.error, 'error');
+                            this.$root.hideLoader();
                         }
                 );
-
-                this.$root.hideLoader();
             }
         }
     }

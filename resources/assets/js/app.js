@@ -40,32 +40,44 @@ if (components.length) {
 }
 
 /**
- * Routing.
+ * Routes.
  */
-const router = new VueRouter({
-    history: app.debug,
-    routes:  [
-        {
-            path:      '/my',
-            name:      'my',
-            component: Vue.component('audio')
-        },
-        {
-            path:      '/friends',
-            name:      'friends',
-            component: Vue.component('friends')
-        },
-        {
-            path:      '/groups',
-            name:      'groups',
-            component: Vue.component('groups')
-        },
-        {
-            path:      '/search',
-            name:      'search',
-            component: Vue.component('search')
+const routes = [
+    {
+        path:      '/',
+        name:      'index',
+        component: {
+            template: '<h1>Index page!</h1>'
         }
-    ]
+    },
+    {
+        path:      '/my',
+        name:      'my',
+        component: Vue.component('audio')
+    },
+    {
+        path:      '/friends',
+        name:      'friends',
+        component: Vue.component('friends')
+    },
+    {
+        path:      '/groups',
+        name:      'groups',
+        component: Vue.component('groups')
+    },
+    {
+        path:      '/search',
+        name:      'search',
+        component: Vue.component('search')
+    }
+];
+
+/**
+ * Router.
+ */
+const routes = new VueRouter({
+    history: false,
+             routes
 });
 
 /**
@@ -74,105 +86,83 @@ const router = new VueRouter({
  * @type {Vue}
  */
 window.appVue = new Vue({
-        router,
-        //el:      'main',
-        data:    {
-            user: {
-                info: {}
-            }
+             routes,
+    data:    {
+        user: {
+            info: {}
+        }
+    },
+    ready(){
+        this.getUserInfo();
+        app.console('Component Main ready.');
+    },
+    methods: {
+        /**
+         * Обображение лоадера.
+         *
+         * @param text
+         * @param description
+         * @param style_type
+         */
+        showLoader(text = 'Loading...', description = '', style_type = 'wait'){
+            var loaderElement = this.$refs.loaderScreen;
+            loaderElement.showLoader(text, description, style_type);
         },
-        ready(){
-            app.console('Component Main ready.');
-
-            this.getUserInfo();
+        /**
+         * Скрытие лоадера.
+         */
+        hideLoader(){
+            var loaderElement = this.$refs.loaderScreen;
+            loaderElement.hideLoader();
         },
-        methods: {
-            /**
-             * Обображение лоадера.
-             *
-             * @param text
-             * @param description
-             * @param style_type
-             */
-            showLoader(text = 'Loading...', description = '', style_type = 'wait'){
-                var loaderElement = this.$refs.loaderScreen;
-                loaderElement.showLoader(text, description, style_type);
-            },
-            /**
-             * Скрытие лоадера.
-             */
-            hideLoader(){
-                var loaderElement = this.$refs.loaderScreen;
-                loaderElement.hideLoader();
-            },
-            /**
-             * Получение информации о текущем пользователе.
-             */
-            getUserInfo(){
-                this.$http.get('/api/current.user.info').then(
-                    function (response) {
-                        if (response.data.error == undefined) {
-                            this.user.info = response.data.response;
-                        }
-                    }, function (response) {
-                        //app.info(response.data.error, 'error');
+        /**
+         * Получение информации о текущем пользователе.
+         */
+        getUserInfo(){
+            this.$http.get('/api/current.user.info').then(
+                function (response) {
+                    if (response.data.error == undefined) {
+                        this.user.info = response.data.response;
                     }
-                );
-            },
-            /**
-             * Передача параметра на загрузку аудио.
-             * Необходимо при работе с некоторыми страницами.
-             *
-             * @param url
-             * @param title
-             * @param owner_id
-             * @param owner_type
-             * @param postData
-             */
-            loadAudios(url = '', title = 'Your audio', owner_id = 0, owner_type = 'default', postData = {}){
-                this.showLoader();
-
-                url = this.getCurrentPage();
-
-                var audio = this.$refs.audio;
-                audio.activePage.title = title;
-                audio.activePage.url = url;
-                audio.vk.count_all = 0;
-                audio.vk.offset = 0;
-                audio.vk.owner_id = owner_id;
-                audio.vk.owner_type = owner_type;
-                audio.items = [];
-
-                audio.getAudio(true, postData);
-            },
-            getCurrentPage(){
-                var sharp = window.location.href.indexOf('#');
-                var url = '';
-
-                if (sharp !== false) {
-                    var page = window.location.href.substr(sharp + 1);
+                }, function (response) {
+                    //app.info(response.data.error, 'error');
                 }
+            );
+        },
+        /**
+         * Передача параметра на загрузку аудио.
+         * Необходимо при работе с некоторыми страницами.
+         *
+         * @param url
+         * @param title
+         * @param owner_id
+         * @param owner_type
+         * @param postData
+         */
+        loadAudios(url = '', title = 'Your audio', owner_id = 0, owner_type = 'default', postData = {}){
+            this.showLoader();
 
-                switch (page) {
-                    case 'recommendations':
-                        url = '/api/audio.recommendations';
-                        break;
-
-                    case 'popular':
-                        url = '/api/audio.popular';
-                        break;
-
-                    default:
-                        url = '/api/audio.user'
-                }
-
-                return url;
+            if (url.length == 0) {
+                return;
             }
+
+            var audio = this.$refs.audio;
+            audio.activePage.title = title;
+            audio.activePage.url = url;
+            audio.vk.count_all = 0;
+            audio.vk.offset = 0;
+            audio.vk.owner_id = owner_id;
+            audio.vk.owner_type = owner_type;
+            audio.items = [];
+
+            audio.getAudio(true, postData);
         }
     }
-).$mount('main');
+}).$mount('main');
 
 /**
- * Routes.
+ * Route redirecting.
  */
-//require('./routes');
+//router.redirect({
+//    '*': '/'
+//});

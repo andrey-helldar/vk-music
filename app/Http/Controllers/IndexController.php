@@ -19,7 +19,7 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getIndex()
+    public function getIndex($slug = null)
     {
         return view('index');
     }
