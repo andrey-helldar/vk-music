@@ -6,10 +6,6 @@
 
 require('./bootstrap');
 
-var VueRouter = require('vue-router');
-
-Vue.use(VueRouter);
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the body of the page. From here, you may begin adding components to
@@ -44,53 +40,12 @@ if (components.length) {
 }
 
 /**
- * Routes.
- */
-const routes = [
-    {
-        path:      '/',
-        component: {
-            //template: Vue.component('index')
-            template: '<h1 class="loader-screen-hide">I SEE YOU!</h1>'
-        }
-    },
-    {
-        path:      '/my',
-        name:      'my',
-        component: Vue.component('audio')
-    },
-    {
-        path:      '/friends',
-        name:      'friends',
-        component: Vue.component('friends')
-    },
-    {
-        path:      '/groups',
-        name:      'groups',
-        component: Vue.component('groups')
-    },
-    {
-        path:      '/search',
-        name:      'search',
-        component: Vue.component('search')
-    }
-];
-
-/**
- * Router.
- */
-const router = new VueRouter({
-    routes
-});
-
-/**
  * Application.
  *
  * @type {Vue}
  */
-const app = new Vue({
+window.app = new Vue({
     el:      'main',
-             router,
     data:    {
         user: {
             info: {}
@@ -163,3 +118,8 @@ const app = new Vue({
         }
     }
 });
+
+/*
+ * Routes.
+ */
+require('./routes');
