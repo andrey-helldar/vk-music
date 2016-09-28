@@ -1,5 +1,5 @@
 <template>
-    <div class="container loader-screen-hide">
+    <div class="container">
         <h3>
             Search
         </h3>
@@ -22,6 +22,7 @@
             }
         },
         ready(){
+            this.$parent.hideLoader();
             appFunc.console('Component Search ready.');
         },
         methods: {
@@ -32,7 +33,7 @@
 
                 appFunc.info('Searching:<br>"' + query + '"...');
 
-                this.$root.loadAudios(parent.url, parent.title, 0, 'default', {
+                this.$parent.loadAudios(parent.url, parent.title, 0, 'default', {
                     q: query
                 });
 

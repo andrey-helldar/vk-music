@@ -104,13 +104,13 @@
         watch:   {
             'items':   {
                 handler: function (newValue, oldValue) {
-                    this.$root.hideLoader();
+                    this.$parent.hideLoader();
                 }
             },
             'loading': {
                 handler: function (newValue, oldValue) {
                     if (this.loading.showLoader === true) {
-                        this.$root.showLoader('Please, wait...', newValue.position);
+                        this.$parent.showLoader('Please, wait...', newValue.position);
                     }
                 },
                 deep:    true
@@ -269,7 +269,7 @@
                 var notify = function (parent, text, description, style, showModal = true) {
                     if (parent.loading.showLoader === true) {
 //                        if (showModal === true) {
-                        parent.$root.showLoader(text, description, style);
+                        parent.$parent.showLoader(text, description, style);
 //                        }
                     } else {
                         appFunc.info(text, 'info', 1000);
@@ -290,7 +290,7 @@
                         break;
 
                     default:
-                        this.$root.hideLoader();
+                        this.$parent.hideLoader();
                 }
             },
             /**

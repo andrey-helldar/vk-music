@@ -15,7 +15,8 @@
 //    return $request->user();
 //})->middleware('auth:api');
 
-Route::get('topmenu', 'Api\AppController@getTopmenu');
+Route::get('top.menu', 'Api\AppController@getTopMenu');
+Route::get('main.blocks', 'Api\AppController@getMainBlocks');
 Route::get('vk.params', 'Api\AppController@getParams');
 Route::post('vk.verify', 'Auth\VkController@postVerify');
 

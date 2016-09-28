@@ -1,27 +1,18 @@
 <template>
-    <div>
-        <header-component/>
-        <div>this is template body</div>
-        <other-component/>
-    </div>
+    <header>
+        <div class="container">
+            <h1>
+                <a v-link="{path: '/'}">
+                    <img src="/images/logotype.svg" alt="" class="logotype">
+                </a>
+            </h1>
+        </div>
+    </header>
 </template>
-<style>
-    body{
-        background-color:#ff0000;
-    }
-</style>
 <script>
-    import HeaderComponent from './components/header.vue'
-    import OtherComponent from './components/other.vue'
     export default{
         data(){
-            return{
-                msg:'hello vue'
-            }
-        },
-        components:{
-            'other-component':OtherComponent,
-            HeaderComponent,
+            return {}
         }
     }
 </script>

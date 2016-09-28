@@ -16,11 +16,11 @@ function isScrolledIntoView(element) {
 /**
  * Загрузка аудио на страницах без автозагрузки)
  */
-function loadAudios(codeElem = '.audio-auto-loading') {
-    if ($('*').is(codeElem)) {
-        app.loadAudios();
-    }
-}
+//function loadAudios(codeElem = '.audio-auto-loading') {
+//    if ($('*').is(codeElem)) {
+//        appFunc.loadAudios();
+//    }
+//}
 
 $(document).ready(
     function () {
@@ -33,20 +33,20 @@ $(document).ready(
         });
 
         Materialize.updateTextFields();
-        loadAudios();
+        //loadAudios();
 
 
-        $(window).scroll(function () {
+        //$(window).scroll(function () {
 
-            /**
-             * Загрузка аудио по списку.
-             * @type {any}
-             */
-            //var moreAudio = $('.more-audio');
-            //
-            //if (isScrolledIntoView(moreAudio)) {
-            //    moreAudio.click();
-            //}
-        });
+        /**
+         * Загрузка аудио по списку.
+         * @type {any}
+         */
+        //var moreAudio = $('.more-audio');
+        //
+        //if (isScrolledIntoView(moreAudio)) {
+        //    moreAudio.click();
+        //}
+        //});
     }
 );

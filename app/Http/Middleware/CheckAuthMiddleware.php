@@ -31,8 +31,6 @@ class CheckAuthMiddleware
         if (is_null($user)) {
             if ($request->ajax() || $request->wantsJson()) {
                 return ResponseController::error(2);
-            } else {
-                return redirect()->guest('/');
             }
         }
 

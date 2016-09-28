@@ -21,24 +21,34 @@ class AppController extends Controller
      *
      * @return mixed
      */
-    public function getTopmenu()
+    public function getTopMenu()
     {
-        $menu = config('top-menu');
+        $menu = config('top-menu', []);
 
         return ResponseController::success(0, array_merge($menu, [
             [
-                'is_active'  => \Auth::check(),
-                'route'      => 'logout',
-                'icon'       => 'send',
-                'title'      => 'Logout',
-                'show_title' => false,
-                'panel'      => [
-                    'is_show'     => false,
-                    'icon'        => 'send',
-                    'description' => 'Logout',
-                ],
+                'is_active' => \Auth::check(),
+                'url'       => '/logout',
+                'title'     => 'Logout',
+                'icon'      => 'send',
             ],
         ]));
+    }
+
+    /**
+     * Получение блоков для главной страницы.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-28
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function getMainBlocks()
+    {
+        $blocks = config('main-blocks', []);
+
+        return ResponseController::success(0, $blocks);
     }
 
     /**

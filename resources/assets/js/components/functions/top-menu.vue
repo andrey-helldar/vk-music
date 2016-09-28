@@ -7,7 +7,7 @@
                 <!--start: Пункт с именем юзера-->
                 <ul class="left hide-on-med-and-down">
                     <li>
-                        <a href="/">
+                        <a v-link="{path: '/'}">
                             Hello, {{ user('first_name', 'Guest') }}!
                         </a>
                     </li>
@@ -80,7 +80,7 @@
              * @returns {*}
              */
             user(param, defaultText = undefined){
-                var data = this.$root.$data.user.info[param];
+                var data = this.$parent.$data.user.info[param];
 
                 if (data === undefined) {
                     if (defaultText !== undefined) {

@@ -21,6 +21,10 @@ class IndexController extends Controller
      */
     public function getIndex($slug = null)
     {
+        if (!is_null($slug)) {
+            return redirect()->route('index');
+        }
+
         return view('app');
     }
 

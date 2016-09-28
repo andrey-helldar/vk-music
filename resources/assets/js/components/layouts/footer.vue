@@ -19,9 +19,10 @@
         </div>
         <div class="footer-copyright">
             <div class="container">
-                © {{ \Carbon\Carbon::now()->format('Y') }} VK Music
+                © 2016 VK Music
+
                 <a class="grey-text text-lighten-4 right" href="#">
-                    {{ trans('buttons.to_top') }}
+                    To top
                 </a>
             </div>
         </div>
@@ -30,9 +31,7 @@
 <script>
     export default{
         data(){
-            return {
-                msg: 'hello vue'
-            }
+            return {}
         }
     }
 </script>

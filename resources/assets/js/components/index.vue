@@ -3,17 +3,17 @@
         <div class="row">
 
             <div v-for="item in items" v-cloak>
-                <div class="col s6" v-if="item.panel.is_show === true">
+                <div class="col s6" v-if="item.is_active">
                     <div class="panel hoverable">
                         <div class="panel-image">
-                            <i class="material-icons">{{ item.panel.icon }}</i>
+                            <i class="material-icons">{{ item.icon }}</i>
                         </div>
                         <div class="panel-content">
                             <h2>{{ item.title }}</h2>
-                            <p>{{ item.panel.description }}</p>
+                            <p>{{ item.description }}</p>
 
                             <div class="panel-action">
-                                <a href="{{ item.url }}">
+                                <a v-link="{path: item.url}">
                                     Go to page
                                 </a>
                             </div>
@@ -38,7 +38,7 @@
         },
         methods: {
             getItems(){
-                this.$http.get('topmenu').then(
+                this.$http.get('main.blocks').then(
                         function (response) {
                             if (response.data.error == undefined) {
                                 this.items = response.data.response;
@@ -46,10 +46,10 @@
                                 appFunc.info(response.data.error, 'error');
                             }
 
-                            this.$root.hideLoader();
+                            this.$parent.hideLoader();
                         }, function (response) {
                             appFunc.info(response.data.error, 'error');
-                            this.$root.hideLoader();
+                            this.$parent.hideLoader();
                         }
                 );
             }
