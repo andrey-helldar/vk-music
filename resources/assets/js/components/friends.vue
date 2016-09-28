@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <h3>
         Friends
         <sup class="grey-text text-lighten-2" v-if="items.length">
@@ -71,7 +71,7 @@
                     offset:    0,
                     count_all: 0
                 },
-                url:            '/api/friends.user',
+                url:            'friends.user',
                 selectedUserId: 0
             }
         },
@@ -105,12 +105,12 @@
                             fields: 'photo_50'
                         }
                 )
-                        .then(function (response) {
+                        .then((response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
-                                }, function (response) {
+                                }, (response) => {
                                     this.loading.wait = false;
 
                                     switch (response.data.error_code) {
@@ -134,13 +134,13 @@
                 this.setStatus('check');
 
                 this.$http.get(this.url)
-                        .then(function (response) {
+                        .then((response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
-                                }, function (response) {
+                                }, (response) => {
                                     switch (response.status) {
 
                                         case 502:
@@ -242,7 +242,7 @@
             getFriendAudios(item){
                 var title = item.first_name + ' ' + item.last_name;
 
-                this.$root.loadAudios('/api/audio.user', title, item.id, 'user');
+                this.$root.loadAudios('audio.user', title, item.id, 'user');
             }
         }
     }

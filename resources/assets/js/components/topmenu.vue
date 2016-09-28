@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <nav>
         <div class="container">
             <div class="nav-wrapper">
@@ -23,25 +23,29 @@
                 <!--end: Пункт с именем юзера-->
 
                 <ul class="right hide-on-med-and-down">
-                    <li v-for="item in items" v-if="item.is_active">
-                        <a to="/" @click="setPage($index)">
-                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                            <span v-if="item.show_title">
+                    <div v-for="item in items" v-cloak>
+                        <li v-if="item.is_active">
+                            <a to="/" @click="setPage($index)">
+                                <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
+                                <span v-if="item.show_title">
                                 {{ item.title }}
                             </span>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
+                    </div>
                 </ul>
 
                 <ul class="side-nav" id="mobile-demo">
-                    <li v-for="item in items" v-if="item.is_active">
-                        <a to="/my" @click="setPage($index)">
-                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                            <span v-if="item.show_title">
+                    <div v-for="item in items" v-cloak>
+                        <li v-if="item.is_active">
+                            <a to="/" @click="setPage($index)">
+                                <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
+                                <span v-if="item.show_title">
                                 {{ item.title }}
                             </span>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
+                    </div>
                 </ul>
             </div>
         </div>
@@ -64,7 +68,7 @@
              * Получение списка меню.
              */
             getTopmenu(){
-                this.$http.get('/api/topmenu').then(
+                this.$http.get('topmenu').then(
                         function (response) {
                             if (response.data.error == undefined) {
                                 this.items = response.data.response;

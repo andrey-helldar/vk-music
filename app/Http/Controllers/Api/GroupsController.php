@@ -53,7 +53,7 @@ class GroupsController extends Controller
     public function getGroups()
     {
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($this->method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($this->method)->where('updated_at', '<', $user->userToken->expired_at)->first();
         $position = VkController::queuePosition($this->method, $user->id);
 
         if (is_null($response)) {

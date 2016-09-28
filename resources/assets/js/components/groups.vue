@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <h3>
         Groups
         <sup class="grey-text text-lighten-2" v-if="items.length">
@@ -64,7 +64,7 @@
                     offset:    0,
                     count_all: 0
                 },
-                url:            '/api/groups.user',
+                url:            'groups.user',
                 selectedUserId: 0
             }
         },
@@ -233,7 +233,7 @@
              * @param item
              */
             getGroupAudios(item){
-                this.$root.loadAudios('/api/audio.user', item.name, item.id, 'group');
+                this.$root.loadAudios('audio.user', item.name, item.id, 'group');
             }
         }
     }

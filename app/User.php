@@ -2,9 +2,9 @@
 
 namespace VKMUSIC;
 
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -39,7 +39,7 @@ class User extends Authenticatable
      * @since   1.0
      *
      */
-    public function token()
+    public function userToken()
     {
         return $this->hasOne(VkUser::class);
     }

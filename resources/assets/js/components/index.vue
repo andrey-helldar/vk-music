@@ -1,20 +1,22 @@
-<template lang="jade">
+<template>
     <div class="container">
         <div class="row">
 
-            <div class="col s6" v-for="item in items" v-if="item.panel.is_show === true">
-                <div class="panel hoverable">
-                    <div class="panel-image">
-                        <i class="material-icons">{{ item.panel.icon }}</i>
-                    </div>
-                    <div class="panel-content">
-                        <h2>{{ item.title }}</h2>
-                        <p>{{ item.panel.description }}</p>
+            <div v-for="item in items" v-cloak>
+                <div class="col s6" v-if="item.panel.is_show === true">
+                    <div class="panel hoverable">
+                        <div class="panel-image">
+                            <i class="material-icons">{{ item.panel.icon }}</i>
+                        </div>
+                        <div class="panel-content">
+                            <h2>{{ item.title }}</h2>
+                            <p>{{ item.panel.description }}</p>
 
-                        <div class="panel-action">
-                            <a href="{{ item.url }}">
-                                Go to page
-                            </a>
+                            <div class="panel-action">
+                                <a href="{{ item.url }}">
+                                    Go to page
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -36,7 +38,7 @@
         },
         methods: {
             getItems(){
-                this.$http.get('/api/topmenu').then(
+                this.$http.get('topmenu').then(
                         function (response) {
                             if (response.data.error == undefined) {
                                 this.items = response.data.response;

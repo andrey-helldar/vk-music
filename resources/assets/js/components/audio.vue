@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <h3>
         <i class="material-icons">audiotrack</i>
         {{ activePage.title }}
@@ -92,7 +92,7 @@
                 },
                 activePage:  {
                     title: 'Your audio',
-                    url:   '/api/audio.user'
+                    url:   'audio.user'
                 }
             }
         },
@@ -134,12 +134,12 @@
                             owner_id:   this.vk.owner_id
                         }, postData)
                 )
-                        .then(function (response) {
+                        .then((response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
-                                }, function (response) {
+                                }, (response) => {
                                     this.loading.wait = false;
 
                                     switch (response.data.error_code) {
@@ -163,13 +163,13 @@
                 this.setStatus('check');
 
                 this.$http.get(this.activePage.url)
-                        .then(function (response) {
+                        .then((response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
-                                }, function (response) {
+                                }, (response) => {
                                     switch (response.status) {
 
                                         case 502:
@@ -226,10 +226,10 @@
              * Получение списка жанров.
              */
             getGenres(){
-                this.$http.get('/api/audio.genres')
-                        .then(function (response) {
+                this.$http.get('audio.genres')
+                        .then((response) => {
                                     this.genres = response.data.response.genres;
-                                }, function (response) {
+                                }, (response) => {
                                     this.genres = {};
                                 }
                         );
@@ -402,7 +402,7 @@
                 var title = item.artist.trim() + ' - ' + item.title.trim();
                 appFunc.info('Preparing to download:<br>' + title, 'info');
 
-                this.$http.post('/api/download', {
+                this.$http.post('download', {
                             url:      item.url,
                             artist:   item.artist.trim(),
                             title:    item.title.trim(),
@@ -410,10 +410,10 @@
                             owner_id: item.owner_id
                         }
                 )
-                        .then(function (response) {
+                        .then((response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.downloadFile(response.data.response.url, response.data.response.title);
-                                }, function (response) {
+                                }, (response) => {
                                     appFunc.console(response.data);
                                 }
                         );
@@ -477,14 +477,14 @@
              * @param item
              */
             addMyAudio(item){
-                this.$http.post('/api/audio.add', {
+                this.$http.post('audio.add', {
                             audio_id: item.id,
                             owner_id: item.owner_id
                         }
                 )
-                        .then(function (response) {
+                        .then((response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
-                                }, function (response) {
+                                }, (response) => {
                                 }
                         );
             }

@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <div class="loader-screen valign-wrapper" v-if="show" :transition="transitionName">
         <div class="row valign center-align loader-content">
             <h2 class="loader-text" :class="[style.selected]">{{ text }}</h2>

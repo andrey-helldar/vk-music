@@ -56,10 +56,10 @@ class VkController extends Controller
 
         $context = array_merge($context, [
             'v'            => config('vk.api_version'),
-            'access_token' => self::$user->token->access_token,
+            'access_token' => self::$user->userToken->access_token,
         ]);
 
-        self::sendRequest(self::$user->token->access_token, $method, $context);
+        self::sendRequest(self::$user->userToken->access_token, $method, $context);
 
         return ResponseController::success(0, [
             'resolve'     => trans('api.10'),

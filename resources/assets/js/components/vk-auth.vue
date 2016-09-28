@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <div class="center-align">
         <h3>Need authorization in VK</h3>
 
@@ -36,7 +36,7 @@
         },
         methods: {
             getVkParams(){
-                this.$http.get('/api/vk.params')
+                this.$http.get('vk.params')
                         .then(function (response) {
                                     this.vk = response.data.response;
                                 }, function (response) {

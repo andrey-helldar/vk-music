@@ -18,7 +18,7 @@ class CheckVkToken
     public function handle($request, Closure $next)
     {
         if (\Auth::check()) {
-            $expired_at = \Auth::user()->token->expired_at;
+            $expired_at = \Auth::user()->userToken->expired_at;
 
             if (Carbon::parse($expired_at) <= Carbon::now()) {
                 \Auth::logout();

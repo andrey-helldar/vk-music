@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <div class="center-align">
         <h3>Need access verification</h3>
 
@@ -31,7 +31,7 @@
                         uri    = window.location.href,
                         params = this.parseUri(uri);
 
-                this.$http.post('/api/vk.verify', params)
+                this.$http.post('vk.verify', params)
                         .then(function (response) {
                                     appFunc.info(response.data.response, 'success');
                                     window.location.href = '/';

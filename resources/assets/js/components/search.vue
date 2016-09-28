@@ -1,4 +1,4 @@
-<template lang="jade">
+<template>
     <h3>
         Search
     </h3>
@@ -15,7 +15,7 @@
     export default{
         data(){
             return {
-                url:   '/api/audio.search',
+                url:   'audio.search',
                 title: 'Audios'
             }
         },

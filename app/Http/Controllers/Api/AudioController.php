@@ -65,7 +65,7 @@ class AudioController extends Controller
                 break;
 
             default:
-                $owner_id = \Auth::user()->token->user_vk;
+                $owner_id = \Auth::user()->userToken->user_vk;
         }
 
         return [
@@ -116,7 +116,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.getRecommendations';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
@@ -188,7 +188,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.getPopular';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
@@ -235,7 +235,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.get';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
@@ -322,7 +322,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.search';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->token->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {

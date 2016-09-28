@@ -20,11 +20,11 @@ require('./functions');
 
 window.Vue = require('vue');
 var VueResource = require('vue-resource');
-var VueLoader = require('vue-loader');
+//var VueLoader = require('vue-loader');
 //var VueAsyncData = require('vue-async-data');
 
 Vue.use(VueResource);
-Vue.use(VueLoader);
+//Vue.use(VueLoader);
 //Vue.use(VueAsyncData);
 
 /**
@@ -33,6 +33,7 @@ Vue.use(VueLoader);
  * included with Laravel will automatically verify the header's value.
  */
 
+Vue.http.options.root = '/api';
 Vue.http.interceptors.push(
     (request, next) => {
         request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
