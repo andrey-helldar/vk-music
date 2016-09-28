@@ -14,13 +14,11 @@ require('./bootstrap');
 
 /**
  * Здесь будем перечислять все загружаемые компоненты
- *
- * @type {string[]}
  */
+var component_prefix = 'vue-';
 var components = [
     'loader-screen',
     'search',
-    'filter',
     'topmenu',
     'audio',
     'friends',
@@ -34,10 +32,61 @@ var components = [
 if (components.length) {
     components.forEach(
         function (item) {
-            Vue.component(item, require('./components/' + item + '.vue'));
+            Vue.component(component_prefix + item, require('./components/' + item + '.vue'));
         }
     );
 }
+
+/**
+ * Routes.
+ */
+var VueRouter = require('vue-router');
+Vue.use(VueRouter);
+
+/**
+ * Привязка компонентов к роутам.
+ * @type {*[]}
+ */
+const routes = [
+    {
+        path:      '*',
+        component: {
+            //template: Vue.component('index')
+            template: '<h1 class="loader-screen-hide">I SEE YOU, *!</h1>'
+        }
+    },
+    {
+        path:      '/',
+        component: {
+            //template: Vue.component('index')
+            template: '<h1 class="loader-screen-hide">I SEE YOU!</h1>'
+        }
+    },
+    {
+        path:      '/my',
+        component: Vue.component('audio')
+    },
+    {
+        path:      '/friends',
+        component: Vue.component('friends')
+    },
+    {
+        path:      '/groups',
+        component: Vue.component('groups')
+    },
+    {
+        path:      '/search',
+        component: Vue.component('search')
+    }
+];
+
+/**
+ * Инициализация роутера.
+ * @type {pathToRegexp}
+ */
+const router = new VueRouter({
+    routes
+});
 
 /**
  * Application.
@@ -45,7 +94,8 @@ if (components.length) {
  * @type {Vue}
  */
 window.app = new Vue({
-    el:      'main',
+    //el:      '#app',
+    //router,
     data:    {
         user: {
             info: {}
@@ -117,9 +167,9 @@ window.app = new Vue({
             audio.getAudio(true, postData);
         }
     }
-});
+}).$mount('#app');
 
 /*
  * Routes.
  */
-require('./routes');
+//require('./routes');

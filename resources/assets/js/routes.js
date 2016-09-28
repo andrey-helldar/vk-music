@@ -9,7 +9,7 @@ var routesApp = Vue.extend({});
 // Create a router instance.
 // You can pass in additional options here, but let's
 // keep it simple for now.
-var router = new VueRouter();
+var router = new VueRouter({});
 
 // Define some routes.
 // Each route should map to a component. The "component" can

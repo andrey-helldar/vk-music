@@ -2,10 +2,10 @@
 
 @section('content')
     <header>
-        <topmenu v-ref:top-menu></topmenu>
+        <vue-topmenu v-ref:top-menu></vue-topmenu>
     </header>
 
-    <loader-screen v-ref:loader-screen></loader-screen>
+    <vue-loader-screen v-ref:loader-screen></vue-loader-screen>
 
     <router-view></router-view>
 @endsection

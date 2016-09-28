@@ -33,7 +33,7 @@
 </header>
 
 {{-- Content --}}
-<main>
+<main id="app">
     @yield('content')
 </main>
 {{-- // Content --}}
