@@ -23,29 +23,25 @@
                 <!--end: Пункт с именем юзера-->
 
                 <ul class="right hide-on-med-and-down">
-                    <div v-for="item in items" v-cloak>
-                        <li v-if="item.is_active">
-                            <a to="/" @click="setPage($index)">
-                                <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                                <span v-if="item.show_title">
+                    <li v-for="item in items" v-if="item.is_active">
+                        <a to="/" @click="setPage($index)">
+                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
+                            <span v-if="item.show_title">
                                 {{ item.title }}
                             </span>
-                            </a>
-                        </li>
-                    </div>
+                        </a>
+                    </li>
                 </ul>
 
                 <ul class="side-nav" id="mobile-demo">
-                    <div v-for="item in items" v-cloak>
-                        <li v-if="item.is_active">
-                            <a to="/" @click="setPage($index)">
-                                <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                                <span v-if="item.show_title">
+                    <li v-for="item in items" v-if="item.is_active">
+                        <a to="/" @click="setPage($index)">
+                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
+                            <span v-if="item.show_title">
                                 {{ item.title }}
                             </span>
-                            </a>
-                        </li>
-                    </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

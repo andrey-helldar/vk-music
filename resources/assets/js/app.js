@@ -50,6 +50,16 @@ if (components.length) {
  */
 var router = new VueRouter();
 
+/**
+ * Router redirect.
+ */
+router.redirect({
+    '*': '/'
+});
+
+/**
+ * Router map.
+ */
 router.map({
     '/': {
         component: Vue.component(component_prefix + 'index')

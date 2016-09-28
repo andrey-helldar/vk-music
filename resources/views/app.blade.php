@@ -34,11 +34,16 @@
 
 {{-- Content --}}
 <main>
+    <header>
+        <topmenu v-ref:top-menu></topmenu>
+    </header>
 
     @if(Auth::guest())
         <vk-auth></vk-auth>
     @else
-        @yield('content')
+        <loader-screen v-ref:loader-screen></loader-screen>
+
+        <router-view></router-view>
     @endif
 
 </main>

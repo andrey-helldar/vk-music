@@ -74,6 +74,6 @@ Route::group([
     Route::get('current.user.info', 'Api\AppController@getCurrentUserInfo');
 });
 
-Route::any('{slug?}', function () {
-    return \VKMUSIC\Http\Controllers\Api\ResponseController::error(1);
-});
+//Route::any('{slug?}', function () {
+//    return \VKMUSIC\Http\Controllers\Api\ResponseController::error(1);
+//});

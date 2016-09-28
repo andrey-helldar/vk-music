@@ -21,20 +21,7 @@ class IndexController extends Controller
      */
     public function getIndex($slug = null)
     {
-        return view('index');
-    }
-
-    /**
-     * Страница для поиска аудиозаписей в ВК.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-20
-     * @since   1.0
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getSearch()
-    {
-        return view('search');
+        return view('app');
     }
 
     /**
@@ -123,46 +110,5 @@ class IndexController extends Controller
         }
 
         return redirect()->route('index');
-    }
-
-    /**
-     * Список контактов пользователя.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-16
-     * @since   1.0
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getFriends()
-    {
-        return view('friends');
-    }
-
-    /**
-     * Список групп пользователя.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-16
-     * @since   1.0
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getGroups()
-    {
-        return view('groups');
-    }
-
-    /**
-     * Страница со списком аудио.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-20
-     * @since   1.0
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getAudio()
-    {
-        return view('audio');
     }
 }

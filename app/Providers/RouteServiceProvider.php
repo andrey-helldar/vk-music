@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->view->composer('*/app', function ($view) {
+        $this->app->view->composer('app', function ($view) {
 
 //            $accessToken = null;
 //
