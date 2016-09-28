@@ -64,7 +64,7 @@
                             if (response.data.error == undefined) {
                                 this.user.info = response.data.response;
                             }
-                        }, (response)=> {
+                        }, (response) => {
                             //appFunc.info(response.data.error, 'error');
                             appFunc.console(response.statusText);
                         }

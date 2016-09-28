@@ -1,14 +1,24 @@
 <template>
     <div class="container">
-        <div>this is template body</div>
+        <div class="row">
+            <div class="col s12 m12">
+                <h3>
+                    {{ title }}
+                </h3>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     export default{
         data(){
             return {
-                msg: 'hello vue'
+                title: 'Popular'
             }
+        },
+        ready(){
+            this.$parent.hideLoader();
+            appFunc.console('Component Popular ready.');
         }
     }
 </script>

@@ -5690,6 +5690,9 @@ nav .container {
     display: inline-block;
     width: 100%; }
 
+nav ul.selection li a.v-link-active {
+  background-color: rgba(0, 0, 0, 0.1); }
+
 .fade-transition {
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease; }

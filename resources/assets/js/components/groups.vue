@@ -86,12 +86,12 @@
         },
         watch:   {
             'items':   {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     this.$parent.hideLoader();
                 }
             },
             'loading': {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     if (this.loading.showLoader === true) {
                         this.$parent.showLoader('Please, wait...', newValue.position);
                     }
@@ -110,12 +110,14 @@
                             fields: 'photo_50'
                         }
                 )
-                        .then(function (response) {
+                        .then(
+                                (response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
-                                }, function (response) {
+                                },
+                                (response) => {
                                     this.loading.wait = false;
 
                                     switch (response.data.error_code) {
@@ -139,13 +141,15 @@
                 this.setStatus('check');
 
                 this.$http.get(this.url)
-                        .then(function (response) {
+                        .then(
+                                (response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
-                                }, function (response) {
+                                },
+                                (response) => {
                                     switch (response.status) {
 
                                         case 502:
@@ -189,7 +193,7 @@
             checkTimer(){
                 var parent = this;
                 var checkAudio = setInterval(
-                        function () {
+                        () => {
                             if (parent.loading.wait === false) {
                                 clearInterval(checkAudio);
                             } else {
@@ -205,7 +209,7 @@
             setStatus(status){
                 var position = this.loading.position;
 
-                var notify = function (parent, text, description, style, showModal = true) {
+                var notify = (parent, text, description, style, showModal = true) => {
                     if (parent.loading.showLoader === true) {
 //                        if (showModal === true) {
                         parent.$parent.showLoader(text, description, style);

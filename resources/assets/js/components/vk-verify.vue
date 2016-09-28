@@ -32,10 +32,10 @@
                         params = this.parseUri(uri);
 
                 this.$http.post('vk.verify', params)
-                        .then(function (response) {
+                        .then((response) => {
                                     appFunc.info(response.data.response, 'success');
                                     window.location.href = '/';
-                                }, function (response) {
+                                }, (response) => {
                                     appFunc.info(response.data.error, 'error');
                                 }
                         );
@@ -57,7 +57,7 @@
                 if (url[1].indexOf('&') !== -1) {
                     params = url[1].split('&');
 
-                    params.forEach(function (item) {
+                    params.forEach((item) => {
                                 var param = item.split('=');
                                 obj[param[0]] = param[1];
                             }
@@ -107,7 +107,7 @@
                 var text = this.buttonText;
                 var dotted = '.';
 
-                setInterval(function () {
+                setInterval(() => {
                     if (dotted.length > 3) {
                         dotted = '.';
                     }

@@ -93,12 +93,12 @@
         },
         watch:   {
             'items':   {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     this.$parent.hideLoader();
                 }
             },
             'loading': {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     if (this.loading.showLoader === true) {
                         this.$parent.showLoader('Please, wait...', newValue.position);
                     }
@@ -196,7 +196,7 @@
             checkTimer(){
                 var parent = this;
                 var checkAudio = setInterval(
-                        function () {
+                        () => {
                             if (parent.loading.wait === false) {
                                 clearInterval(checkAudio);
                             } else {
@@ -212,7 +212,7 @@
             setStatus(status){
                 var position = this.loading.position;
 
-                var notify = function (parent, text, description, style, showModal = true) {
+                var notify = (parent, text, description, style, showModal = true) => {
                     if (parent.loading.showLoader === true) {
 //                        if (showModal === true) {
                         parent.$parent.showLoader(text, description, style);

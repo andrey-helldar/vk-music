@@ -9,4 +9,16 @@ nav {
             width: 100%;
         }
     }
+
+    ul {
+        &.selection {
+            li {
+                a {
+                    &.v-link-active {
+                        background-color: $navbar-background-active;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -41,7 +41,7 @@
              * Изменяем стиль элементов.
              */
             style_type: {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     var style = this.style[newValue];
 
                     if (style === undefined) {
@@ -55,7 +55,7 @@
              * Отслеживаем слишком долгие запросы.
              */
             time:       {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     if (newValue > 300) {
                         this.text = 'Whoops...';
                         this.description = 'Something went wrong. We reload the page ...';
@@ -108,7 +108,7 @@
 
                 var parent = this;
                 this.timerInterval = setInterval(
-                        function () {
+                        () => {
                             if (parent.show === false) {
                                 clearInterval(parent.timerInterval);
                                 parent.timerInterval = undefined;
@@ -135,7 +135,7 @@
                     // Создадим секундную видимость лоадера))
                     var parent = this;
 
-                    setTimeout(function () {
+                    setTimeout(() => {
                         parent.hideLoader();
                     }, 1000);
                 }

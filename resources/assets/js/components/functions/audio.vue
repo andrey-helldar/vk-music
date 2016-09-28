@@ -103,12 +103,12 @@
         },
         watch:   {
             'items':   {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue)=> {
                     this.$parent.hideLoader();
                 }
             },
             'loading': {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     if (this.loading.showLoader === true) {
                         this.$parent.showLoader('Please, wait...', newValue.position);
                     }
@@ -250,7 +250,7 @@
             checkTimer(){
                 var parent = this;
                 var checkAudio = setInterval(
-                        function () {
+                        ()=> {
                             if (parent.loading.wait === false) {
                                 clearInterval(checkAudio);
                             } else {
@@ -266,7 +266,7 @@
             setStatus(status){
                 var position = this.loading.position;
 
-                var notify = function (parent, text, description, style, showModal = true) {
+                var notify = (parent, text, description, style, showModal = true) => {
                     if (parent.loading.showLoader === true) {
 //                        if (showModal === true) {
                         parent.$parent.showLoader(text, description, style);
@@ -325,11 +325,11 @@
 
                 var parent = this;
 
-                this.audio.player.ontimeupdate = function () {
+                this.audio.player.ontimeupdate = () => {
                     parent.onTimeUpdateListener(this);
                 };
 
-                this.audio.player.onpause = function () {
+                this.audio.player.onpause = () => {
                     if (parent.audio.player.ended === true) {
                         parent.audioPause();
                     }
@@ -368,7 +368,7 @@
              */
             audioVolume(){
                 var parent = this;
-                var audioSetVolume = setInterval(function () {
+                var audioSetVolume = setInterval(() => {
 //                    appFunc.console('Volume ' + parent.audio.player.volume);
                     var volume = parent.audio.player.volume;
 
@@ -385,7 +385,7 @@
             /**
              * Обновление времени проигрываемого трека.
              */
-            onTimeUpdateListener: function (player) {
+            onTimeUpdateListener: (player) => {
                 var currentTime = parseInt(player.currentTime);
 
                 this.audio.currentTime = currentTime;

@@ -28,7 +28,7 @@
         },
         watch:   {
             'vk.client_id': {
-                handler: function (newValue, oldValue) {
+                handler: (newValue, oldValue) => {
                     this.$parent.hideLoader();
                 },
                 deep:    true
