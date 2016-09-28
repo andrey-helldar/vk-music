@@ -4,7 +4,6 @@ namespace VKMUSIC\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use VKMUSIC\Http\Middleware\CheckAuthMiddleware;
-use VKMUSIC\Http\Middleware\CheckVkToken;
 
 class Kernel extends HttpKernel
 {
@@ -32,8 +31,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \VKMUSIC\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            CheckVkToken::class,
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+            CheckAuthMiddleware::class,
         ],
 
         'api' => [

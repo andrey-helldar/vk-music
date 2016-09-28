@@ -34,7 +34,13 @@
 
 {{-- Content --}}
 <main id="app">
-    @yield('content')
+
+    @if(Auth::guest())
+        <vk-auth></vk-auth>
+    @else
+        @yield('content')
+    @endif
+
 </main>
 {{-- // Content --}}
 

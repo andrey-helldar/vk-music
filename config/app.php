@@ -170,7 +170,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
         Laracasts\Generators\GeneratorsServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
+        //        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...

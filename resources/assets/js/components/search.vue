@@ -1,15 +1,17 @@
 <template>
-    <h3>
-        Search
-    </h3>
+    <div class="container loader-screen-hide">
+        <h3>
+            Search
+        </h3>
 
-    <form class="row" name="search" v-on:submit.prevent="searching">
-        <div class="input-field col s12">
-            <input id="search" type="search" name="q" length="255" class="character-counter" required>
-            <label for="search"><i class="material-icons">search</i></label>
-            <i class="material-icons">close</i>
-        </div>
-    </form>
+        <form class="row" name="search" v-on:submit.prevent="searching">
+            <div class="input-field col s12">
+                <input id="search" type="search" name="q" length="255" class="character-counter" required>
+                <label for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+            </div>
+        </form>
+    </div>
 </template>
 <script>
     export default{

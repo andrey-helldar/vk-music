@@ -1,59 +1,69 @@
 <template>
-    <h3>
-        Friends
-        <sup class="grey-text text-lighten-2" v-if="items.length">
-            {{ items.length }} / {{ vk.count_all }}
-        </sup>
-    </h3>
-
-    <div class="input-field">
-        <input id="search" type="search" required v-model="filterKey">
-        <label for="search"><i class="material-icons">search</i></label>
-        <i class="material-icons">close</i>
-    </div>
-
     <div class="row">
-        <div class="col s12 m12">
-            <ul class="collection">
+        <div class="col s12 m4">
 
-                <li class="collection-item avatar" v-if="items.length" v-for="item in items | filterBy filterKey">
-                    <img class="circle" alt="Avatar" v-bind:src="item.photo_50">
-                    <span class="title">
+            <h3>
+                Friends
+                <sup class="grey-text text-lighten-2" v-if="items.length">
+                    {{ items.length }} / {{ vk.count_all }}
+                </sup>
+            </h3>
+
+            <div class="input-field">
+                <input id="search" type="search" required v-model="filterKey">
+                <label for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+            </div>
+
+            <div class="row">
+                <div class="col s12 m12">
+                    <ul class="collection">
+
+                        <li class="collection-item avatar" v-if="items.length" v-for="item in items | filterBy filterKey">
+                            <img class="circle" alt="Avatar" v-bind:src="item.photo_50">
+                            <span class="title">
                         {{ item.first_name }}
                         {{ item.last_name }}
                     </span>
 
-                    <p>
-                        <span class="green-text" v-if="item.online">Online</span>
-                        <span class="grey-text" v-else>Offline</span>
-                    </p>
+                            <p>
+                                <span class="green-text" v-if="item.online">Online</span>
+                                <span class="grey-text" v-else>Offline</span>
+                            </p>
 
-                    <a class="secondary-content" href="#!" @click="getFriendAudios(item)">
-                        <i class="material-icons">send</i>
+                            <a class="secondary-content" href="#!" @click="getFriendAudios(item)">
+                                <i class="material-icons">send</i>
+                            </a>
+                        </li>
+
+                        <li class="collection-item avatar" v-if="!items.length">
+                            <i class="material-icons circle">account_circle</i>
+                            <span class="title">No friends</span>
+                            <p>
+                                ...no audios...<br>
+                                ...no actions...
+                            </p>
+
+                            <a class="secondary-content disabled">
+                                <i class="material-icons grey-text">clear</i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
+                    <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
+                       @click="moreFriends">
+                        <i class="material-icons">more_horiz</i>
                     </a>
-                </li>
+                </div>
+            </div>
 
-                <li class="collection-item avatar" v-if="!items.length">
-                    <i class="material-icons circle">account_circle</i>
-                    <span class="title">No friends</span>
-                    <p>
-                        ...no audios...<br>
-                        ...no actions...
-                    </p>
-
-                    <a class="secondary-content disabled">
-                        <i class="material-icons grey-text">clear</i>
-                    </a>
-                </li>
-
-            </ul>
         </div>
 
-        <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
-               @click="moreFriends">
-                <i class="material-icons">more_horiz</i>
-            </a>
+        <div class="col s12 m8">
+            <audio v-ref:audio></audio>
         </div>
     </div>
 </template>
