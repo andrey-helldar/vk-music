@@ -5800,6 +5800,7 @@ nav .container {
  *  5. Cards
  *  6. Text
  *  7. Effects
+ *  8. VueJS
  */
 /* 1. Skeleton
    ========================================================================== */
@@ -5852,5 +5853,10 @@ main {
 .transition {
   -webkit-transition: 200ms;
   transition: 200ms; }
+
+/* 8. VueJS
+   ========================================================================== */
+[v-cloak] {
+  display: none; }
 
 /*# sourceMappingURL=app.css.map */

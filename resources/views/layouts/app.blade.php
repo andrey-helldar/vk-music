@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="app">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,7 +33,7 @@
 </header>
 
 {{-- Content --}}
-<main id="app">
+<main>
 
     @if(Auth::guest())
         <vk-auth></vk-auth>
@@ -48,7 +48,5 @@
 
 {{--<!-- JavaScripts -->--}}
 <script src="{{ elixir('js/app.js') }}"></script>
-{{--<script src="{{ elixir('js/lib.js') }}"></script>--}}
-
 </body>
 </html>

@@ -58,6 +58,7 @@ $materialize-css-path: "../../../node_modules/materialize-css/sass/components/";
  *  5. Cards
  *  6. Text
  *  7. Effects
+ *  8. VueJS
  */
 
 /* 1. Skeleton
@@ -132,4 +133,10 @@ main {
    ========================================================================== */
 .transition {
     @include transition(200ms);
+}
+
+/* 8. VueJS
+   ========================================================================== */
+[v-cloak] {
+    display: none;
 }
