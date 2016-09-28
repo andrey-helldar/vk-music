@@ -1,4 +1,4 @@
-<template>
+<template lang="jade">
     <h3>
         Friends
         <sup class="grey-text text-lighten-2" v-if="items.length">

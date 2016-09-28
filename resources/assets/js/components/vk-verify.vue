@@ -1,4 +1,4 @@
-<template>
+<template lang="jade">
     <div class="center-align">
         <h3>Need access verification</h3>
 

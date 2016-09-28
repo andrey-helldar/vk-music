@@ -1,4 +1,4 @@
-<template>
+<template lang="jade">
     <h3>
         Search
     </h3>

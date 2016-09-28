@@ -1,4 +1,4 @@
-<template>
+<template lang="jade">
     <nav>
         <div class="container">
             <div class="nav-wrapper">

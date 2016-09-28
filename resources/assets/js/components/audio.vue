@@ -1,4 +1,4 @@
-<template>
+<template lang="jade">
     <h3>
         <i class="material-icons">audiotrack</i>
         {{ activePage.title }}

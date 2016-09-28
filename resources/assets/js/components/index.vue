@@ -1,4 +1,4 @@
-<template>
+<template lang="jade">
     <div class="container">
         <div class="row">
 
