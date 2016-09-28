@@ -49,13 +49,6 @@ Vue.use(VueRouter);
  */
 const routes = [
     {
-        path:      '*',
-        component: {
-            //template: Vue.component('index')
-            template: '<h1 class="loader-screen-hide">I SEE YOU, *!</h1>'
-        }
-    },
-    {
         path:      '/',
         component: {
             //template: Vue.component('index')
@@ -95,7 +88,7 @@ const router = new VueRouter({
  */
 window.app = new Vue({
     //el:      '#app',
-    //router,
+             router,
     data:    {
         user: {
             info: {}

@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.3.10 on 2016-09-26.
+ * Generated for Laravel 5.3.11 on 2016-09-28.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1014,6 +1014,7 @@ namespace {
          *
          * @param string $abstract
          * @return string 
+         * @throws \LogicException
          * @static 
          */
         public static function getAlias($abstract){
@@ -1240,6 +1241,18 @@ namespace {
         public static function bootstrap(){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
             \VKMUSIC\Console\Kernel::bootstrap();
+        }
+        
+        /**
+         * Set the Artisan application instance.
+         *
+         * @param \Illuminate\Console\Application $artisan
+         * @return void 
+         * @static 
+         */
+        public static function setArtisan($artisan){
+            //Method inherited from \Illuminate\Foundation\Console\Kernel            
+            \VKMUSIC\Console\Kernel::setArtisan($artisan);
         }
         
     }
@@ -5981,6 +5994,19 @@ namespace {
          */
         public static function get($key, $replace = array(), $locale = null, $fallback = true){
             return \Illuminate\Translation\Translator::get($key, $replace, $locale, $fallback);
+        }
+        
+        /**
+         * Add translation lines to the given locale.
+         *
+         * @param array $lines
+         * @param string $locale
+         * @param string $namespace
+         * @return void 
+         * @static 
+         */
+        public static function addLines($lines, $locale, $namespace = '*'){
+            \Illuminate\Translation\Translator::addLines($lines, $locale, $namespace);
         }
         
         /**

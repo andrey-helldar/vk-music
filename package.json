@@ -15,6 +15,7 @@
         "materialize-css": "^0.97.7",
         "vue": "next",
         "vue-resource": "latest",
-        "vue-router": "next"
+        "vue-router": "next",
+        "vue-loader": "next"
     }
 }

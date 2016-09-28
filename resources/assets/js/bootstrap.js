@@ -20,9 +20,11 @@ require('./functions');
 
 window.Vue = require('vue');
 var VueResource = require('vue-resource');
+//var VueLoader = require('vue-loader');
 //var VueAsyncData = require('vue-async-data');
 
 Vue.use(VueResource);
+//Vue.use(VueLoader);
 //Vue.use(VueAsyncData);
 
 /**
