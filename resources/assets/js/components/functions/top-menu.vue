@@ -43,7 +43,6 @@
         </div>
     </nav>
 </template>
-
 <script>
     export default {
         data(){
@@ -80,7 +79,7 @@
              * @returns {*}
              */
             user(param, defaultText = undefined){
-                var data = this.$parent.$data.user.info[param];
+                var data = this.$root.$refs.app.$data.user.info[param];
 
                 if (data === undefined) {
                     if (defaultText !== undefined) {

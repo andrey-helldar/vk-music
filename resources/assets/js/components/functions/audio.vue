@@ -1,9 +1,4 @@
 <template>
-    <h3>
-        <i class="material-icons">audiotrack</i>
-        {{ activePage.title }}
-    </h3>
-
     <div class="input-field">
         <input id="search" type="search" required v-model="filterKey">
         <label for="search"><i class="material-icons">filter_list</i></label>
@@ -54,10 +49,9 @@
 
     <div class="row">
         <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio"
-               @click="moreAudio">
+            <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio" @click="moreAudio">
                 <i class="material-icons">more_horiz</i>
-            </a>
+            </button>
         </div>
     </div>
 </template>
@@ -66,7 +60,6 @@
     export default {
         data(){
             return {
-                searchQuery: '',
                 items:       [],
                 genres:      {},
                 vk:          {
@@ -90,33 +83,54 @@
                         pause: 'stop'
                     }
                 },
-                activePage:  {
-                    title: 'Your audio',
-                    url:   'audio.user'
-                }
+                url:         'audio.user',
+                default_url: 'audio.user'
             }
         },
         ready() {
-            appFunc.console('Component Audio ready.');
             this.getGenres();
-//            this.getAudio(true);
+            appFunc.console('Component Audio ready.');
         },
         watch:   {
-            'items':   {
-                handler: (newValue, oldValue)=> {
-                    this.$parent.hideLoader();
-                }
-            },
-            'loading': {
-                handler: (newValue, oldValue) => {
-                    if (this.loading.showLoader === true) {
-                        this.$parent.showLoader('Please, wait...', newValue.position);
-                    }
-                },
-                deep:    true
-            }
+            'loading': 'checkDataLoading'
         },
         methods: {
+            hideLoader(){
+                this.$root.$refs.app.hideLoader();
+            },
+            /**
+             * Проверка статуса изменения отображения окна.
+             */
+            checkDataLoading(newValue, oldValue){
+                if (this.loading.showLoader === true) {
+                    this.$root.$refs.app.showLoader('Please, wait...', newValue.position);
+                }
+            },
+            checkUrl(){
+                if (!this.url.length || this.url === undefined) {
+                    this.url = this.default_url;
+                }
+            },
+            /**
+             * Передача параметра на загрузку аудио.
+             * Необходимо при работе с некоторыми страницами.
+             *
+             * @param url
+             * @param title
+             * @param owner_id
+             * @param owner_type
+             * @param postData
+             */
+            load(url = '', owner_id = 0, owner_type = 'default', postData = {}){
+                this.url = url;
+                this.vk.count_all = 0;
+                this.vk.offset = 0;
+                this.vk.owner_id = owner_id;
+                this.vk.owner_type = owner_type;
+                this.items = [];
+
+                this.getAudio(true, postData);
+            },
             /**
              * Загрузка списка аудио.
              *
@@ -126,20 +140,23 @@
             getAudio(enableLoader = false, postData = {}){
                 this.loading.showLoader = enableLoader;
 
+                this.checkUrl();
                 this.setStatus('send');
 
-                this.$http.post(this.activePage.url, Object.assign({
+                this.$http.post(this.url, Object.assign({
                             offset:     this.vk.offset,
                             owner_type: this.vk.owner_type,
                             owner_id:   this.vk.owner_id
                         }, postData)
                 )
-                        .then((response) => {
+                        .then(
+                                (response) => {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
-                                }, (response) => {
+                                },
+                                (response) => {
                                     this.loading.wait = false;
 
                                     switch (response.data.error_code) {
@@ -160,15 +177,18 @@
              * Проверка выполненных запросов и вывод записей на экран.
              */
             getAudioLoaded(){
+                this.checkUrl();
                 this.setStatus('check');
 
-                this.$http.get(this.activePage.url)
+                this.$http.get(this.url)
                         .then((response) => {
-                                    appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
+
+                                    this.hideLoader();
+                                    appFunc.info(response.data.response.resolve, 'success');
                                 }, (response) => {
                                     switch (response.status) {
 
@@ -186,11 +206,13 @@
                                             break;
 
                                         case 403:
-                                            appFunc.info(response.data.error.resolve, 'error');
                                             this.loading.wait = false;
                                             this.vk.offset = 0;
                                             this.vk.count_all = [];
                                             this.items = [];
+
+                                            appFunc.info(response.data.error.resolve, 'error');
+                                            this.hideLoader();
                                             return;
 
                                         case 401:
@@ -268,9 +290,7 @@
 
                 var notify = (parent, text, description, style, showModal = true) => {
                     if (parent.loading.showLoader === true) {
-//                        if (showModal === true) {
-                        parent.$parent.showLoader(text, description, style);
-//                        }
+                        parent.$root.$refs.app.showLoader(text, description, style);
                     } else {
                         appFunc.info(text, 'info', 1000);
                     }
@@ -290,7 +310,7 @@
                         break;
 
                     default:
-                        this.$parent.hideLoader();
+                        this.hideLoader();
                 }
             },
             /**

@@ -24,7 +24,7 @@
 <body>
 
 {{-- Content --}}
-<app-component auth="{{ Auth::check() }}"></app-component>
+<app-component v-ref:app auth="{{ Auth::check() }}"></app-component>
 {{-- // Content --}}
 
 {{--<!-- JavaScripts -->--}}

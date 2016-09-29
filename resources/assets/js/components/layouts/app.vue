@@ -47,6 +47,9 @@
             appFunc.console('Component Main ready.');
         },
         methods:    {
+            /**
+             * Проверка авторизации с необходимой переадресацией.
+             */
             checkAuth(is_auth_page = false){
                 if (!this.auth && !is_auth_page) {
                     router.go({
@@ -61,7 +64,7 @@
                 }
             },
             /**
-             * Обображение лоадера.
+             * Отображение лоадера.
              *
              * @param text
              * @param description
@@ -92,34 +95,6 @@
                             appFunc.console(response.statusText);
                         }
                 );
-            },
-            /**
-             * Передача параметра на загрузку аудио.
-             * Необходимо при работе с некоторыми страницами.
-             *
-             * @param url
-             * @param title
-             * @param owner_id
-             * @param owner_type
-             * @param postData
-             */
-            loadAudios(url = '', title = 'My audios', owner_id = 0, owner_type = 'default', postData = {}){
-                this.showLoader();
-
-                if (url.length == 0) {
-                    return;
-                }
-
-                var audio = this.$refs.audio;
-                audio.activePage.title = title;
-                audio.activePage.url = url;
-                audio.vk.count_all = 0;
-                audio.vk.offset = 0;
-                audio.vk.owner_id = owner_id;
-                audio.vk.owner_type = owner_type;
-                audio.items = [];
-
-                audio.getAudio(true, postData);
             }
         }
     }

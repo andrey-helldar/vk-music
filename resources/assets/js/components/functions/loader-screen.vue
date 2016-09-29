@@ -40,35 +40,18 @@
             /**
              * Изменяем стиль элементов.
              */
-            style_type: {
-                handler: (newValue, oldValue) => {
-                    var style = this.style[newValue];
-
-                    if (style === undefined) {
-                        style = this.style.wait;
-                    }
-
-                    this.style.selected = style;
-                }
-            },
+            style_type: 'checkDataStyleType',
             /**
              * Отслеживаем слишком долгие запросы.
              */
-            time:       {
-                handler: (newValue, oldValue) => {
-                    if (newValue > 300) {
-                        this.text = 'Whoops...';
-                        this.description = 'Something went wrong. We reload the page ...';
-                        location.reload();
-                    }
-                }
-            }
+            time:       'checkDataStyle'
         },
         methods: {
             /**
              * Запускаем лоадер.
              */
-            showLoader(text = 'Loading...', description = '', style_type = 'wait'){
+            showLoader(text = 'Loading...', description = '', style_type = 'wait')
+            {
                 this.style_type = style_type;
                 this.text = this.checkTextLength(text, 'Loading...');
                 this.description = this.checkTextLength(description);
@@ -78,7 +61,8 @@
             /**
              * Прячем лоадер.
              */
-            hideLoader(){
+            hideLoader()
+            {
                 this.style_type = 'wait';
                 this.show = false;
                 this.text = 'Loading...';
@@ -87,7 +71,8 @@
             /**
              * Проверяем длину текста.
              */
-            checkTextLength(text, defaultText = ''){
+            checkTextLength(text, defaultText = '')
+            {
                 if (text.length === 0 || text === undefined) {
                     if (defaultText.length !== 0) {
                         text = defaultText;
@@ -101,21 +86,23 @@
             /**
              * Таймер отсчета времени ожидания.
              */
-            timer(){
+            timer()
+            {
                 if (this.timerInterval !== undefined && this.show !== false) {
                     return;
                 }
 
                 var parent = this;
-                this.timerInterval = setInterval(
-                        () => {
+                this.timerInterval = setInterval(function () {
                             if (parent.show === false) {
                                 clearInterval(parent.timerInterval);
                                 parent.timerInterval = undefined;
-                            } else {
+                            }
+                            else {
                                 parent.time++;
                             }
-                        }, 1000, parent
+                        },
+                        1000, parent
                 );
             },
             /**
@@ -124,20 +111,51 @@
              * @param time
              * @returns {*|string}
              */
-            timeToHumans(time){
+            timeToHumans(time)
+            {
                 return appFunc.timeToHumans(time);
-            },
+            }
+            ,
             /**
              * Если на странице найден элемент с тегом "loader-screen-hide" - скрываем лоадер.
              */
-            hideOnClass(codeClass){
+            hideOnClass(codeClass)
+            {
                 if ($('*').is('.' + codeClass)) {
                     // Создадим секундную видимость лоадера))
                     var parent = this;
 
-                    setTimeout(() => {
+                    setTimeout(function () {
                         parent.hideLoader();
                     }, 1000);
+                }
+            },
+            /**
+             * Отслеживание изменения стиля.
+             *
+             * @param newValue
+             * @param oldValue
+             */
+            checkDataStyleType(newValue, oldValue)  {
+                var style = this.style[newValue];
+
+                if (style === undefined) {
+                    style = this.style.wait;
+                }
+
+                this.style.selected = style;
+            },
+            /**
+             * Проверка состояния выбранного стиля.
+             *
+             * @param newValue
+             * @param oldValue
+             */
+            checkDataStyle(newValue, oldValue)  {
+                if (newValue > 300) {
+                    this.text = 'Whoops...';
+                    this.description = 'Something went wrong. We reload the page ...';
+                    location.reload();
                 }
             }
         }
