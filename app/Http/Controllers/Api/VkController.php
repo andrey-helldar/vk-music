@@ -2,7 +2,6 @@
 
 namespace VKMUSIC\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 use VKMUSIC\VkQueue;
@@ -11,20 +10,6 @@ use VKMUSIC\VkResponse;
 class VkController extends Controller
 {
     private static $user = null;
-
-    /**
-     * Проверка сущетсвования модели юзера в переменной.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-23
-     * @since   1.0
-     */
-    private static function checkUser()
-    {
-        if (is_null(self::$user)) {
-            self::$user = \Auth::user();
-        }
-    }
 
     /**
      * Добавление задания в очередь.
@@ -56,10 +41,10 @@ class VkController extends Controller
 
         $context = array_merge($context, [
             'v'            => config('vk.api_version'),
-            'access_token' => self::$user->userToken->access_token,
+            'access_token' => self::$user->vk->access_token,
         ]);
 
-        self::sendRequest(self::$user->userToken->access_token, $method, $context);
+        self::sendRequest(self::$user->vk->access_token, $method, $context);
 
         return ResponseController::success(0, [
             'resolve'     => trans('api.10'),
@@ -68,28 +53,17 @@ class VkController extends Controller
     }
 
     /**
-     * Считаем позицию запроса пользователя в очереди.
+     * Проверка сущетсвования модели юзера в переменной.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-15
+     * @version 2016-09-23
      * @since   1.0
-     *
-     * @param $method
-     * @param $user_id
-     *
-     * @return int
      */
-    public static function queuePosition($method, $user_id)
+    private static function checkUser()
     {
-        $order = VkQueue::whereMethod($method)->whereUserId($user_id)->first();
-
-        if (is_null($order)) {
-            return 1;
+        if (is_null(self::$user)) {
+            self::$user = \Auth::user();
         }
-
-        $position = VkQueue::where('id', '<=', $order->id)->count();
-
-        return $position ?? 1;
     }
 
     /**
@@ -162,5 +136,30 @@ class VkController extends Controller
         $response->access_token = $access_token;
         $response->context      = json_encode($response_vk);
         $response->save();
+    }
+
+    /**
+     * Считаем позицию запроса пользователя в очереди.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-15
+     * @since   1.0
+     *
+     * @param $method
+     * @param $user_id
+     *
+     * @return int
+     */
+    public static function queuePosition($method, $user_id)
+    {
+        $order = VkQueue::whereMethod($method)->whereUserId($user_id)->first();
+
+        if (is_null($order)) {
+            return 1;
+        }
+
+        $position = VkQueue::where('id', '<=', $order->id)->count();
+
+        return $position ?? 1;
     }
 }

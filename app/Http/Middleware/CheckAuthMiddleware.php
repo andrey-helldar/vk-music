@@ -21,7 +21,7 @@ class CheckAuthMiddleware
         $user = $request->user();
 
         if (!is_null($user)) {
-            $expired_at = $user->userToken->expired_at;
+            $expired_at = $user->vk->expired_at;
 
             if (Carbon::parse($expired_at) <= Carbon::now()) {
                 $user->logout();
@@ -29,9 +29,12 @@ class CheckAuthMiddleware
         }
 
         if (is_null($user)) {
-            if ($request->ajax() || $request->wantsJson()) {
+            if ($request->ajax() || $request->wantsJson() || $request->pjax()) {
                 return ResponseController::error(2);
             }
+
+            return abort(401);
+//            return redirect('/#!/auth');
         }
 
         return $next($request);

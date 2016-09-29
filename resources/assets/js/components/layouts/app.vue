@@ -47,10 +47,16 @@
             appFunc.console('Component Main ready.');
         },
         methods:    {
-            checkAuth(){
-                if (!this.auth) {
+            checkAuth(is_auth_page = false){
+                if (!this.auth && !is_auth_page) {
                     router.go({
                         name: 'auth'
+                    });
+                }
+
+                if (this.auth && is_auth_page) {
+                    router.go({
+                        name: 'index'
                     });
                 }
             },

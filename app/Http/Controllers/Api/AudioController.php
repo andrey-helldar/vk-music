@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 use VKMUSIC\VkError;
-use VKMUSIC\VkQueue;
 use VKMUSIC\VkResponse;
 
 class AudioController extends Controller
@@ -65,7 +64,7 @@ class AudioController extends Controller
                 break;
 
             default:
-                $owner_id = \Auth::user()->userToken->user_vk;
+                $owner_id = \Auth::user()->vk->user_vk;
         }
 
         return [
@@ -116,7 +115,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.getRecommendations';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->vk->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
@@ -188,7 +187,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.getPopular';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->vk->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
@@ -235,7 +234,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.get';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->vk->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {
@@ -322,7 +321,7 @@ class AudioController extends Controller
     {
         $method   = 'audio.search';
         $user     = \Auth::user();
-        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->userToken->expired_at)->first();
+        $response = VkResponse::whereUserId($user->id)->whereMethod($method)->where('updated_at', '<', $user->vk->expired_at)->first();
         $position = VkController::queuePosition($method, $user->id);
 
         if (is_null($response)) {

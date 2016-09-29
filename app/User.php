@@ -18,6 +18,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        //        'api_token',
     ];
 
     /**
@@ -28,20 +29,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        //        'api_token',
     ];
-
-    /**
-     * Токен доступа.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-02
-     * @since   1.0
-     *
-     */
-    public function userToken()
-    {
-        return $this->hasOne(VkUser::class);
-    }
 
     /**
      * Модель пользователя с данными из ВК.
@@ -52,7 +41,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function vkUser()
+    public function vk()
     {
         return $this->hasOne(VkUser::class);
     }

@@ -25,25 +25,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->app->view->composer('app', function ($view) {
 
-//            $accessToken = null;
-//
-//
-//            if (\Auth::check()) {
-//                $user        = \Auth::user();
-//                $accessToken = $user->token();
-//
-//                if (is_null($accessToken)) {
-//                    $accessToken = $user->createToken('Token Name')->accessToken;
-//                }
-//
-//                dd($accessToken);
-//            }
-//
-//            dd('was?');
-
             $view->with('LaravelApp', json_encode([
                 'csrfToken' => csrf_token(),
-                //                'accessToken' => $accessToken,
                 'trans'     => [
                     //                    'sofee'   => trans('Api/v1b2.sofee'),
                     //                    'buttons' => trans('buttons'),
