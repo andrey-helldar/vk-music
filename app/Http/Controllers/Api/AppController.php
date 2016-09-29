@@ -165,6 +165,7 @@ class AppController extends Controller
     {
         $user_vk = VkUser::whereUserId(\Auth::user()->id)->first();
 
+
         if (is_null($user_vk)) {
             return ResponseController::error(trans('api.60'));
         }
