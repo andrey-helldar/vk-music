@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('verify', 'IndexController@getVerify');
+
 Route::get('/{slug?}', [
     'as'   => 'index',
     'uses' => 'IndexController@getIndex',

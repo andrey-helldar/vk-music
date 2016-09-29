@@ -21,9 +21,9 @@ class IndexController extends Controller
      */
     public function getIndex($slug = null)
     {
-        if (!is_null($slug)) {
-            return redirect()->route('index');
-        }
+//        if (!is_null($slug)) {
+//            return redirect()->route('index');
+//        }
 
         return view('app');
     }
@@ -48,7 +48,7 @@ class IndexController extends Controller
             $statusCode   = $response->getStatusCode();
 
             if ($statusCode == 200) {
-//                return redirect()->route('index');
+                return redirect()->route('index');
             }
         }
 

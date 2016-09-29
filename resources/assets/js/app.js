@@ -94,6 +94,10 @@ router.map({
     '/auth':            {
         name:      'auth',
         component: setComponent('vk-auth')
+    },
+    '/verify':          {
+        name:      'verify',
+        component: setComponent('vk-verify')
     }
 });
 
