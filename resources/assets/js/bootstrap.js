@@ -34,13 +34,7 @@ Vue.use(VueResource);
  */
 
 Vue.http.options.root = '/api';
-Vue.http.interceptors.push(
-    (request, next) => {
-        request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
-
-        next();
-    }
-);
+Vue.http.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
