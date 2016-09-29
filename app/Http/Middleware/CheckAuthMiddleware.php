@@ -32,9 +32,6 @@ class CheckAuthMiddleware
             if ($request->ajax() || $request->wantsJson() || $request->pjax()) {
                 return ResponseController::error(2);
             }
-
-            return abort(401);
-//            return redirect('/#!/auth');
         }
 
         return $next($request);

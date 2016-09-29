@@ -19,7 +19,7 @@ require('./functions');
  */
 
 window.Vue = require('vue');
-import VueResource from 'vue-resource';
+import VueResource from "vue-resource";
 //var VueLoader = require('vue-loader');
 //var VueAsyncData = require('vue-async-data');
 
@@ -35,7 +35,12 @@ Vue.use(VueResource);
 
 Vue.http.options.root = '/api';
 Vue.http.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
-Vue.http.headers.common['Authorization'] = 'Bearer ' + Laravel.csrfToken;
+
+Vue.http.interceptors.push((request, next) => {
+    request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
+
+    next();
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

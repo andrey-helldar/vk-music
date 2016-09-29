@@ -22,6 +22,7 @@ Route::post('vk.verify', 'Auth\VkController@postVerify');
 
 Route::group([
     'middleware' => [
+        'auth:api',
         'auth.check',
     ],
 ], function () {
