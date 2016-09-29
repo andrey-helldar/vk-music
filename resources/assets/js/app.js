@@ -29,7 +29,7 @@ function setComponent(name, path = '', result = true) {
 /**
  * Routes.
  */
-var VueRouter = require('vue-router');
+import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 /**
@@ -40,7 +40,6 @@ Vue.use(VueRouter);
 
 // Компиляция ресурсов в компоненты.
 setComponent('app-component', 'layouts/app', false);
-setComponent('vk-auth');
 setComponent('vk-verify');
 
 /**
@@ -81,6 +80,12 @@ router.map({
     },
     '/popular':         {
         component: setComponent('popular')
+    },
+    /**
+     * Authenticate
+     */
+    '/auth':            {
+        component: setComponent('vk-auth', 'functions/vk-auth')
     }
 });
 

@@ -23,7 +23,7 @@
                 <!--end: Пункт с именем юзера-->
 
                 <ul class="right hide-on-med-and-down selection">
-                    <li v-for="item in items" v-if="item.is_active">
+                    <li v-for="item in items" v-show="item.is_active">
                         <a v-link="{path: item.url}">
                             <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
                             {{ item.title }}
@@ -32,7 +32,7 @@
                 </ul>
 
                 <ul class="side-nav selection" id="mobile-demo">
-                    <li v-for="item in items" v-if="item.is_active">
+                    <li v-for="item in items" v-show="item.is_active">
                         <a v-link="{path: item.url}">
                             <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
                             {{ item.title }}

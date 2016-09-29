@@ -24,12 +24,7 @@
 <body>
 
 {{-- Content --}}
-@if(Auth::check())
-    <h1>Authenticated</h1>
-@else
-    <h1>Guest</h1>
-    <app-component></app-component>
-@endif
+<app-component auth="{{ Auth::check() }}"></app-component>
 {{-- // Content --}}
 
 {{--<!-- JavaScripts -->--}}

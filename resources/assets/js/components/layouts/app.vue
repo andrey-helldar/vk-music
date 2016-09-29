@@ -26,6 +26,14 @@
                 }
             }
         },
+        props:      {
+            auth: {
+                default: false,
+                coerce:  (value)=> {
+                    return value.length > 0;
+                }
+            }
+        },
         components: {
             HeaderComponent,
             FooterComponent,
