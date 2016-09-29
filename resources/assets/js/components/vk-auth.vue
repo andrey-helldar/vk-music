@@ -26,21 +26,15 @@
             this.getVkParams();
             appFunc.console('Component VK Auth ready.');
         },
-        watch:   {
-            'vk.client_id': {
-                handler: (newValue, oldValue) => {
-                    this.$parent.hideLoader();
-                },
-                deep:    true
-            }
-        },
         methods: {
             getVkParams(){
                 this.$http.get('vk.params')
                         .then(function (response) {
                                     this.vk = response.data.response;
+                                    this.$parent.hideLoader();
                                 }, function (response) {
                                     this.vk.client_id = 0;
+                                    this.$parent.hideLoader();
                                     appFunc.info('Error loading parameters. Please, reload this page.', 'error');
                                 }
                         );

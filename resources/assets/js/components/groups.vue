@@ -81,6 +81,7 @@
             }
         },
         ready(){
+            this.$parent.checkAuth();
             this.getGroups();
             appFunc.console('Component Groups ready.');
         },

@@ -54,7 +54,8 @@
                     </div>
 
                     <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-                        <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
+                        <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top"
+                           data-tooltip="Give more friends"
                            @click="moreFriends">
                             <i class="material-icons">more_horiz</i>
                         </a>
@@ -88,6 +89,7 @@
             }
         },
         ready(){
+            this.$parent.checkAuth();
             this.getFriends();
             appFunc.console('Component Friends ready.');
         },

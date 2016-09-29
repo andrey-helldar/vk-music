@@ -16,9 +16,10 @@
             }
         },
         ready() {
-            appFunc.console('Component VK Verify ready.');
+            this.$parent.checkAuth();
             this.dotButton();
             this.checkGetParams();
+            appFunc.console('Component VK Verify ready.');
         },
         methods: {
             /**

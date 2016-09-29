@@ -48,7 +48,7 @@ class IndexController extends Controller
             $statusCode   = $response->getStatusCode();
 
             if ($statusCode == 200) {
-                return redirect()->route('index');
+//                return redirect()->route('index');
             }
         }
 

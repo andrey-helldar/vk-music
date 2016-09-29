@@ -22,6 +22,7 @@
             }
         },
         ready(){
+            this.$parent.checkAuth();
             this.$parent.hideLoader();
             appFunc.console('Component Search ready.');
         },

@@ -47,45 +47,53 @@ setComponent('vk-verify');
  *
  * @type {Router}
  */
-var router = new VueRouter();
+window.router = new VueRouter();
 
 /**
  * Router redirect.
  */
-router.redirect({
-    '*': '/'
-});
+//router.redirect({
+//    '*': '/'
+//});
 
 /**
  * Router map.
  */
 router.map({
     '/':                {
+        name:      'index',
         component: setComponent('index')
     },
     '/my':              {
+        name:      'my',
         component: setComponent('my')
     },
     '/search':          {
+        name:      'search',
         component: setComponent('search')
     },
     '/friends':         {
+        name:      'friends',
         component: setComponent('friends')
     },
     '/groups':          {
+        name:      'groups',
         component: setComponent('groups')
     },
     '/recommendations': {
+        name:      'recommendations',
         component: setComponent('recommendations')
     },
     '/popular':         {
+        name:      'popular',
         component: setComponent('popular')
     },
     /**
      * Authenticate
      */
     '/auth':            {
-        component: setComponent('vk-auth', 'functions/vk-auth')
+        name:      'auth',
+        component: setComponent('vk-auth')
     }
 });
 

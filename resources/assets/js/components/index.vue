@@ -33,6 +33,7 @@
             }
         },
         ready(){
+            this.$parent.checkAuth();
             this.getItems();
             appFunc.console('Component Index ready.');
         },

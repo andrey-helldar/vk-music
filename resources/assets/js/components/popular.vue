@@ -17,6 +17,7 @@
             }
         },
         ready(){
+            this.$parent.checkAuth();
             this.$parent.hideLoader();
             appFunc.console('Component Popular ready.');
         }

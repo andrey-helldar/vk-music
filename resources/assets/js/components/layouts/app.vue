@@ -41,10 +41,19 @@
             TopMenu
         },
         ready(){
+            this.checkAuth();
             this.getUserInfo();
+
             appFunc.console('Component Main ready.');
         },
         methods:    {
+            checkAuth(){
+                if (!this.auth) {
+                    router.go({
+                        name: 'auth'
+                    });
+                }
+            },
             /**
              * Обображение лоадера.
              *
