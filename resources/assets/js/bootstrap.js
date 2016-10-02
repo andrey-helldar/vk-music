@@ -20,12 +20,10 @@ require('./functions');
 
 window.Vue = require('vue');
 import VueResource from "vue-resource";
-//var VueLoader = require('vue-loader');
-//var VueAsyncData = require('vue-async-data');
+import VueLoader from "vue-loader";
 
 Vue.use(VueResource);
-//Vue.use(VueLoader);
-//Vue.use(VueAsyncData);
+Vue.use(VueLoader);
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

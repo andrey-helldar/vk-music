@@ -39,7 +39,7 @@ Vue.use(VueRouter);
  */
 
 // Компиляция ресурсов в компоненты.
-setComponent('app-component', 'layouts/app', false);
+//setComponent('app-component', 'layouts/app', false);
 setComponent('vk-verify');
 
 /**
@@ -56,51 +56,68 @@ const routes = [
     {
         name:      'index',
         path:      '/',
-        component: setComponent('index')
+        //component: setComponent('index')
+        component: {
+            template: '<h1>TEST</h1>'
+        }
     },
     {
-        name:      'my',
-        path:      '/my',
-        component: setComponent('my')
+        name:      'foo',
+        path:      '/foo',
+        component: {
+            template: '<h1>FOO</h1>'
+        }
     },
     {
-        name:      'search',
-        path:      '/search',
-        component: setComponent('search')
+        name:      'bar',
+        path:      '/bar',
+        component: {
+            template: '<h1>BAR</h1>'
+        }
     },
-    {
-        name:      'friends',
-        path:      '/friends',
-        component: setComponent('friends')
-    },
-    {
-        name:      'groups',
-        path:      '/groups',
-        component: setComponent('groups')
-    },
-    {
-        name:      'recommendations',
-        path:      '/recommendations',
-        component: setComponent('recommendations')
-    },
-    {
-        name:      'popular',
-        path:      '/popular',
-        component: setComponent('popular')
-    },
-    /**
-     * Authenticate
-     */
-    {
-        name:      'auth',
-        path:      '/auth',
-        component: setComponent('vk-auth')
-    },
-    {
-        name:      'verify',
-        path:      '/verify',
-        component: setComponent('vk-verify')
-    }
+    //{
+    //    name:      'my',
+    //    path:      '/my',
+    //    component: setComponent('my')
+    //},
+    //{
+    //    name:      'search',
+    //    path:      '/search',
+    //    component: setComponent('search')
+    //},
+    //{
+    //    name:      'friends',
+    //    path:      '/friends',
+    //    component: setComponent('friends')
+    //},
+    //{
+    //    name:      'groups',
+    //    path:      '/groups',
+    //    component: setComponent('groups')
+    //},
+    //{
+    //    name:      'recommendations',
+    //    path:      '/recommendations',
+    //    component: setComponent('recommendations')
+    //},
+    //{
+    //    name:      'popular',
+    //    path:      '/popular',
+    //    component: setComponent('popular')
+    //},
+    ///**
+    // * Authenticate
+    // */
+    //{
+    //    name:      'auth',
+    //    path:      '/auth',
+    //    component: setComponent('vk-auth')
+    //},
+    //{
+    //    name:      'verify',
+    //    path:      '/verify',
+    //    component: setComponent('vk-verify')
+    //}
 ];
 
 /**

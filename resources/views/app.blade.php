@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="app">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,7 +24,20 @@
 <body>
 
 {{-- Content --}}
-<app-component ref:app auth="{{ Auth::check() }}"></app-component>
+{{--<app-component ref:app auth="{{ Auth::check() }}"></app-component>--}}
+<div id="app">
+    <h1>Hello App!</h1>
+    <p>
+        <!-- use router-link component for navigation. -->
+        <!-- specify the link by passing the `to` prop. -->
+        <!-- <router-link> will be rendered as an `<a>` tag by default -->
+        <router-link to="/foo">Go to Foo</router-link>
+        <router-link to="/bar">Go to Bar</router-link>
+    </p>
+    <!-- route outlet -->
+    <!-- component matched by the route will render here -->
+    <router-view></router-view>
+</div>
 {{-- // Content --}}
 
 {{--<!-- JavaScripts -->--}}
