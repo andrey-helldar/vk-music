@@ -1,12 +1,14 @@
 <template>
-    <div class="container">
-        <div class="center-align">
-            <h3>Need authorization in VK</h3>
+    <div v-cloak>
+        <div class="container">
+            <div class="center-align">
+                <h3>Need authorization in VK</h3>
 
-            <button class="btn btn-large btn-primary waves-effect waves-light" @click="vkAuth">
-                <i class="material-icons left">account_circle</i>
-                Auth VK
-            </button>
+                <button class="btn btn-large btn-primary waves-effect waves-light" @click="vkAuth">
+                    <i class="material-icons left">account_circle</i>
+                    Auth VK
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -24,7 +26,7 @@
                 }
             }
         },
-        ready() {
+        mounted() {
             this.$parent.checkAuth(true);
             this.getVkParams();
             appFunc.console('Component VK Auth ready.');

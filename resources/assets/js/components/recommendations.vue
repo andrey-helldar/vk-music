@@ -1,10 +1,12 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m12">
-                <h3>
-                    {{ title }}
-                </h3>
+    <div v-cloak>
+        <div class="container">
+            <h3>
+                {{ title }}
+            </h3>
+
+            <div class="row">
+                <vue-audio ref:audio></vue-audio>
             </div>
         </div>
     </div>
@@ -16,7 +18,7 @@
                 title: 'Recommendations'
             }
         },
-        ready(){
+        mounted(){
             this.$parent.checkAuth();
             this.$parent.hideLoader();
             appFunc.console('Component Recommendations ready.');

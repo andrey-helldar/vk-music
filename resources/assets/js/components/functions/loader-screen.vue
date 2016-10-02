@@ -1,11 +1,13 @@
 <template>
-    <div class="loader-screen valign-wrapper" v-if="show" :transition="transitionName">
-        <div class="row valign center-align loader-content">
-            <h2 class="loader-text" :class="[style.selected]">{{ text }}</h2>
+    <div v-cloak>
+        <div class="loader-screen valign-wrapper" v-if="show" :transition="transitionName">
+            <div class="row valign center-align loader-content">
+                <h2 class="loader-text" :class="[style.selected]">{{ text }}</h2>
 
-            <h5 class="loader-description" v-if="description.length">{{ description }}</h5>
+                <h5 class="loader-description" v-if="description.length">{{ description }}</h5>
 
-            <h6 class="loader-duration">{{ timeToHumans(time) }}</h6>
+                <h6 class="loader-duration">{{ timeToHumans(time) }}</h6>
+            </div>
         </div>
     </div>
 </template>
@@ -27,7 +29,7 @@
                 timerInterval:  undefined
             }
         },
-        ready() {
+        mounted() {
             // Запускаем отображение при инициализации компонента.
             this.showLoader();
 

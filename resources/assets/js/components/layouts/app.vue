@@ -1,17 +1,19 @@
 <template>
-    <header-component></header-component>
+    <div v-cloak>
+        <header-component></header-component>
 
-    <main>
-        <header>
-            <top-menu v-ref:top-menu></top-menu>
-        </header>
+        <main>
+            <header>
+                <top-menu ref:top-menu></top-menu>
+            </header>
 
-        <loader-screen v-ref:loader-screen></loader-screen>
+            <loader-screen ref:loader-screen></loader-screen>
 
-        <router-view></router-view>
-    </main>
+            <router-view></router-view>
+        </main>
 
-    <footer-component></footer-component>
+        <footer-component></footer-component>
+    </div>
 </template>
 <script>
     import HeaderComponent from './header.vue'
@@ -27,11 +29,12 @@
             }
         },
         props:      {
-            auth: {
-                default: false,
-                coerce:  (value)=> {
-                    return value.length > 0;
-                }
+            auth:    Boolean,
+            default: false
+        },
+        computed:   {
+            normalizedAuth(){
+                return this.auth.length > 0 || this.auth !== 0;
             }
         },
         components: {
@@ -40,7 +43,7 @@
             LoaderScreen,
             TopMenu
         },
-        ready(){
+        mounted(){
             this.checkAuth();
             this.getUserInfo();
 

@@ -1,47 +1,49 @@
 <template>
-    <nav>
-        <div class="container">
-            <div class="nav-wrapper">
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <div v-cloak>
+        <nav>
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-                <!--start: Пункт с именем юзера-->
-                <ul class="left hide-on-med-and-down">
-                    <li>
-                        <a v-link="{path: '/'}">
-                            Hello, {{ user('first_name', 'Guest') }}!
-                        </a>
-                    </li>
-                </ul>
+                    <!--start: Пункт с именем юзера-->
+                    <ul class="left hide-on-med-and-down">
+                        <li>
+                            <router-link to="{path: '/'}">
+                                Hello, {{ user('first_name', 'Guest') }}!
+                            </router-link>
+                        </li>
+                    </ul>
 
-                <ul class="right hide-on-med-and-up">
-                    <li>
-                        <a href="/">
-                            Hello, {{ user('first_name', 'Guest') }}!
-                        </a>
-                    </li>
-                </ul>
-                <!--end: Пункт с именем юзера-->
+                    <ul class="right hide-on-med-and-up">
+                        <li>
+                            <router-link to="{path: '/'}">
+                                Hello, {{ user('first_name', 'Guest') }}!
+                            </router-link>
+                        </li>
+                    </ul>
+                    <!--end: Пункт с именем юзера-->
 
-                <ul class="right hide-on-med-and-down selection">
-                    <li v-for="item in items" v-show="item.is_active">
-                        <a v-link="{path: item.url}">
-                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                            {{ item.title }}
-                        </a>
-                    </li>
-                </ul>
+                    <ul class="right hide-on-med-and-down selection">
+                        <li v-for="item in items" v-show="item.is_active">
+                            <router-link to="{path: item.url}">
+                                <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
+                                {{ item.title }}
+                            </router-link>
+                        </li>
+                    </ul>
 
-                <ul class="side-nav selection" id="mobile-demo">
-                    <li v-for="item in items" v-show="item.is_active">
-                        <a v-link="{path: item.url}">
-                            <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                            {{ item.title }}
-                        </a>
-                    </li>
-                </ul>
+                    <ul class="side-nav selection" id="mobile-demo">
+                        <li v-for="item in items" v-show="item.is_active">
+                            <router-link to="{path: item.url}">
+                                <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
+                                {{ item.title }}
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 </template>
 <script>
     export default {
@@ -50,7 +52,7 @@
                 items: []
             }
         },
-        ready() {
+        mounted() {
             this.getTopMenu();
             appFunc.console('Component Top Menu ready.');
         },

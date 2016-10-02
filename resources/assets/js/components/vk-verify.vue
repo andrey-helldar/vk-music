@@ -1,12 +1,14 @@
 <template>
-    <div class="container">
-        <div class="center-align">
-            <h3>Need access verification</h3>
+    <div v-cloak>
+        <div class="container">
+            <div class="center-align">
+                <h3>Need access verification</h3>
 
-            <button class="btn btn-large btn-primary waves-effect waves-light" disabled>
-                <i class="material-icons left">check</i>
-                {{ buttonText }}
-            </button>
+                <button class="btn btn-large btn-primary waves-effect waves-light" disabled>
+                    <i class="material-icons left">check</i>
+                    {{ buttonText }}
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -17,7 +19,7 @@
                 buttonText: 'Checking access token'
             }
         },
-        ready() {
+        mounted() {
             this.$parent.checkAuth();
             this.dotButton();
             this.checkGetParams();

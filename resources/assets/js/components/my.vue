@@ -1,11 +1,13 @@
 <template>
-    <div class="container">
-        <h3>
-            {{ title }}
-        </h3>
+    <div v-cloak>
+        <div class="container">
+            <h3>
+                {{ title }}
+            </h3>
 
-        <div class="row">
-            <vue-audio v-ref:audio></vue-audio>
+            <div class="row">
+                <vue-audio ref:audio></vue-audio>
+            </div>
         </div>
     </div>
 </template>
@@ -20,7 +22,7 @@
         components: {
             VueAudio
         },
-        ready(){
+        mounted(){
             this.$parent.checkAuth();
             this.$refs.audio.load();
 //            this.$parent.hideLoader();

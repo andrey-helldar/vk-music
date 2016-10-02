@@ -29,7 +29,7 @@ function setComponent(name, path = '', result = true) {
 /**
  * Routes.
  */
-import VueRouter from 'vue-router';
+import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 /**
@@ -43,13 +43,6 @@ setComponent('app-component', 'layouts/app', false);
 setComponent('vk-verify');
 
 /**
- * Инициализация роутера.
- *
- * @type {Router}
- */
-window.router = new VueRouter();
-
-/**
  * Router redirect.
  */
 //router.redirect({
@@ -59,51 +52,69 @@ window.router = new VueRouter();
 /**
  * Router map.
  */
-router.map({
-    '/':                {
+const routes = [
+    {
         name:      'index',
+        path:      '/',
         component: setComponent('index')
     },
-    '/my':              {
+    {
         name:      'my',
+        path:      '/my',
         component: setComponent('my')
     },
-    '/search':          {
+    {
         name:      'search',
+        path:      '/search',
         component: setComponent('search')
     },
-    '/friends':         {
+    {
         name:      'friends',
+        path:      '/friends',
         component: setComponent('friends')
     },
-    '/groups':          {
+    {
         name:      'groups',
+        path:      '/groups',
         component: setComponent('groups')
     },
-    '/recommendations': {
+    {
         name:      'recommendations',
+        path:      '/recommendations',
         component: setComponent('recommendations')
     },
-    '/popular':         {
+    {
         name:      'popular',
+        path:      '/popular',
         component: setComponent('popular')
     },
     /**
      * Authenticate
      */
-    '/auth':            {
+    {
         name:      'auth',
+        path:      '/auth',
         component: setComponent('vk-auth')
     },
-    '/verify':          {
+    {
         name:      'verify',
+        path:      '/verify',
         component: setComponent('vk-verify')
     }
+];
+
+/**
+ * Инициализация роутера.
+ *
+ * @type {Router}
+ */
+const router = new VueRouter({
+    routes // short for routes: routes
 });
 
 /**
  * Application.
  */
-var App = Vue.extend({});
-
-router.start(App, '#app');
+const app = new Vue({
+    router
+}).$mount('#app');

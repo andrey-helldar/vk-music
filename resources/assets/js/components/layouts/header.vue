@@ -1,13 +1,15 @@
 <template>
-    <header>
-        <div class="container">
-            <h1>
-                <a v-link="{path: '/'}">
-                    <img src="/images/logotype.svg" alt="" class="logotype">
-                </a>
-            </h1>
-        </div>
-    </header>
+    <div v-cloak>
+        <header>
+            <div class="container">
+                <h1>
+                    <router-link to="{path: '/'}">
+                        <img src="/images/logotype.svg" alt="" class="logotype">
+                    </router-link>
+                </h1>
+            </div>
+        </header>
+    </div>
 </template>
 <script>
     export default{

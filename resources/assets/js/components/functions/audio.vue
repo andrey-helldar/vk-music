@@ -1,57 +1,59 @@
 <template>
-    <div class="input-field">
-        <input id="search" type="search" required v-model="filterKey">
-        <label for="search"><i class="material-icons">filter_list</i></label>
-        <i class="material-icons">close</i>
-    </div>
-
-    <div class="row">
-        <div class="col s6 m4 l3" v-for="item in items | filterBy filterKey">
-            <ul class="audio">
-                <li class="audio-title">
-                    <ul>
-                        <li>{{ item.artist.trim() }}</li>
-                        <li>{{ item.title.trim() }}</li>
-                        <li>{{ getGenre(item.genre_id) }}</li>
-                    </ul>
-                </li>
-
-                <li class="audio-actions">
-                    <div class="progress">
-                        <div class="determinate"></div>
-                    </div>
-
-                    <ul>
-                        <li class="audio-play valign-wrapper">
-                            <i class="material-icons waves-effect waves-light valign" @click="audioPlayOrPause(item, $index)">play_arrow</i>
-                        </li>
-                        <li class="audio-duration">
-                            <span v-if="audio.index !== $index">{{ timeToHumans(item.duration) }}</span>
-                            <span v-if="audio.index === $index">{{ timeToHumans(audio.currentTime) }}</span>
-                        </li>
-                        <li class="audio-download valign-wrapper">
-                            <i class="material-icons waves-effect-waves-light valign" @click="addMyAudio(item)">add</i>
-                            <i class="material-icons waves-effect waves-light valign" @click="download(item)">file_download</i>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+    <div v-cloak>
+        <div class="input-field">
+            <input id="search" type="search" required v-model="filterKey">
+            <label for="search"><i class="material-icons">filter_list</i></label>
+            <i class="material-icons">close</i>
         </div>
 
-        <div class="col s12 m8 offset-m2 center-align" v-if="!items.length">
-            <div class="card-panel materialize-red">
-                <div class="white-text">
-                    <h6>No audios</h6>
+        <div class="row">
+            <div class="col s6 m4 l3" v-for="item in filteredItems">
+                <ul class="audio">
+                    <li class="audio-title">
+                        <ul>
+                            <li>{{ item.artist.trim() }}</li>
+                            <li>{{ item.title.trim() }}</li>
+                            <li>{{ getGenre(item.genre_id) }}</li>
+                        </ul>
+                    </li>
+
+                    <li class="audio-actions">
+                        <div class="progress">
+                            <div class="determinate"></div>
+                        </div>
+
+                        <ul>
+                            <li class="audio-play valign-wrapper">
+                                <i class="material-icons waves-effect waves-light valign" @click="audioPlayOrPause(item, index)">play_arrow</i>
+                            </li>
+                            <li class="audio-duration">
+                                <span v-if="audio.index !== index">{{ timeToHumans(item.duration) }}</span>
+                                <span v-if="audio.index === index">{{ timeToHumans(audio.currentTime) }}</span>
+                            </li>
+                            <li class="audio-download valign-wrapper">
+                                <i class="material-icons waves-effect-waves-light valign" @click="addMyAudio(item)">add</i>
+                                <i class="material-icons waves-effect waves-light valign" @click="download(item)">file_download</i>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col s12 m8 offset-m2 center-align" v-if="!items.length">
+                <div class="card-panel materialize-red">
+                    <div class="white-text">
+                        <h6>No audios</h6>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-            <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio" @click="moreAudio">
-                <i class="material-icons">more_horiz</i>
-            </button>
+        <div class="row">
+            <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
+                <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio" @click="moreAudio">
+                    <i class="material-icons">more_horiz</i>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -84,17 +86,25 @@
                     }
                 },
                 url:         'audio.user',
-                default_url: 'audio.user'
+                default_url: 'audio.user',
+                filterKey:   ''
             }
         },
-        ready() {
+        mounted() {
             this.getGenres();
             appFunc.console('Component Audio ready.');
         },
-        watch:   {
+        watch:    {
             'loading': 'checkDataLoading'
         },
-        methods: {
+        computed: {
+            filteredItems: function () {
+                return this.items.filter(function (item) {
+                    return item.artist.indexOf(this.filterKey) || item.title.indexOf(this.filterKey)
+                })
+            }
+        },
+        methods:  {
             hideLoader(){
                 this.$root.$refs.app.hideLoader();
             },
