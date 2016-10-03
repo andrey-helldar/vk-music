@@ -45,7 +45,9 @@ setComponent('vk-verify');
 /**
  * Routes.
  */
-//import routes from './routes';
+//import routes2 from './routes';
+//console.log(routes2);
+
 const routes = [
     {
         name:      'index',

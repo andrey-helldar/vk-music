@@ -9,7 +9,7 @@
                     <ul class="left hide-on-med-and-down">
                         <li>
                             <router-link :to="{name: 'index'}">
-                                Hello!
+                                Hello, {{ username }}!
                             </router-link>
                         </li>
                     </ul>
@@ -17,7 +17,7 @@
                     <ul class="right hide-on-med-and-up">
                         <li>
                             <router-link :to="{name: 'index'}">
-                                Hello!
+                                Hello, {{ username }}!
                             </router-link>
                         </li>
                     </ul>
@@ -49,11 +49,13 @@
     export default {
         data(){
             return {
-                items: []
+                items:    [],
+                username: 'Guest'
             }
         },
         mounted() {
             this.getTopMenu();
+            this.user();
             appFunc.console('Component Top Menu ready.');
         },
         methods: {
@@ -80,7 +82,7 @@
              * @param defaultText
              * @returns {*}
              */
-            user(param, defaultText = undefined){
+            user(param = 'first_name', defaultText = undefined){
                 var data = this.$root.$refs.app.$data.user.info[param];
 
                 if (data === undefined) {
