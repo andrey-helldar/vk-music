@@ -6,7 +6,7 @@
             </h3>
 
             <div class="row">
-                <vue-audio ref:audio></vue-audio>
+                <vue-audio ref="audio"></vue-audio>
             </div>
         </div>
     </div>

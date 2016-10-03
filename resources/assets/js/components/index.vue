@@ -14,7 +14,7 @@
                                 <p>{{ item.description }}</p>
 
                                 <div class="panel-action">
-                                    <router-link to="{path: item.url}">
+                                    <router-link :to="{path: item.url}">
                                         Go to page
                                     </router-link>
                                 </div>
@@ -52,7 +52,7 @@
                             this.$parent.hideLoader();
                         }, function (response) {
                             appFunc.info(response.data.error, 'error');
-                            this.$parent.hideLoader();
+                            this.$parent.hideLoader()
                         }
                 );
             }

@@ -66,13 +66,14 @@
                 </div>
 
                 <div class="col s12 m8">
-                    <audio ref:audio></audio>
+                    <vue-audio ref="audio"></vue-audio>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import VueAudio from './functions/audio.vue'
     export default{
         data(){
             return {
@@ -90,6 +91,9 @@
                 selectedUserId: 0,
                 filterKey:      ''
             }
+        },
+        components: {
+            VueAudio
         },
         mounted(){
             this.$parent.checkAuth();

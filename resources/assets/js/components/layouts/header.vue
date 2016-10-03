@@ -3,7 +3,7 @@
         <header>
             <div class="container">
                 <h1>
-                    <router-link to="{path: '/'}">
+                    <router-link :to="{name: 'index'}">
                         <img src="/images/logotype.svg" alt="" class="logotype">
                     </router-link>
                 </h1>

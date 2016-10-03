@@ -4,10 +4,10 @@
 
         <main>
             <header>
-                <top-menu ref:top-menu></top-menu>
+                <top-menu ref="topMenu"></top-menu>
             </header>
 
-            <loader-screen ref:loader-screen></loader-screen>
+            <loader-screen ref="loaderScreen"></loader-screen>
 
             <router-view></router-view>
         </main>
@@ -29,7 +29,7 @@
             }
         },
         props:      {
-            auth:    Boolean,
+            auth:    String,
             default: false
         },
         computed:   {

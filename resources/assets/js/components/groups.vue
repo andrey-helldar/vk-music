@@ -48,7 +48,8 @@
                         </div>
 
                         <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-                            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more groups"
+                            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top"
+                               data-tooltip="Give more groups"
                                @click="moreGroups">
                                 <i class="material-icons">more_horiz</i>
                             </a>
@@ -58,13 +59,14 @@
                 </div>
 
                 <div class="col s12 m8">
-                    <audio ref:audio></audio>
+                    <vue-audio ref="audio"></vue-audio>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import VueAudio from './functions/audio.vue'
     export default{
         data(){
             return {
@@ -83,12 +85,15 @@
                 filterKey:      ''
             }
         },
+        components: {
+            VueAudio
+        },
         mounted(){
             this.$parent.checkAuth();
             this.getGroups();
             appFunc.console('Component Groups ready.');
         },
-        watch:    {
+        watch:      {
             'items':   {
                 handler: (newValue, oldValue) => {
                     this.$parent.hideLoader();
@@ -103,14 +108,14 @@
                 deep:    true
             }
         },
-        computed: {
+        computed:   {
             filteredItems: function () {
                 return this.items.filter(function (item) {
                     return item.name.indexOf(this.filterKey)
                 })
             }
         },
-        methods:  {
+        methods:    {
             /**
              * Получение списка контактов.
              */
