@@ -1,6 +1,6 @@
-//window._ = require('lodash');
-import Lodash from 'lodash';
-window._ = Lodash;
+window._ = require('lodash');
+//import _ from 'lodash';
+//window._ = _;
 
 /**
  * We'll load jQuery and the MaterializeCSS jQuery plugin which provides support
@@ -8,11 +8,11 @@ window._ = Lodash;
  * code may be modified to fit the specific needs of your application.
  */
 
-//window.$ = window.jQuery = require('jquery');
-import jQuery from 'jquery';
-window.$ = window.jQuery = jQuery;
+window.$ = window.jQuery = require('jquery');
+//import jQuery from 'jquery';
+//window.$ = window.jQuery = jQuery;
 
-import './materialize.min';
+require('./materialize.min');
 //import 'materialize-css';
 
 /**
@@ -21,14 +21,15 @@ import './materialize.min';
  * and simple, leaving you to focus on building your next great project.
  */
 
-import Vue from 'vue';
-window.Vue = Vue;
+window.Vue = require('vue');
+//import Vue from 'vue';
+//window.Vue = Vue;
 
 import VueResource from "vue-resource";
-import VueLoader from "vue-loader";
+//import VueLoader from "vue-loader";
 
 Vue.use(VueResource);
-Vue.use(VueLoader);
+//Vue.use(VueLoader);
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -61,7 +62,7 @@ Vue.http.interceptors.push((request, next) => {
 /**
  * Other
  */
-import './functions';
+require('./functions');
 
 /**
  * Other parameters of Vue.js.
