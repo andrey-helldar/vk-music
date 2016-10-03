@@ -43,10 +43,11 @@
             LoaderScreen,
             TopMenu
         },
-        mounted(){
+        beforeMount(){
             this.checkAuth();
             this.getUserInfo();
-
+        },
+        mounted(){
             appFunc.console('Component Main ready.');
         },
         methods:    {
