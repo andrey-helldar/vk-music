@@ -9,7 +9,7 @@
                     <ul class="left hide-on-med-and-down">
                         <li>
                             <router-link :to="{name: 'index'}">
-                                Hello, {{ username }}!
+                                Hello, {{ first_name }}!
                             </router-link>
                         </li>
                     </ul>
@@ -17,7 +17,7 @@
                     <ul class="right hide-on-med-and-up">
                         <li>
                             <router-link :to="{name: 'index'}">
-                                Hello, {{ username }}!
+                                Hello, {{ first_name }}!
                             </router-link>
                         </li>
                     </ul>
@@ -49,8 +49,8 @@
     export default {
         data(){
             return {
-                items:    [],
-                username: 'Guest'
+                items:      [],
+                first_name: 'Guest'
             }
         },
         mounted() {
@@ -78,22 +78,11 @@
             /**
              * Получение параметра пользователя из родительского элемента.
              *
-             * @param param
-             * @param defaultText
              * @returns {*}
              */
-            user(param = 'first_name', defaultText = undefined){
-                var data = this.$root.$refs.app.$data.user.info[param];
-
-                if (data === undefined) {
-                    if (defaultText !== undefined) {
-                        return defaultText;
-                    }
-
-                    return '';
-                }
-
-                return data;
+            user(){
+                var param = 'first_name';
+                this.first_name = this.$root.$refs.app.$data.user.info[param];
             }
         }
     }

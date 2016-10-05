@@ -21,10 +21,6 @@ class IndexController extends Controller
      */
     public function getIndex($slug = null)
     {
-//        if (!is_null($slug)) {
-//            return redirect()->route('index');
-//        }
-
         return view('app');
     }
 
@@ -74,19 +70,11 @@ class IndexController extends Controller
             'id' => 'required|numeric|min:1|exists:vk_files',
         ]);
 
-        if ($validator->fails()) {
-            return abort(404);
-        }
+        abort_if($validator->fails(), 404);
 
         $file = VkFile::whereId($id)->where('expired_at', '>', Carbon::now())->first();
 
-        if (is_null($file)) {
-            return abort(404);
-        }
-
-        if (!\Storage::disk('mp3')->exists($file->filename)) {
-            return abort(404);
-        }
+        abort_if(is_null($file) || !\Storage::disk('mp3')->exists($file->filename), 404);
 
         $file->downloads++;
         $file->save();
