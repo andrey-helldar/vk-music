@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak>
+    <div v-cloak class="vh">
         <header-component></header-component>
 
         <main>

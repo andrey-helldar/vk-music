@@ -63,7 +63,9 @@ $materialize-css-path: "../../../node_modules/materialize-css/sass/components/";
 
 /* 1. Skeleton
    ========================================================================== */
-body {
+body,
+#app,
+.vh {
     display: flex;
     min-height: 100vh;
     flex-direction: column;

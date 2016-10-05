@@ -1,7 +1,7 @@
 <template>
     <div v-cloak>
         <div class="input-field">
-            <input id="search" type="search" required v-model="filterKey">
+            <input id="search" type="search" required v-model="filterKey" v-bind:placeholder="searchPlaceholder.toUpperCase()">
             <label for="search"><i class="material-icons">filter_list</i></label>
             <i class="material-icons">close</i>
         </div>
@@ -48,8 +48,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
+        <div class="row" v-if="items.length < vk.count_all">
+            <div class="col s12 m12 center-align">
                 <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio" @click="moreAudio">
                     <i class="material-icons">more_horiz</i>
                 </button>
@@ -62,18 +62,18 @@
     export default {
         data(){
             return {
-                items:       [],
-                genres:      {},
-                vk:          {
+                items:             [],
+                genres:            {},
+                vk:                {
                     offset:    0,
                     count_all: 0
                 },
-                loading:     {
+                loading:           {
                     wait:       false,
                     position:   '',
                     showLoader: true
                 },
-                audio:       {
+                audio:             {
                     player:      false,
                     index:       -1,
                     currentTime: 0,
@@ -85,9 +85,10 @@
                         pause: 'stop'
                     }
                 },
-                url:         'audio.user',
-                default_url: 'audio.user',
-                filterKey:   ''
+                url:               'audio.user',
+                default_url:       'audio.user',
+                filterKey:         '',
+                searchPlaceholder: 'Filter'
             }
         },
         mounted() {

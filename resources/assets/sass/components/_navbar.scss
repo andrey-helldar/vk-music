@@ -14,7 +14,7 @@ nav {
         &.selection {
             li {
                 a {
-                    &.v-link-active {
+                    &.router-link-active {
                         background-color: $navbar-background-active;
                     }
                 }
