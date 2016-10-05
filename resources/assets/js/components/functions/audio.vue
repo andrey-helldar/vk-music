@@ -7,7 +7,7 @@
         </div>
 
         <div class="row">
-            <div class="col s6 m4 l3" v-for="item in filteredItems">
+            <div class="col s6 m4 l3" v-for="(item, index) in filteredItems">
                 <ul class="audio">
                     <li class="audio-title">
                         <ul>
@@ -98,10 +98,16 @@
             'loading': 'checkDataLoading'
         },
         computed: {
-            filteredItems: function () {
-                return this.items.filter(function (item) {
-                    return item.artist.indexOf(this.filterKey) || item.title.indexOf(this.filterKey)
-                })
+            filteredItems(){
+                var filterKey = this.filterKey.toLowerCase();
+
+                return this.items.filter((item)=> {
+                    if (filterKey.length == 0) {
+                        return true;
+                    }
+
+                    return item.artist.toLowerCase().indexOf(filterKey) > -1 || item.title.toLowerCase().indexOf(filterKey) > -1;
+                });
             }
         },
         methods:  {
@@ -154,19 +160,18 @@
                 this.setStatus('send');
 
                 this.$http.post(this.url, Object.assign({
-                            offset:     this.vk.offset,
-                            owner_type: this.vk.owner_type,
-                            owner_id:   this.vk.owner_id
-                        }, postData)
-                )
+                    offset:     this.vk.offset,
+                    owner_type: this.vk.owner_type,
+                    owner_id:   this.vk.owner_id
+                }, postData))
                         .then(
-                                (response) => {
+                                (response)=> {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
                                 },
-                                (response) => {
+                                (response)=> {
                                     this.loading.wait = false;
 
                                     switch (response.data.error_code) {
@@ -191,7 +196,8 @@
                 this.setStatus('check');
 
                 this.$http.get(this.url)
-                        .then((response) => {
+                        .then(
+                                (response) => {
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
@@ -199,7 +205,8 @@
 
                                     this.hideLoader();
                                     appFunc.info(response.data.response.resolve, 'success');
-                                }, (response) => {
+                                },
+                                (response)=> {
                                     switch (response.status) {
 
                                         case 502:
@@ -259,9 +266,11 @@
              */
             getGenres(){
                 this.$http.get('audio.genres')
-                        .then((response) => {
+                        .then(
+                                (response) => {
                                     this.genres = response.data.response.genres;
-                                }, (response) => {
+                                },
+                                ()=> {
                                     this.genres = {};
                                 }
                         );
@@ -281,15 +290,14 @@
              */
             checkTimer(){
                 var parent = this;
-                var checkAudio = setInterval(
-                        ()=> {
+                var checkAudio = setInterval(() => {
                             if (parent.loading.wait === false) {
                                 clearInterval(checkAudio);
                             } else {
                                 parent.getAudioLoaded();
                             }
-                        }, 3000, parent
-                );
+                        },
+                        3000, parent);
             },
             /**
              * Изменение визуального статуса выполнения.
@@ -355,11 +363,11 @@
 
                 var parent = this;
 
-                this.audio.player.ontimeupdate = () => {
+                this.audio.player.ontimeupdate = function () {
                     parent.onTimeUpdateListener(this);
                 };
 
-                this.audio.player.onpause = () => {
+                this.audio.player.onpause = function () {
                     if (parent.audio.player.ended === true) {
                         parent.audioPause();
                     }
@@ -400,15 +408,16 @@
                 var parent = this;
                 var audioSetVolume = setInterval(() => {
 //                    appFunc.console('Volume ' + parent.audio.player.volume);
-                    var volume = parent.audio.player.volume;
+                            var volume = parent.audio.player.volume;
 
-                    if (volume <= 0 || volume === undefined) {
-                        parent.audio.player.pause();
-                        clearInterval(audioSetVolume);
-                    } else {
-                        parent.audio.player.volume -= 0.1;
-                    }
-                }, 200, parent);
+                            if (volume <= 0 || volume === undefined) {
+                                parent.audio.player.pause();
+                                clearInterval(audioSetVolume);
+                            } else {
+                                parent.audio.player.volume -= 0.1;
+                            }
+                        },
+                        200, parent);
 
                 return true;
             },
@@ -440,10 +449,12 @@
                             owner_id: item.owner_id
                         }
                 )
-                        .then((response) => {
+                        .then(
+                                (response)=> {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.downloadFile(response.data.response.url, response.data.response.title);
-                                }, (response) => {
+                                },
+                                (response) => {
                                     appFunc.console(response.data);
                                 }
                         );
@@ -508,15 +519,15 @@
              */
             addMyAudio(item){
                 this.$http.post('audio.add', {
-                            audio_id: item.id,
-                            owner_id: item.owner_id
+                    audio_id: item.id,
+                    owner_id: item.owner_id
+                }).then(
+                        (response) => {
+                            appFunc.info(response.data.response.resolve, 'success');
+                        },
+                        (response) => {
                         }
-                )
-                        .then((response) => {
-                                    appFunc.info(response.data.response.resolve, 'success');
-                                }, (response) => {
-                                }
-                        );
+                );
             }
         }
     }
