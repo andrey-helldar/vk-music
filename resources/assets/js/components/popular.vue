@@ -25,6 +25,7 @@
         mounted(){
             this.$parent.checkAuth();
             this.$parent.hideLoader();
+            this.$refs.audio.load('audio.popular');
             appFunc.console('Component Popular ready.');
         }
     }
