@@ -24,7 +24,7 @@
         },
         mounted(){
             this.$parent.checkAuth();
-            this.$parent.hideLoader();
+            this.$refs.audio.load('audio.recommendations');
             appFunc.console('Component Recommendations ready.');
         }
     }

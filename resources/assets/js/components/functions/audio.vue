@@ -385,17 +385,15 @@
             audioPause(){
                 if (this.audio.player !== false) {
                     appFunc.info('Stopped: ' + this.audio.title);
-                    this.backgroundColor(false);
 
+                    this.backgroundColor(false);
                     this.audio.player.pause();
 
-//                    if (this.audioVolume() === true) {
                     this.audio.player = false;
                     this.audio.index = -1;
                     this.audio.currentTime = 0;
                     this.audio.duration = 0;
                     this.audio.title = '';
-//                    }
                 }
 
                 $('.audio').removeClass(this.audio.class);
@@ -407,7 +405,6 @@
             audioVolume(){
                 var parent = this;
                 var audioSetVolume = setInterval(() => {
-//                    appFunc.console('Volume ' + parent.audio.player.volume);
                             var volume = parent.audio.player.volume;
 
                             if (volume <= 0 || volume === undefined) {

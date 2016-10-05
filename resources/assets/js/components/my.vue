@@ -25,7 +25,6 @@
         mounted(){
             this.$parent.checkAuth();
             this.$refs.audio.load();
-//            this.$parent.hideLoader();
             appFunc.console('Component My ready.');
         }
     }
