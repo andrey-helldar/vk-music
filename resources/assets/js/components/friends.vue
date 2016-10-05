@@ -3,7 +3,6 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m4">
-
                     <h3>
                         Friends
                         <sup class="grey-text text-lighten-2" v-if="items.length">
@@ -17,55 +16,52 @@
                         <i class="material-icons">close</i>
                     </div>
 
-                    <div class="row">
-                        <div class="col s12 m12">
-                            <ul class="collection">
-
-                                <li class="collection-item avatar" v-if="items.length" v-for="item in filteredItems">
-                                    <img class="circle" alt="Avatar" v-bind:src="item.photo_50">
-                                    <span class="title">
+                    <ul class="collection">
+                        <li class="collection-item avatar" v-if="items.length" v-for="item in filteredItems">
+                            <img class="circle" alt="Avatar" v-bind:src="item.photo_50">
+                            <span class="title">
                                     {{ item.first_name }}
                                     {{ item.last_name }}
                                 </span>
 
-                                    <p>
-                                        <span class="green-text" v-if="item.online">Online</span>
-                                        <span class="grey-text" v-else>Offline</span>
-                                    </p>
+                            <p>
+                                <span class="green-text" v-if="item.online">Online</span>
+                                <span class="grey-text" v-else>Offline</span>
+                            </p>
 
-                                    <a class="secondary-content" href="#!" @click="getFriendAudios(item)">
-                                        <i class="material-icons">send</i>
-                                    </a>
-                                </li>
+                            <button class="btn-flat waves-effect waves-blue secondary-content" @click="getFriendAudios(item)">
+                                <i class="material-icons">send</i>
+                            </button>
+                        </li>
 
-                                <li class="collection-item avatar" v-if="!items.length">
-                                    <i class="material-icons circle">account_circle</i>
-                                    <span class="title">No friends</span>
-                                    <p>
-                                        ...no audios...<br>
-                                        ...no actions...
-                                    </p>
+                        <li class="collection-item avatar" v-if="!items.length">
+                            <i class="material-icons circle">account_circle</i>
+                            <span class="title">No friends</span>
+                            <p>
+                                ...no audios...<br>
+                                ...no actions...
+                            </p>
 
-                                    <a class="secondary-content disabled">
-                                        <i class="material-icons grey-text">clear</i>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-
-                        <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-                            <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top"
-                               data-tooltip="Give more friends"
-                               @click="moreFriends">
-                                <i class="material-icons">more_horiz</i>
+                            <a class="secondary-content disabled">
+                                <i class="material-icons grey-text">clear</i>
                             </a>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
 
+                    <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
+                        <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top"
+                           data-tooltip="Give more friends"
+                           @click="moreFriends">
+                            <i class="material-icons">more_horiz</i>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="col s12 m8">
+                    <h3>
+                        {{ selectedUserName }}
+                    </h3>
+
                     <vue-audio ref="audio"></vue-audio>
                 </div>
             </div>
@@ -77,19 +73,21 @@
     export default{
         data(){
             return {
-                items:          [],
-                loading:        {
+                items:            [],
+                vk:               {
+                    offset:    0,
+                    count_all: 0
+                },
+                loading:          {
                     wait:       false,
                     position:   '',
                     showLoader: true
                 },
-                vk:             {
-                    offset:    0,
-                    count_all: 0
-                },
-                url:            'friends.user',
-                selectedUserId: 0,
-                filterKey:      ''
+                url:              'friends.user',
+                url_user:         'audio.user',
+                selectedUserName: '...',
+                selectedUserId:   0,
+                filterKey:        ''
             }
         },
         components: {
@@ -100,45 +98,54 @@
             this.getFriends();
             appFunc.console('Component Friends ready.');
         },
-        watch:    {
-            'items':   {
-                handler: (newValue, oldValue) => {
-                    this.$parent.hideLoader();
+        watch:      {
+            'loading': 'checkDataLoading'
+        },
+        computed:   {
+            filteredItems(){
+                var filterKey = this.filterKey.toLowerCase();
+
+                return this.items.filter((item)=> {
+                    if (filterKey.length == 0) {
+                        return true;
+                    }
+
+                    return item.first_name.toLowerCase().indexOf(filterKey) > -1 || item.last_name.toLowerCase().indexOf(filterKey) > -1;
+                });
+            }
+        },
+        methods:    {
+            hideLoader(){
+                this.$root.$refs.app.hideLoader();
+            },
+            /**
+             * Проверка статуса изменения отображения окна.
+             */
+            checkDataLoading(newValue, oldValue){
+                if (this.loading.showLoader === true) {
+                    this.$root.$refs.app.showLoader('Please, wait...', newValue.position);
                 }
             },
-            'loading': {
-                handler: (newValue, oldValue) => {
-                    if (this.loading.showLoader === true) {
-                        this.$parent.showLoader('Please, wait...', newValue.position);
-                    }
-                },
-                deep:    true
-            }
-        },
-        computed: {
-            filteredItems: function () {
-                return this.items.filter(function (item) {
-                    return item.first_name.indexOf(this.filterKey) || item.last_name.indexOf(this.filterKey)
-                })
-            }
-        },
-        methods:  {
             /**
              * Получение списка контактов.
              */
             getFriends(){
+                this.loading.showLoader = true;
+                this.setStatus('send');
+
                 this.$http.post(this.url, {
-                            count:  100,
-                            offset: this.vk.offset,
-                            fields: 'photo_50'
-                        }
-                )
-                        .then((response) => {
+                    count:  100,
+                    offset: this.vk.offset,
+                    fields: 'photo_50'
+                })
+                        .then(
+                                (response)=> {
                                     appFunc.info(response.data.response.resolve, 'success');
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
-                                }, (response) => {
+                                },
+                                (response) => {
                                     this.loading.wait = false;
 
                                     switch (response.data.error_code) {
@@ -153,7 +160,8 @@
                                             appFunc.info(response.data.error, 'error');
                                     }
                                 }
-                        );
+                        )
+                ;
             },
             /**
              * Проверка выполненных запросов и вывод записей на экран.
@@ -162,13 +170,17 @@
                 this.setStatus('check');
 
                 this.$http.get(this.url)
-                        .then((response) => {
-                                    appFunc.info(response.data.response.resolve, 'success');
+                        .then(
+                                (response) => {
                                     this.loading.wait = false;
                                     this.vk.offset += response.data.response.count_query;
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
-                                }, (response) => {
+
+                                    this.hideLoader();
+                                    appFunc.info(response.data.response.resolve, 'success');
+                                },
+                                (response) => {
                                     switch (response.status) {
 
                                         case 502:
@@ -183,6 +195,16 @@
                                         case 406:
                                             this.loading.position = response.data.error.description;
                                             break;
+
+                                        case 403:
+                                            this.loading.wait = false;
+                                            this.vk.offset = 0;
+                                            this.vk.count_all = [];
+                                            this.items = [];
+
+                                            appFunc.info(response.data.error.resolve, 'error');
+                                            this.hideLoader();
+                                            return;
 
                                         case 401:
                                             appFunc.console(response.statusText, 'info');
@@ -211,15 +233,14 @@
              */
             checkTimer(){
                 var parent = this;
-                var checkAudio = setInterval(
-                        () => {
+                var checkFriends = setInterval(() => {
                             if (parent.loading.wait === false) {
-                                clearInterval(checkAudio);
+                                clearInterval(checkFriends);
                             } else {
                                 parent.getFriendsLoaded();
                             }
-                        }, 3000, parent
-                );
+                        },
+                        3000, parent);
             },
             /**
              * Изменение визуального статуса выполнения.
@@ -230,9 +251,7 @@
 
                 var notify = (parent, text, description, style, showModal = true) => {
                     if (parent.loading.showLoader === true) {
-//                        if (showModal === true) {
-                        parent.$parent.showLoader(text, description, style);
-//                        }
+                        parent.$root.$refs.app.showLoader(text, description, style);
                     } else {
                         appFunc.info(text, 'info', 1000);
                     }
@@ -252,7 +271,7 @@
                         break;
 
                     default:
-                        this.$parent.hideLoader();
+                        this.hideLoader();
                 }
             },
             /**
@@ -268,9 +287,10 @@
              * @param item
              */
             getFriendAudios(item){
-                var title = item.first_name + ' ' + item.last_name;
+                this.selectedUserName = item.first_name + ' ' + item.last_name;
+                this.$refs.audio.load(this.url_user, item.id, 'user');
 
-                this.$parent.loadAudios('audio.user', title, item.id, 'user');
+                return false;
             }
         }
     }

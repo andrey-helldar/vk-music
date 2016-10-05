@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+@for $i from 1 through 6 {
+    h#{$i} {
+        sup {
+            font-size: 50%;
+        }
+    }
+}

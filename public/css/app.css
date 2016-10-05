@@ -5790,6 +5790,24 @@ nav ul.selection li a.router-link-active {
       width: 100%;
       text-align: center; } }
 
+h1 sup {
+  font-size: 50%; }
+
+h2 sup {
+  font-size: 50%; }
+
+h3 sup {
+  font-size: 50%; }
+
+h4 sup {
+  font-size: 50%; }
+
+h5 sup {
+  font-size: 50%; }
+
+h6 sup {
+  font-size: 50%; }
+
 /* ==========================================================================
    SOFEE variables
    ========================================================================== */
