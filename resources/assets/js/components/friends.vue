@@ -49,11 +49,10 @@
                     </ul>
 
                     <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-                        <a href="#!" class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top"
-                           data-tooltip="Give more friends"
-                           @click="moreFriends">
+                        <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
+                                @click="moreFriends">
                             <i class="material-icons">more_horiz</i>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -137,31 +136,29 @@
                     count:  100,
                     offset: this.vk.offset,
                     fields: 'photo_50'
-                })
-                        .then(
-                                (response)=> {
-                                    appFunc.info(response.data.response.resolve, 'success');
+                }).then(
+                        (response)=> {
+                            appFunc.info(response.data.response.resolve, 'success');
+                            this.loading.wait = true;
+                            this.loading.position = response.data.response.description;
+                            this.checkTimer();
+                        },
+                        (response) => {
+                            this.loading.wait = false;
+
+                            switch (response.data.error_code) {
+                                case 20:
+                                    appFunc.info(response.data.error, 'info');
                                     this.loading.wait = true;
-                                    this.loading.position = response.data.response.description;
                                     this.checkTimer();
-                                },
-                                (response) => {
-                                    this.loading.wait = false;
+                                    break;
 
-                                    switch (response.data.error_code) {
-                                        case 20:
-                                            appFunc.info(response.data.error, 'info');
-                                            this.loading.wait = true;
-                                            this.checkTimer();
-                                            break;
-
-                                        default:
-                                            this.setStatus('hide');
-                                            appFunc.info(response.data.error, 'error');
-                                    }
-                                }
-                        )
-                ;
+                                default:
+                                    this.setStatus('hide');
+                                    appFunc.info(response.data.error, 'error');
+                            }
+                        }
+                );
             },
             /**
              * Проверка выполненных запросов и вывод записей на экран.

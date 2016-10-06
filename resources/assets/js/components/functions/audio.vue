@@ -1,7 +1,7 @@
 <template>
     <div v-cloak>
         <div class="input-field">
-            <input id="search" type="search" required v-model="filterKey" v-bind:placeholder="searchPlaceholder.toUpperCase()">
+            <input id="search" type="search" required v-model="filterKey"/>
             <label for="search"><i class="material-icons">filter_list</i></label>
             <i class="material-icons">close</i>
         </div>
