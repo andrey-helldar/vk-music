@@ -74,13 +74,14 @@
                     showLoader: true
                 },
                 audio:             {
-                    player:      false,
-                    index:       -1,
-                    currentTime: 0,
-                    duration:    0,
-                    title:       '',
-                    class:       'audio-playing',
-                    buttons:     {
+                    player:            false,
+                    index:             -1,
+                    currentTime:       0,
+                    maxSecondsPlaying: 60,
+                    duration:          0,
+                    title:             '',
+                    class:             'audio-playing',
+                    buttons:           {
                         play:  'play_arrow',
                         pause: 'stop'
                     }
@@ -110,6 +111,9 @@
                     return item.artist.toLowerCase().indexOf(filterKey) > -1 || item.title.toLowerCase().indexOf(filterKey) > -1;
                 });
             }
+        },
+        beforeDestroy(){
+            this.audioPause();
         },
         methods:  {
             hideLoader(){
@@ -359,7 +363,6 @@
                 appFunc.info('Playing: ' + this.audio.title);
 
                 this.audio.player = new Audio(item.url);
-                this.audio.player.volume = 1.0;
                 this.audio.player.play();
 
                 var parent = this;
@@ -401,34 +404,15 @@
                 $('.audio .audio-actions .audio-play i').text(this.audio.buttons.play);
             },
             /**
-             * Останавливаем воспроизведение аудио плавно.
-             */
-            audioVolume(){
-                var parent = this;
-                var audioSetVolume = setInterval(() => {
-                            var volume = parent.audio.player.volume;
-
-                            if (volume <= 0 || volume === undefined) {
-                                parent.audio.player.pause();
-                                clearInterval(audioSetVolume);
-                            } else {
-                                parent.audio.player.volume -= 0.1;
-                            }
-                        },
-                        200, parent);
-
-                return true;
-            },
-            /**
              * Обновление времени проигрываемого трека.
              */
-            onTimeUpdateListener: (player) => {
+            onTimeUpdateListener(player){
                 var currentTime = parseInt(player.currentTime);
 
                 this.audio.currentTime = currentTime;
                 this.backgroundColor();
 
-                if (currentTime > 30) {
+                if (currentTime > this.audio.maxSecondsPlaying) {
                     this.audioPause();
                 }
             },
@@ -446,16 +430,15 @@
                             duration: item.duration,
                             owner_id: item.owner_id
                         }
-                )
-                        .then(
-                                (response)=> {
-                                    appFunc.info(response.data.response.resolve, 'success');
-                                    this.downloadFile(response.data.response.url, response.data.response.title);
-                                },
-                                (response) => {
-                                    appFunc.console(response.data);
-                                }
-                        );
+                ).then(
+                        (response)=> {
+                            appFunc.info(response.data.response.resolve, 'success');
+                            this.downloadFile(response.data.response.url, response.data.response.title);
+                        },
+                        (response) => {
+                            appFunc.console(response.data);
+                        }
+                );
             },
             /**
              * Непосредственно загрузка файла.
@@ -522,8 +505,6 @@
                 }).then(
                         (response) => {
                             appFunc.info(response.data.response.resolve, 'success');
-                        },
-                        (response) => {
                         }
                 );
             }
