@@ -13,7 +13,15 @@
 
 Route::get('verify', 'IndexController@getVerify');
 
-Route::get('/{slug?}', [
+/**
+ * Скачивание файла пользователем.
+ */
+Route::get('download/{id?}', [
+    'as'   => 'download',
+    'uses' => 'IndexController@getDownloadFile',
+]);
+
+Route::get('{slug?}', [
     'as'   => 'index',
     'uses' => 'IndexController@getIndex',
 ]);

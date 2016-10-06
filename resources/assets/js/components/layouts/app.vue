@@ -1,6 +1,6 @@
 <template>
     <div v-cloak class="vh">
-        <header-component></header-component>
+        <header-component ref="header"></header-component>
 
         <main>
             <header>

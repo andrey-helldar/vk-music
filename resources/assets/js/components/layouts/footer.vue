@@ -34,6 +34,9 @@
     export default{
         data(){
             return {}
+        },
+        mounted(){
+            appFunc.console('Component Footer ready.');
         }
     }
 </script>

@@ -417,47 +417,6 @@
                 }
             },
             /**
-             * Основная форма загрузки файла с системой кэширования.
-             */
-            download(item){
-                var title = item.artist.trim() + ' - ' + item.title.trim();
-                appFunc.info('Preparing to download:<br>' + title, 'info');
-
-                this.$http.post('download', {
-                            url:      item.url,
-                            artist:   item.artist.trim(),
-                            title:    item.title.trim(),
-                            duration: item.duration,
-                            owner_id: item.owner_id
-                        }
-                ).then(
-                        (response)=> {
-                            appFunc.info(response.data.response.resolve, 'success');
-                            this.downloadFile(response.data.response.url, response.data.response.title);
-                        },
-                        (response) => {
-                            appFunc.console(response.data);
-                        }
-                );
-            },
-            /**
-             * Непосредственно загрузка файла.
-             */
-            downloadFile(url, title){
-                var element = document.createElement('a');
-
-                element.setAttribute('href', url);
-
-                appFunc.console(element.getAttribute('href'));
-
-                element.style.display = 'none';
-                document.body.appendChild(element);
-
-                element.click();
-
-                document.body.removeChild(element);
-            },
-            /**
              * Транслируем глобальную функцию преобразования времени.
              *
              * @param time
@@ -507,6 +466,14 @@
                             appFunc.info(response.data.response.resolve, 'success');
                         }
                 );
+            },
+            /**
+             * Передача запроса на скачивание файла.
+             *
+             * @param item
+             */
+            download(item){
+                this.$root.$refs.app.$refs.header.$refs.download.getDownload(item);
             }
         }
     }

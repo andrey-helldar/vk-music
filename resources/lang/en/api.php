@@ -18,6 +18,8 @@ return [
     40 => 'The data was successfully uploaded. Processing ...',
 
     50 => 'Download:<br>:filename',
+    51 => 'The track has been successfully added to the queue. Please, wait...',
+    52 => 'The query is empty.',
 
     60 => 'User not found',
 ];

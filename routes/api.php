@@ -11,10 +11,6 @@
 |
 */
 
-//Route::get('/user', function (Request $request) {
-//    return $request->user();
-//})->middleware('auth:api');
-
 Route::get('top.menu', 'Api\AppController@getTopMenu');
 Route::get('main.blocks', 'Api\AppController@getMainBlocks');
 Route::get('vk.params', 'Api\AppController@getParams');
@@ -28,8 +24,11 @@ Route::group([
 ], function () {
     // Получение идентификаторов жанров.
     Route::get('audio.genres', 'Api\AudioController@getGenres');
+
     // Запрос на формирование ссылки для скачивания файла.
-    Route::post('download', 'Api\AppController@postDownloadFile');
+    Route::post('download', 'Api\DownloadController@storeFile');
+    // Получение файла.
+    Route::get('download', 'Api\DownloadController@getFiles');
 
 
     // Запрос треков пользователя.

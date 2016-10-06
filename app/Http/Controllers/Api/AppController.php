@@ -8,6 +8,7 @@ use Symfony\Component\Debug\Exception\FatalErrorException;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 use VKMUSIC\VkFile;
+use VKMUSIC\VkQueue;
 use VKMUSIC\VkUser;
 
 class AppController extends Controller
@@ -71,85 +72,6 @@ class AppController extends Controller
             'v'             => config('vk.api_version', 5.53),
             'revoke'        => config('vk.revoke', 0),
         ]);
-    }
-
-    /**
-     * Загрузка файлов пользователем с учетом статистики скачиваний.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-06
-     * @since   1.0
-     *
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function postDownloadFile(Request $request)
-    {
-        $validator = \Validator::make($request->all(), [
-            'url'      => 'required|url',
-            'artist'   => 'required|string|max:255',
-            'title'    => 'required|string|max:255',
-            'duration' => 'required|numeric|min:0',
-            'owner_id' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return ResponseController::error(0, $validator->errors()->all());
-        }
-
-        $disk          = 'mp3';
-        $url           = mb_substr($request->url, 0, mb_strpos($request->url, '?'));
-        $extension     = pathinfo($url, PATHINFO_EXTENSION);
-        $filename_orig = pathinfo($url, PATHINFO_FILENAME);
-        $filename      = sprintf("%s-%s-%s.%s", $request->owner_id, $request->duration, $filename_orig, $extension);
-        $title         = sprintf("%s - %s.%s", $request->artist, $request->title, $extension);
-
-        if (!\Storage::disk($disk)->exists($filename)) {
-            try {
-                $http = new \GuzzleHttp\Client;
-                $file = $http->get($url);
-                \Storage::disk($disk)->put($filename, $file->getBody());
-            } catch (FatalErrorException $e) {
-                return ResponseController::error(0, $e->getMessage());
-            }
-        }
-
-        $file_id = $this->saveFileToDatabase($filename, $title);
-
-        return ResponseController::success(0, [
-            'resolve' => trans('api.50', [
-                'filename' => $request->artist . ' - ' . $request->title,
-            ]),
-            'url'     => route('download', ['id' => $file_id]),
-            'title'   => $title,
-        ]);
-    }
-
-    /**
-     * Сохраняем запись о файле в базу и возвращаем ее идентификатор.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-07
-     * @since   1.0
-     *
-     * @param $filename
-     * @param $title
-     *
-     * @return mixed
-     */
-    private function saveFileToDatabase($filename, $title)
-    {
-        $file = VkFile::withTrashed()->firstOrNew([
-            'filename' => $filename,
-        ]);
-
-        $file->title      = $title;
-        $file->expired_at = Carbon::now()->addMinutes((int)config('vk.files_expired_in', 10));
-        $file->deleted_at = null;
-        $file->save();
-
-        return $file->id;
     }
 
     /**
