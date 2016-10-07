@@ -62,10 +62,20 @@ class DownloadController extends Controller
         }
 
         $user->files()->delete();
+        $items = [];
+
+        foreach ($files as $file) {
+            $items[] = [
+                'audios' => $file->audios,
+                'url'    => route('download', [
+                    'id' => $file->file_id,
+                ]),
+            ];
+        }
 
         return ResponseController::success(0, [
             'resolve' => trans('api.40'),
-            'items'   => $files,
+            'items'   => $items,
         ]);
     }
 

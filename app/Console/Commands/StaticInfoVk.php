@@ -216,6 +216,7 @@ class StaticInfoVk extends Command
         Download::create([
             'user_id'    => $item->user_id,
             'file_id'    => $file_id,
+            'audios'     => $response->owner_id . '_',
             'expired_at' => Carbon::now()->addMinutes(30),
         ]);
     }

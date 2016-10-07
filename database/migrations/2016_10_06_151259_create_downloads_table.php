@@ -17,6 +17,7 @@ class CreateDownloadsTable extends Migration
 
             $table->integer('user_id');
             $table->integer('file_id');
+            $table->string('audios');
             $table->timestamp('expired_at');
 
             $table->timestamps();
