@@ -1,7 +1,46 @@
 <template>
-    <div class="container">
-        Items: <strong>{{ items.length }}</strong>
+    <button class="badge new blue white-text waves-effect waves-light" @click="downloadModalOpen">
+        {{ items.length }}
+    </button>
+
+    <!--start: Modal-->
+    <div class="modal bottom-sheet" id="downloadModal">
+        <div class="modal-content" v-if="items.length">
+            <h5>
+                In queue:
+            </h5>
+
+            <ul class="collection">
+                <li class="collection-item avatar" v-for="item in items">
+                    <i class="material-icons circle green">play_arrow</i>
+                    <span class="title">
+                        {{ item.artist }} - {{ item.title }}
+                    </span>
+
+                    <span class="badge" data-badge-caption="in queue position">
+                        1
+                    </span>
+
+                    <span class="badge">
+                        <i class="material-icons">send</i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="modal-content valign-wrapper center-align" v-else>
+            <h5 class="valign">
+                No items
+            </h5>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-flat modal-action modal-close waves-effect waves-green">
+                Close
+            </button>
+        </div>
     </div>
+    <!--end: Modal-->
 </template>
 <script>
     export default{
@@ -22,15 +61,16 @@
                 var title = item.artist.trim() + ' - ' + item.title.trim();
                 appFunc.info('Preparing to download:<br>' + title, 'info');
 
-                this.$http.post('download', {
-                            id:       item.id,
-                            artist:   item.artist.trim(),
-                            title:    item.title.trim(),
-                            duration: item.duration,
-                            owner_id: item.owner_id.toString(),
-                            audios:   item.owner_id.toString() + '_' + item.id
-                        }
-                ).then(
+                var item = {
+                    id:       item.id,
+                    artist:   item.artist.trim(),
+                    title:    item.title.trim(),
+                    duration: item.duration,
+                    owner_id: item.owner_id.toString(),
+                    audios:   item.owner_id.toString() + '_' + item.id
+                };
+
+                this.$http.post('download', item).then(
                         (response)=> {
                             this.items.push(item);
                             appFunc.info(response.data.response.resolve, 'success');
@@ -58,6 +98,7 @@
                                 (response) => {
                                     response.data.response.items.forEach((item)=> {
                                         this.downloadFile(item.url, item.title);
+                                        this.deleteItemFromQueue(item.audios);
                                         appFunc.info(item.title, 'success');
                                     });
                                 },
@@ -131,6 +172,26 @@
                             }
                         },
                         3000, parent);
+            },
+            /**
+             * Удаляем файл из очереди скачивания.
+             */
+            deleteItemFromQueue(key){
+                var parent = this;
+
+                this.items.forEach((item)=> {
+                    var el = item.audios.indexOf(key);
+
+                    if (el != -1) {
+                        parent.items.splice(el, 1);
+                    }
+                });
+            },
+            /**
+             * Открываем список скачиваемых треков.
+             */
+            downloadModalOpen(){
+                $('#downloadModal').openModal();
             }
         }
     }
