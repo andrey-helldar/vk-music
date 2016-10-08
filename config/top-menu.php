@@ -37,4 +37,10 @@ return [
         'title'     => '',
         'icon'      => 'search',
     ],
+    [
+        'is_active' => true,
+        'url'       => '/feedback',
+        'title'     => '',
+        'icon'      => 'feedback',
+    ],
 ];

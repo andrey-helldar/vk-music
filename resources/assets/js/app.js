@@ -4,7 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import './bootstrap';
+import "./bootstrap";
+import VueRouter from "vue-router";
 
 /**
  * Подгрузка и возврат компонента.
@@ -29,7 +30,6 @@ function setComponent(name, path = '', result = true) {
 /**
  * Routes.
  */
-import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 /**
@@ -60,11 +60,6 @@ const routes = [
         component: setComponent('my')
     },
     {
-        name:      'search',
-        path:      '/search',
-        component: setComponent('search')
-    },
-    {
         name:      'friends',
         path:      '/friends',
         component: setComponent('friends')
@@ -83,6 +78,16 @@ const routes = [
         name:      'popular',
         path:      '/popular',
         component: setComponent('popular')
+    },
+    {
+        name:      'search',
+        path:      '/search',
+        component: setComponent('search')
+    },
+    {
+        name:      'feedback',
+        path:      '/feedback',
+        component: setComponent('feedback')
     },
     /**
      * Authenticate

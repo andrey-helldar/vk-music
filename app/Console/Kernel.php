@@ -6,8 +6,8 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use VKMUSIC\Console\Commands\Clearing;
 use VKMUSIC\Console\Commands\DeleteFiles;
+use VKMUSIC\Console\Commands\ProcessingInfoVk;
 use VKMUSIC\Console\Commands\RequestVk;
-use VKMUSIC\Console\Commands\StaticInfoVk;
 
 class Kernel extends ConsoleKernel
 {

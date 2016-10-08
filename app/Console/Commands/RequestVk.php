@@ -72,7 +72,9 @@ class RequestVk extends Command
                 continue;
             }
 
-            $response = RequestController::send('POST', 'https://api.vk.com/method/' . $item->method, json_decode($item->context));
+            $url = config('vk.request_url', 'http://localhost');
+
+            $response = RequestController::send('POST', str_finish($url, '/') . $item->method, json_decode($item->context));
 
             if (!empty($response->error_description)) {
                 $this->log($item->id, 'storeError :: ' . $response->error_description);

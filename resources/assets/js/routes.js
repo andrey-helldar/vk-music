@@ -1,4 +1,3 @@
-
 const routes = [
     {
         name:      'index',
@@ -34,6 +33,11 @@ const routes = [
         name:      'popular',
         path:      '/popular',
         component: setComponent('popular')
+    },
+    {
+        name:      'feedback',
+        path:      '/feedback',
+        component: setComponent('feedback')
     },
     /**
      * Authenticate

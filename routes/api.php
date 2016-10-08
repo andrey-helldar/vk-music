@@ -15,6 +15,10 @@ Route::get('top.menu', 'Api\AppController@getTopMenu');
 Route::get('main.blocks', 'Api\AppController@getMainBlocks');
 Route::get('vk.params', 'Api\AppController@getParams');
 Route::post('vk.verify', 'Auth\VkController@postVerify');
+/**
+ * Обратная связь.
+ */
+Route::post('feedback', 'Api\AppController@postFeedback');
 
 Route::group([
     'middleware' => [

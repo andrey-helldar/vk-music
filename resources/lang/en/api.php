@@ -22,4 +22,6 @@ return [
     52 => 'The query is empty.',
 
     60 => 'User not found',
+
+    70 => 'Your request has been sent. We will contact you shortly.',
 ];
