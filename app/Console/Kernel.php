@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         RequestVk::class,
-        StaticInfoVk::class,
+        ProcessingInfoVk::class,
         DeleteFiles::class,
         Clearing::class,
     ];
@@ -32,10 +32,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('vk:request')->everyMinute();
-//        $schedule->command('vk:static-info')->everyMinute();
+        $schedule->command('vk:request')->everyMinute();
+        $schedule->command('vk:processing')->everyMinute();
         $schedule->command('vk:files-delete')->everyMinute();
-        $schedule->command('vk:clear')->daily();
+        $schedule->command('vk:clear')->dailyAt('00:00');
     }
 
     /**

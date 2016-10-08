@@ -50,7 +50,10 @@ class RequestVk extends Command
     {
         $vkRequestsParams = RequestController::vkRequestsParams();
         $started_at       = Carbon::now();
-        $items            = VkQueue::take($vkRequestsParams->records)->get();
+        $methods          = [
+            'qwerty',
+        ];
+        $items            = VkQueue::whereIn('method', $methods)->take($vkRequestsParams->records)->get();
 
         $this->log(0, 'RequestVk started at ' . Carbon::now()->format('Y-m-d, H:i:s'));
         $this->log(0, 'Available records: ' . $items->count());

@@ -10,7 +10,7 @@ use VKMUSIC\VkFile;
 use VKMUSIC\VkResponse;
 use VKMUSIC\VkUser;
 
-class StaticInfoVk extends Command
+class ProcessingInfoVk extends Command
 {
     /**
      * The name and signature of the console command.
@@ -29,7 +29,7 @@ class StaticInfoVk extends Command
     /**
      * Create a new command instance.
      *
-     * StaticInfoVk constructor.
+     * ProcessingInfoVk constructor.
      */
     public function __construct()
     {
