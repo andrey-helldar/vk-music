@@ -240,7 +240,7 @@ class StaticInfoVk extends Command
         ]);
 
         $file->title      = $title;
-        $file->expired_at = Carbon::now()->addMinutes((int)config('vk.files_expired_in', 10));
+        $file->expired_at = Carbon::now()->addMinutes((int)config('vk.expired_in', 60));
         $file->deleted_at = null;
         $file->save();
 
