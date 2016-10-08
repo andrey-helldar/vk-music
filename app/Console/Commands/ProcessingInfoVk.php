@@ -17,14 +17,14 @@ class StaticInfoVk extends Command
      *
      * @var string
      */
-    protected $signature = 'vk:static-info';
+    protected $signature = 'vk:processing';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Static information from VK';
+    protected $description = 'Processing of information received from VK';
 
     /**
      * Create a new command instance.
