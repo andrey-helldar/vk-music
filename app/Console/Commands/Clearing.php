@@ -3,6 +3,7 @@
 namespace VKMUSIC\Console\Commands;
 
 use Illuminate\Console\Command;
+use VKMUSIC\VkResponse;
 
 class Clearing extends Command
 {
