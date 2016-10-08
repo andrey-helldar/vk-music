@@ -56,6 +56,9 @@
                 }
             }
         },
+        beforeMount(){
+            this.getFeedback();
+        },
         mounted(){
             appFunc.console('Component Feedback ready.');
 
@@ -69,6 +72,14 @@
             this.$parent.hideLoader();
         },
         methods: {
+            getFeedback(){
+                this.$http.get(this.url).then(
+                        (response)=> {
+                            this.user = response.data.response;
+                            Materialize.updateTextFields();
+                        }
+                );
+            },
             submitForm(){
                 var
                         form        = $('form[name=feedback]'),

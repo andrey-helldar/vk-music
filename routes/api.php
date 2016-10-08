@@ -18,6 +18,7 @@ Route::post('vk.verify', 'Auth\VkController@postVerify');
 /**
  * Обратная связь.
  */
+Route::get('feedback', 'Api\AppController@getFeedback');
 Route::post('feedback', 'Api\AppController@postFeedback');
 
 Route::group([

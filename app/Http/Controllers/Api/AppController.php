@@ -101,6 +101,34 @@ class AppController extends Controller
     }
 
     /**
+     * Получение первоначальных данных для формы обратной связи.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-10-09
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function getFeedback()
+    {
+        if (!\Auth::check()) {
+            return ResponseController::success(0, [
+                'email'      => '',
+                'first_name' => '',
+                'last_name'  => '',
+            ]);
+        }
+
+        $user = \Auth::user();
+
+        return ResponseController::success(0, [
+            'email'      => $user->vk->email,
+            'first_name' => $user->vk->first_name,
+            'last_name'  => $user->vk->last_name,
+        ]);
+    }
+
+    /**
      * Добавление сообщения через форму обратной связи.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
