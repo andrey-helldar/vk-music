@@ -61,7 +61,6 @@ class DownloadController extends Controller
             return ResponseController::error(0, trans('api.52'), 204);
         }
 
-        $user->files()->delete();
         $items = [];
 
         foreach ($files as $file) {
@@ -71,6 +70,7 @@ class DownloadController extends Controller
                     'id' => $file->file_id,
                 ]),
             ];
+            $file->delete();
         }
 
         return ResponseController::success(0, [

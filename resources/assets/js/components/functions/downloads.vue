@@ -32,7 +32,7 @@
             </div>
 
             <div class="modal-footer">
-                <button class="btn-flat modal-action modal-close waves-effect waves-green">
+                <button class="btn red lighten-2 modal-action modal-close waves-effect waves-light">
                     Close
                 </button>
             </div>

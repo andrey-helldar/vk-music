@@ -44,4 +44,18 @@ class User extends Authenticatable
     {
         return $this->hasOne(VkUser::class);
     }
+
+    /**
+     * Получить список файлов пользователя.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-10-07
+     * @since   1.0
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function files()
+    {
+        return $this->hasMany(Download::class, 'user_id', 'id');
+    }
 }

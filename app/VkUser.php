@@ -20,18 +20,4 @@ class VkUser extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
-
-    /**
-     * Получить список файлов пользователя.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-10-07
-     * @since   1.0
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function files()
-    {
-        return $this->hasMany(Download::class, 'user_id', 'user_id');
-    }
 }
