@@ -1,8 +1,15 @@
 <template>
     <div v-cloak>
-        <button class="badge new blue white-text waves-effect waves-light" @click="downloadModalOpen">
-            {{ items.length }}
-        </button>
+        <div class="card-panel" v-if="items.length">
+            <h5>Downloads</h5>
+
+            <div class="row center-align">
+                <button class="btn waves-effect waves-light hoverable" @click="downloadModalOpen">
+                    {{ items.length }} in queue
+                </button>
+            </div>
+        </div>
+
 
         <!--start: Modal-->
         <div class="modal bottom-sheet black-text" id="downloadModal">
@@ -48,6 +55,9 @@
                 url:   'download'
             }
         },
+        beforeMount(){
+            this.checkDownloadedFiles();
+        },
         mounted(){
             appFunc.console('Component Downloads ready.');
         },
@@ -72,13 +82,11 @@
                         (response)=> {
                             this.items.push(item);
                             appFunc.info(response.data.response.resolve, 'success');
-//                            this.checkTimer();
                         },
                         (response)=> {
                             switch (response.data.error_code) {
                                 case 20:
                                     appFunc.info(response.data.error, 'info');
-//                                    this.checkTimer();
                                     break;
 
                                 default:
@@ -94,11 +102,17 @@
                 this.$http.get(this.url)
                         .then(
                                 (response) => {
-                                    response.data.response.items.forEach((item)=> {
-                                        this.downloadFile(item.url, item.title);
-                                        this.deleteItemFromQueue(item.audios);
-                                        appFunc.info(item.title, 'success');
-                                    });
+                                    // TODO: Если в базе есть записи, а пользователь перезапустил браузер - заполнить список файлов на скачивание
+                                    /**
+                                     * Если файлы присутствуют в базе - проверяем их.
+                                     */
+                                    if (response.data.response.items.length) {
+                                        response.data.response.items.forEach((item)=> {
+                                            appFunc.info(item.title, 'success');
+                                            this.deleteItemFromQueue(item.audios);
+                                            this.downloadFile(item.url, item.title);
+                                        });
+                                    }
                                 },
                                 (response)=> {
                                     switch (response.status) {
@@ -143,33 +157,23 @@
              * Непосредственно загрузка файла.
              */
             downloadFile(url, title){
-                var element = document.createElement('a');
+                var id = url.replace(/:|\/|\./gi, '-');
+                $('body').append('<iframe style="display: none;" src="' + url + '" id="' + id + '"></iframe>');
 
-                element.setAttribute('href', url);
-
-                appFunc.console(element.getAttribute('href'));
-
-                element.style.display = 'none';
-                document.body.appendChild(element);
-
-                element.click();
-
-                document.body.removeChild(element);
+                setTimeout(()=> {
+                    $('#' + id).remove();
+                }, 10000, id);
             },
             /**
-             * Таймер проверки ответов.
-             * Пока присутствуют файлы в очереди - перебираем цикл.
+             * Таймер проверки скачанных файлов.
+             * Так как пользователь может перезагрузить браузер, а записи в базе отображаться - выводим их.
              */
-            checkTimer(){
+            checkDownloadedFiles(){
                 var parent = this;
-                var checkFile = setInterval(() => {
-                            if (parent.items.length > 0) {
-                                parent.getDownloadLoaded();
-                            } else {
-                                clearInterval(checkFile);
-                            }
+                setInterval(() => {
+                            parent.getDownloadLoaded();
                         },
-                        3000, parent);
+                        5000, parent);
             },
             /**
              * Удаляем файл из очереди скачивания.
