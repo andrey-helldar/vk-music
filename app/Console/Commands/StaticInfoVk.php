@@ -29,7 +29,7 @@ class StaticInfoVk extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * StaticInfoVk constructor.
      */
     public function __construct()
     {
@@ -198,7 +198,7 @@ class StaticInfoVk extends Command
         $url           = mb_substr($response->url, 0, mb_strpos($response->url, '?'));
         $extension     = pathinfo($url, PATHINFO_EXTENSION);
         $filename_orig = pathinfo($url, PATHINFO_FILENAME);
-        $filename      = sprintf("%s-%s-%s.%s", $response->owner_id, $response->duration, $filename_orig, $extension);
+        $filename      = sprintf("%s.%s", $filename_orig, $extension);
         $title         = sprintf("%s - %s.%s", $response->artist, $response->title, $extension);
 
         if (!\Storage::disk($disk)->exists($filename)) {
@@ -216,7 +216,7 @@ class StaticInfoVk extends Command
         Download::create([
             'user_id'    => $item->user_id,
             'file_id'    => $file_id,
-            'audios'     => $response->owner_id . '_',
+            'audios'     => (string)$response->owner_id . '_' . $response->id,
             'expired_at' => Carbon::now()->addMinutes(30),
         ]);
     }

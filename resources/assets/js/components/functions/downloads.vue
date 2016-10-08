@@ -1,46 +1,44 @@
 <template>
-    <button class="badge new blue white-text waves-effect waves-light" @click="downloadModalOpen">
-        {{ items.length }}
-    </button>
+    <div v-cloak>
+        <button class="badge new blue white-text waves-effect waves-light" @click="downloadModalOpen">
+            {{ items.length }}
+        </button>
 
-    <!--start: Modal-->
-    <div class="modal bottom-sheet" id="downloadModal">
-        <div class="modal-content" v-if="items.length">
-            <h5>
-                In queue:
-            </h5>
+        <!--start: Modal-->
+        <div class="modal bottom-sheet black-text" id="downloadModal">
+            <div class="modal-content" v-if="items.length">
+                <h5>
+                    In queue:
+                </h5>
 
-            <ul class="collection">
-                <li class="collection-item avatar" v-for="item in items">
-                    <i class="material-icons circle green">play_arrow</i>
-                    <span class="title">
+                <ul class="collection">
+                    <li class="collection-item avatar" v-for="(item, index) in items">
+                        <i class="material-icons circle green">play_arrow</i>
+                        <span class="title">
                         {{ item.artist }} - {{ item.title }}
                     </span>
 
-                    <span class="badge" data-badge-caption="in queue position">
-                        1
-                    </span>
+                        <span class="badge" data-badge-caption="in queue position">
+                            {{ index + 1 }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
 
-                    <span class="badge">
-                        <i class="material-icons">send</i>
-                    </span>
-                </li>
-            </ul>
-        </div>
+            <div class="modal-content valign-wrapper center-align" v-if="!items.length">
+                <h5 class="valign">
+                    No items
+                </h5>
+            </div>
 
-        <div class="modal-content valign-wrapper center-align" v-else>
-            <h5 class="valign">
-                No items
-            </h5>
+            <div class="modal-footer">
+                <button class="btn-flat modal-action modal-close waves-effect waves-green">
+                    Close
+                </button>
+            </div>
         </div>
-
-        <div class="modal-footer">
-            <button class="btn-flat modal-action modal-close waves-effect waves-green">
-                Close
-            </button>
-        </div>
+        <!--end: Modal-->
     </div>
-    <!--end: Modal-->
 </template>
 <script>
     export default{

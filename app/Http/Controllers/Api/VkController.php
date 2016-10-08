@@ -18,12 +18,13 @@ class VkController extends Controller
      * @version 2016-09-02
      * @since   1.0
      *
-     * @param $method
-     * @param $context
+     * @param      $method   Метод, передаваемый VK API.
+     * @param      $context  Набор данных для передачи.
+     * @param bool $is_alone Проверять ли дублирование записей в базе.
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public static function createRequest($method, $context)
+    public static function createRequest($method, $context, $is_alone = true)
     {
         self::checkUser();
 
@@ -44,7 +45,7 @@ class VkController extends Controller
             'access_token' => self::$user->vk->access_token,
         ]);
 
-        self::sendRequest(self::$user->vk->access_token, $method, $context);
+        self::sendRequest(self::$user->vk->access_token, $method, $context, $is_alone);
 
         return ResponseController::success(0, [
             'resolve'     => trans('api.10'),
@@ -53,7 +54,7 @@ class VkController extends Controller
     }
 
     /**
-     * Проверка сущетсвования модели юзера в переменной.
+     * Проверка существования модели юзера в переменной.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>
      * @version 2016-09-23
@@ -73,22 +74,24 @@ class VkController extends Controller
      * @version 2016-09-23
      * @since   1.0
      *
-     * @param $access_token
-     * @param $method
-     * @param $context
+     * @param      $access_token
+     * @param      $method
+     * @param      $context
+     * @param bool $is_alone
      */
-    private static function sendRequest($access_token, $method, $context)
+    private static function sendRequest($access_token, $method, $context, $is_alone = true)
     {
         self::checkUser();
 
         $response = RequestController::send('POST', 'https://api.vk.com/method/' . $method, $context);
 
         if (!empty($response->error_description)) {
-            self::storeError(self::$user->id, $method, $access_token, $response->error_description);
+            self::storeError(self::$user->id, $method, $access_token, $response->error_description, $is_alone);
         } else {
-            self::storeSuccess(self::$user->id, $method, $access_token, $response);
+            self::storeSuccess(self::$user->id, $method, $access_token, $response, $is_alone);
         }
     }
+
 
     /**
      * Сохранение информации об ошибке.
@@ -97,13 +100,29 @@ class VkController extends Controller
      * @version 2016-09-03
      * @since   1.0
      *
-     * @param $user_id
-     * @param $method
-     * @param $access_token
-     * @param $resolve
+     * @param      $user_id
+     * @param      $method
+     * @param      $access_token
+     * @param      $resolve
+     * @param bool $is_alone
+     *
+     * @return bool
      */
-    private static function storeError($user_id, $method, $access_token, $resolve)
+    private static function storeError($user_id, $method, $access_token, $resolve, $is_alone = true)
     {
+        if (!$is_alone) {
+            VkResponse::create([
+                'user_id'      => $user_id,
+                'method'       => $method,
+                'access_token' => $access_token,
+                'context'      => json_encode([
+                    'error' => $resolve,
+                ]),
+            ]);
+
+            return true;
+        }
+
         $response               = VkResponse::firstOrNew([
             'user_id' => $user_id,
             'method'  => $method,
@@ -113,6 +132,8 @@ class VkController extends Controller
             'error' => $resolve,
         ]);
         $response->save();
+
+        return true;
     }
 
     /**
@@ -122,13 +143,27 @@ class VkController extends Controller
      * @version 2016-09-03
      * @since   1.0
      *
-     * @param $user_id
-     * @param $method
-     * @param $access_token
-     * @param $response_vk
+     * @param      $user_id
+     * @param      $method
+     * @param      $access_token
+     * @param      $response_vk
+     * @param bool $is_alone
+     *
+     * @return bool
      */
-    private static function storeSuccess($user_id, $method, $access_token, $response_vk)
+    private static function storeSuccess($user_id, $method, $access_token, $response_vk, $is_alone = true)
     {
+        if (!$is_alone) {
+            VkResponse::create([
+                'user_id'      => $user_id,
+                'method'       => $method,
+                'access_token' => $access_token,
+                'context'      => json_encode($response_vk),
+            ]);
+
+            return true;
+        }
+
         $response               = VkResponse::firstOrNew([
             'user_id' => $user_id,
             'method'  => $method,
@@ -136,6 +171,8 @@ class VkController extends Controller
         $response->access_token = $access_token;
         $response->context      = json_encode($response_vk);
         $response->save();
+
+        return true;
     }
 
     /**

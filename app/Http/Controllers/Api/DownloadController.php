@@ -40,7 +40,7 @@ class DownloadController extends Controller
             return ResponseController::error(0, $validator->errors()->all());
         }
 
-        return VkController::createRequest($this->method, $request->all());
+        return VkController::createRequest($this->method, $request->all(), false);
     }
 
     /**
