@@ -3,6 +3,7 @@
 namespace VKMUSIC\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use VKMUSIC\Feedback;
 use VKMUSIC\Http\Controllers\Controller;
 use VKMUSIC\Http\Requests;
 
