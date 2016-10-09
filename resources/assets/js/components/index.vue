@@ -34,8 +34,10 @@
                 items: []
             }
         },
-        mounted(){
+        beforeMount(){
             this.$parent.checkAuth();
+        },
+        mounted(){
             this.getItems();
             appFunc.console('Component Index ready.');
         },

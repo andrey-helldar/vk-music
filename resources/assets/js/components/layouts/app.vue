@@ -9,7 +9,9 @@
 
             <loader-screen ref="loaderScreen"></loader-screen>
 
-            <router-view></router-view>
+            <transition name="fade">
+                <router-view></router-view>
+            </transition>
         </main>
 
         <footer-component></footer-component>
@@ -54,15 +56,22 @@
             /**
              * Проверка авторизации с необходимой переадресацией.
              */
-            checkAuth(is_auth_page = false){
-                if (!this.auth && !is_auth_page) {
-                    router.go({
+            checkAuth(){
+                var withoutAuth = [
+                    'auth',
+                    'feedback',
+                    'index'
+                ];
+                var isAuth = withoutAuth.indexOf(this.$route.name) !== -1;
+
+                if (this.auth === '0' && !isAuth) {
+                    router.push({
                         name: 'auth'
                     });
                 }
 
-                if (this.auth && is_auth_page) {
-                    router.go({
+                if (this.auth === '1' && isAuth) {
+                    router.push({
                         name: 'index'
                     });
                 }

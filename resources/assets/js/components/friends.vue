@@ -92,8 +92,10 @@
         components: {
             VueAudio
         },
-        mounted(){
+        beforeMount(){
             this.$parent.checkAuth();
+        },
+        mounted(){
             this.getFriends();
             appFunc.console('Component Friends ready.');
         },

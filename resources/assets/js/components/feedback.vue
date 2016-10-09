@@ -76,7 +76,7 @@
                 this.$http.get(this.url).then(
                         (response)=> {
                             this.user = response.data.response;
-                            Materialize.updateTextFields();
+                            this.updateTextFields();
                         }
                 );
             },
@@ -103,7 +103,7 @@
                                 email.val('');
                                 description.val('');
 
-                                Materialize.updateTextFields();
+                                this.updateTextFields();
                             } else {
                                 appFunc.info(response.data.error, 'error');
                             }
@@ -111,6 +111,14 @@
                             appFunc.info(response.data.error, 'error');
                         }
                 );
+            },
+            /**
+             * Обновление текстовых полей после загрузки страницы.
+             */
+            updateTextFields(){
+                $(document).ready(()=> {
+                    Materialize.updateTextFields();
+                });
             }
         }
     }

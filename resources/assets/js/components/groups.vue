@@ -86,8 +86,10 @@
         components: {
             VueAudio
         },
-        mounted(){
+        beforeMount(){
             this.$parent.checkAuth();
+        },
+        mounted(){
             this.getGroups();
             appFunc.console('Component Groups ready.');
         },

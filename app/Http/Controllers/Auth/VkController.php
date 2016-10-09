@@ -81,13 +81,22 @@ class VkController extends Controller
      * @param $user_vk
      * @param $access_token
      * @param $expires_in
+     * @param $email
      *
      * @return mixed
      */
-    private function checkUserAccount($user_vk, $access_token, $expires_in)
+    private function checkUserAccount($user_vk, $access_token, $expires_in, $email = null)
     {
+        $validator = \Validator::make(['email' => $email], [
+            'email' => 'email|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            $email = 'id' . $user_vk . '@' . env('APP_EMAIL_DOMAIN', 'vk-music.dev');
+        }
+
         $user = User::firstOrNew([
-            'email' => 'id' . $user_vk . '@vk-music.dev',
+            'email' => $email,
         ]);
 
         $user->name     = 'User ' . $user_vk;
@@ -112,6 +121,47 @@ class VkController extends Controller
 
         // Аутентификация пользователя.
         \Auth::loginUsingId($user->id, true);
+    }
+
+    /**
+     * Верификация по коду.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-09-06
+     * @since   1.0
+     *
+     * @param Request $request
+     *
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function verifyCode(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'code' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseController::error(0, $validator->errors()->all());
+        }
+
+        $response = RequestController::send('POST', 'https://oauth.vk.com/access_token', [
+            'client_id'     => config('vk.client_id'),
+            'client_secret' => config('vk.client_secret'),
+            'redirect_uri'  => config('vk.redirect_uri'),
+            'code'          => $request->code,
+        ]);
+
+        if (!empty($response->error_description)) {
+            return ResponseController::error(0, (array)$response);
+        }
+
+        // Проверяем аккаунт юзера. Если не существует - создаем.
+        $this->checkUserAccount($response->user_id, $response->access_token, $response->expires_in, $response->email);
+
+        // Запрашиваем получение расширенной информации об аккаунте пользователя.
+        $this->getUsersGet($response->user_id);
+
+        return ResponseController::success(32);
     }
 
     /**
@@ -160,46 +210,5 @@ class VkController extends Controller
                 'lang',
             ]),
         ]);
-    }
-
-    /**
-     * Верификация по коду.
-     *
-     * @author  Andrey Helldar <helldar@ai-rus.com>
-     * @version 2016-09-06
-     * @since   1.0
-     *
-     * @param Request $request
-     *
-     * @return $this|\Illuminate\Http\RedirectResponse
-     */
-    public function verifyCode(Request $request)
-    {
-        $validator = \Validator::make($request->all(), [
-            'code' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return ResponseController::error(0, $validator->errors()->all());
-        }
-
-        $response = RequestController::send('POST', 'https://oauth.vk.com/access_token', [
-            'client_id'     => config('vk.client_id'),
-            'client_secret' => config('vk.client_secret'),
-            'redirect_uri'  => config('vk.redirect_uri'),
-            'code'          => $request->code,
-        ]);
-
-        if (!empty($response->error_description)) {
-            return ResponseController::error(0, (array)$response);
-        }
-
-        // Проверяем аккаунт юзера. Если не существует - создаем.
-        $this->checkUserAccount($response->user_id, $response->access_token, $response->expires_in);
-
-        // Запрашиваем получение расширенной информации об аккаунте пользователя.
-        $this->getUsersGet($response->user_id);
-
-        return ResponseController::success(32);
     }
 }

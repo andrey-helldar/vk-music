@@ -135,6 +135,7 @@ class ProcessingInfoVk extends Command
         $item = json_decode($item->context);
         $item = $item->response[0];
 
+        $user_vk->email           = $this->vkEmailOrNull($user_vk->user->email);
         $user_vk->first_name      = $item->first_name;
         $user_vk->last_name       = $item->last_name;
         $user_vk->first_name_case = json_encode([
@@ -157,10 +158,36 @@ class ProcessingInfoVk extends Command
         $user_vk->is_deactivated  = $item->deactivated ?? false;
         $user_vk->save();
 
-        // Обновляем имя юзера на сайте
+        /**
+         * Обновляем имя юзера на сайте
+         */
         $user       = $user_vk->user;
         $user->name = sprintf("%s %s", $user_vk->first_name, $user_vk->last_name);
         $user->save();
+    }
+
+    /**
+     * Если указано локальное мыло, то возвращаем NULL.
+     * Если указано мыло, полученное из ВК - возвращаем его.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-10-10
+     * @since   1.0
+     *
+     * @param $email
+     *
+     * @return null
+     */
+    private function vkEmailOrNull($email)
+    {
+        $app_email_domain = env('APP_EMAIL_DOMAIN', 'vk-music.dev');
+        $pos              = mb_strpos($email, $app_email_domain);
+
+        if ($pos === false) {
+            return $email;
+        }
+
+        return null;
     }
 
     /**

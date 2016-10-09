@@ -116,7 +116,7 @@ const routes = [
  *
  * @type {Router}
  */
-const router = new VueRouter({
+window.router = new VueRouter({
     routes // short for routes: routes
 });
 

@@ -22,10 +22,12 @@
         components: {
             VueAudio
         },
-        mounted(){
+        beforeMount(){
             this.$parent.checkAuth();
-            this.$refs.audio.load('audio.recommendations');
+        },
+        mounted(){
             appFunc.console('Component Recommendations ready.');
+            this.$refs.audio.load('audio.recommendations');
         }
     }
 </script>

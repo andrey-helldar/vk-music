@@ -35,10 +35,12 @@
         components: {
             VueAudio
         },
-        mounted(){
+        beforeMount(){
             this.$parent.checkAuth();
-            this.$parent.hideLoader();
+        },
+        mounted(){
             appFunc.console('Component Search ready.');
+            this.$parent.hideLoader();
         },
         methods:    {
             searching(){

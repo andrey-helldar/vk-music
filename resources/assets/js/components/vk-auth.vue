@@ -26,8 +26,10 @@
                 }
             }
         },
+        beforeMount(){
+            this.$parent.checkAuth();
+        },
         mounted() {
-            this.$parent.checkAuth(true);
             this.getVkParams();
             appFunc.console('Component VK Auth ready.');
         },

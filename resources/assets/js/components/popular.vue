@@ -22,8 +22,10 @@
         components: {
             VueAudio
         },
-        mounted(){
+        beforeMount(){
             this.$parent.checkAuth();
+        },
+        mounted(){
             this.$refs.audio.load('audio.popular');
             appFunc.console('Component Popular ready.');
         }

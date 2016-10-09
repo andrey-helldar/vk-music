@@ -19,8 +19,10 @@
                 buttonText: 'Checking access token'
             }
         },
-        mounted() {
+        beforeMount(){
             this.$parent.checkAuth();
+        },
+        mounted() {
             this.dotButton();
             this.checkGetParams();
             appFunc.console('Component VK Verify ready.');

@@ -40,10 +40,8 @@ class IndexController extends Controller
         if ($request->has('code')) {
             $vkController = new VkController();
             $response     = $vkController->verifyCode($request);
-            $content      = json_decode($response->content());
-            $statusCode   = $response->getStatusCode();
 
-            if ($statusCode == 200) {
+            if ($response->getStatusCode() == 200) {
                 return redirect()->route('index');
             }
         }
