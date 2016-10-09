@@ -46,7 +46,7 @@ class IndexController extends Controller
             }
         }
 
-        return view('verify')->withErrors($request->error_description);
+        return view('app')->withErrors($request->error_description);
     }
 
     /**
