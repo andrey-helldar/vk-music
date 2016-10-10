@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+.collection {
+    &.friends {
+        li {
+            img {
+                //line-height: 1;
+            }
+
+            //.secondary-content {
+            //    @include transition(0.2);
+            //
+            //    &:hover {
+            //        color: $secondary-color-dark;
+            //    }
+            //}
+        }
+    }
+}

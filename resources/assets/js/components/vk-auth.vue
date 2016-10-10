@@ -1,14 +1,12 @@
 <template>
-    <div v-cloak>
-        <div class="container">
-            <div class="center-align">
-                <h3>Need authorization in VK</h3>
+    <div class="container">
+        <h3>Need authorization in VK</h3>
 
-                <button class="btn btn-large btn-primary waves-effect waves-light" @click="vkAuth">
-                    <i class="material-icons left">account_circle</i>
-                    Auth VK
-                </button>
-            </div>
+        <div class="row center-align">
+            <button class="btn btn-large btn-primary waves-effect waves-light" @click="vkAuth">
+                <i class="material-icons left">account_circle</i>
+                Auth VK
+            </button>
         </div>
     </div>
 </template>

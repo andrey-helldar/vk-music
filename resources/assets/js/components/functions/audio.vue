@@ -40,7 +40,7 @@
             </div>
 
             <div class="col s12 m8 offset-m2 center-align" v-if="!items.length">
-                <div class="card-panel materialize-red">
+                <div class="card-panel blue lighten-1">
                     <div class="white-text">
                         <h6>No audios</h6>
                     </div>

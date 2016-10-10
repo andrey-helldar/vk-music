@@ -1,46 +1,38 @@
 <template>
-    <div v-cloak>
-        <div class="container">
-            <h3>
-                {{ title }}
-            </h3>
+    <div class="container">
+        <h3>
+            {{ title }}
+        </h3>
 
-            <form class="row" name="feedback" v-on:submit.prevent="submitForm">
+        <form class="row" name="feedback" v-on:submit.prevent="submitForm">
 
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="first_name" name="first_name" type="text" class="validate" required v-bind:value="user.first_name">
-                        <label for="first_name">First Name</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input id="last_name" name="last_name" type="text" class="validate" required v-bind:value="user.last_name">
-                        <label for="last_name">Last Name</label>
-                    </div>
-                </div>
+            <div class="input-field col s6">
+                <input id="first_name" name="first_name" type="text" class="validate" required v-bind:value="user.first_name">
+                <label for="first_name">First Name</label>
+            </div>
+            <div class="input-field col s6">
+                <input id="last_name" name="last_name" type="text" class="validate" required v-bind:value="user.last_name">
+                <label for="last_name">Last Name</label>
+            </div>
 
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="email" name="email" type="email" class="validate" required v-bind:value="user.email">
-                        <label for="email">Email</label>
-                    </div>
-                </div>
+            <div class="input-field col s12">
+                <input id="email" name="email" type="email" class="validate" required v-bind:value="user.email">
+                <label for="email">Email</label>
+            </div>
 
-                <div class="row">
-                    <div class="input-field col s12">
-                        <textarea id="description" name="description" class="materialize-textarea" minlength="30" length="3000" required></textarea>
-                        <label for="description">Description</label>
-                    </div>
-                </div>
+            <div class="input-field col s12">
+                <textarea id="description" name="description" class="materialize-textarea" minlength="30" length="3000" required></textarea>
+                <label for="description">Description</label>
+            </div>
 
-                <div class="row center-align">
-                    <button class="btn btn-primary waves-effect waves-light" type="submit">
-                        Submit
-                        <i class="material-icons right">send</i>
-                    </button>
-                </div>
+            <div class="s12 center-align">
+                <button class="btn btn-primary waves-effect waves-light" type="submit">
+                    Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
 
-            </form>
-        </div>
+        </form>
     </div>
 </template>
 <script>

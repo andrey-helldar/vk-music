@@ -36,7 +36,7 @@ class FriendsController extends Controller
 
         return VkController::createRequest($this->method, [
             'offset' => (int)($request->offset ?? 0),
-            'count'  => config('vk.count_records', 20),
+            'count'  => config('vk.count_friends', 20),
             'fields' => $request->fields ?? '',
         ]);
     }

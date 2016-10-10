@@ -1,20 +1,18 @@
 <template>
-    <div v-cloak>
-        <div class="container">
-            <h3>
-                Errors!
-            </h3>
+    <div class="container">
+        <h3>
+            Errors!
+        </h3>
 
-            <ul class="collection red-text text-darken-2">
-                <li class="collection-item">{{ errorDescription }}</li>
-            </ul>
+        <ul class="collection red-text text-darken-2">
+            <li class="collection-item">{{ errorDescription }}</li>
+        </ul>
 
-            <div class="row center-align">
-                <button class="btn waves-effect waves-light" @click="redirectToAuth">
-                    <i class="material-icons left">undo</i>
-                    Return to auth page
-                </button>
-            </div>
+        <div class="row center-align">
+            <button class="btn waves-effect waves-light" @click="redirectToAuth">
+                <i class="material-icons left">undo</i>
+                Return to auth page
+            </button>
         </div>
     </div>
 </template>

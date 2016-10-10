@@ -1,14 +1,12 @@
 <template>
-    <div v-cloak>
-        <div class="container">
-            <div class="center-align">
-                <h3>Need access verification</h3>
+    <div class="container">
+        <h3>Need access verification</h3>
 
-                <button class="btn btn-large btn-primary waves-effect waves-light" disabled>
-                    <i class="material-icons left">check</i>
-                    {{ buttonText }}
-                </button>
-            </div>
+        <div class="row center-align">
+            <button class="btn btn-large btn-primary waves-effect waves-light" disabled>
+                <i class="material-icons left">check</i>
+                {{ buttonText }}
+            </button>
         </div>
     </div>
 </template>

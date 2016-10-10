@@ -36,7 +36,7 @@ class GroupsController extends Controller
 
         return VkController::createRequest($this->method, [
             'offset'   => (int)($request->offset ?? 0),
-            'count'    => config('vk.count_records', 20),
+            'count'    => config('vk.count_groups', 20),
             'extended' => 1,
             //            'fields' => $request->fields ?? '',
         ]);

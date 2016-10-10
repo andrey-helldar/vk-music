@@ -28,9 +28,7 @@ $(document).ready(
         $('.modal-trigger').leanModal();
         $(".button-collapse").sideNav();
         $('.character-counter').characterCounter();
-        $('.tooltipped').tooltip({
-            delay: 50
-        });
+        $('.tooltipped').tooltip({delay: 50});
 
         Materialize.updateTextFields();
         //loadAudios();

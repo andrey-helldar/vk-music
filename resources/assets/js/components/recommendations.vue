@@ -1,13 +1,11 @@
 <template>
-    <div v-cloak>
-        <div class="container">
-            <h3>
-                {{ title }}
-            </h3>
+    <div class="container">
+        <h3>
+            {{ title }}
+        </h3>
 
-            <div class="row">
-                <vue-audio ref="audio"></vue-audio>
-            </div>
+        <div class="row">
+            <vue-audio ref="audio"></vue-audio>
         </div>
     </div>
 </template>

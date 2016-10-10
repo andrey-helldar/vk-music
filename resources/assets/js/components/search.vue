@@ -1,25 +1,27 @@
 <template>
-    <div v-cloak>
+    <div>
         <div class="container">
             <h3>
                 {{ title }}
             </h3>
+        </div>
 
-            <div class="row">
-                <div class="col s12 m12">
+        <nav>
+            <div class="nav-wrapper">
+                <div class="container">
                     <form name="search" v-on:submit.prevent="searching">
-                        <div class="input-field col s12">
+                        <div class="input-field">
                             <input id="search" type="search" name="q" length="255" class="character-counter" required v-bind:placeholder="title.toUpperCase()">
                             <label for="search"><i class="material-icons">search</i></label>
                             <i class="material-icons">close</i>
                         </div>
                     </form>
                 </div>
-
-                <div class="col s12 m12">
-                    <vue-audio ref="audio"></vue-audio>
-                </div>
             </div>
+        </nav>
+
+        <div class="container">
+            <vue-audio ref="audio"></vue-audio>
         </div>
     </div>
 </template>

@@ -1,68 +1,47 @@
 <template>
-    <div v-cloak>
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m4">
-                    <h3>
-                        Friends
-                        <sup class="grey-text text-lighten-2" v-if="items.length">
-                            {{ items.length }} / {{ vk.count_all }}
-                        </sup>
-                    </h3>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m4">
+                <h3>
+                    Friends
+                    <sup class="grey-text text-lighten-2" v-if="items.length">
+                        {{ items.length }} / {{ vk.count_all }}
+                    </sup>
+                </h3>
 
-                    <div class="input-field">
-                        <input id="search" type="search" required v-model="filterKey">
-                        <label for="search"><i class="material-icons">search</i></label>
-                        <i class="material-icons">close</i>
-                    </div>
-
-                    <ul class="collection">
-                        <li class="collection-item avatar" v-if="items.length" v-for="item in filteredItems">
-                            <img class="circle" alt="Avatar" v-bind:src="item.photo_50">
-                            <span class="title">
-                                    {{ item.first_name }}
-                                    {{ item.last_name }}
-                                </span>
-
-                            <p>
-                                <span class="green-text" v-if="item.online">Online</span>
-                                <span class="grey-text" v-else>Offline</span>
-                            </p>
-
-                            <button class="btn-flat waves-effect waves-blue secondary-content" @click="getFriendAudios(item)">
-                                <i class="material-icons">send</i>
-                            </button>
-                        </li>
-
-                        <li class="collection-item avatar" v-if="!items.length">
-                            <i class="material-icons circle">account_circle</i>
-                            <span class="title">No friends</span>
-                            <p>
-                                ...no audios...<br>
-                                ...no actions...
-                            </p>
-
-                            <a class="secondary-content disabled">
-                                <i class="material-icons grey-text">clear</i>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <div class="col s12 m12 center-align" v-if="vk.offset < vk.count_all">
-                        <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
-                                @click="moreFriends">
-                            <i class="material-icons">more_horiz</i>
-                        </button>
-                    </div>
+                <div class="input-field">
+                    <input id="search" type="search" required v-model="filterKey">
+                    <label for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
                 </div>
 
-                <div class="col s12 m8">
-                    <h3>
-                        {{ selectedUserName }}
-                    </h3>
+                <div class="row">
 
-                    <vue-audio ref="audio"></vue-audio>
+                    <div class="col s2 margin-bottom-10" v-for="item in filteredItems">
+                        <img class="circle responsive-img z-depth-1 waves-effect waves-light tooltipped" v-bind:src="item.photo_50" v-bind:alt="item.first_name"
+                             @click="getFriendAudios(item)">
+                    </div>
+
+                    <div class="col s2 center-align" v-if="!items.length">
+                        <h5>Friends not found</h5>
+                    </div>
+
                 </div>
+
+                <div class="col s12 m12 center-align" v-if="items.length < vk.count_all">
+                    <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
+                            @click="moreFriends">
+                        <i class="material-icons">more_horiz</i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col s12 m8">
+                <h3>
+                    {{ selectedUserName }}
+                </h3>
+
+                <vue-audio ref="audio"></vue-audio>
             </div>
         </div>
     </div>
@@ -139,7 +118,7 @@
                     offset: this.vk.offset,
                     fields: 'photo_50'
                 }).then(
-                        (response)=> {
+                        (response) => {
                             appFunc.info(response.data.response.resolve, 'success');
                             this.loading.wait = true;
                             this.loading.position = response.data.response.description;
@@ -165,7 +144,7 @@
             /**
              * Проверка выполненных запросов и вывод записей на экран.
              */
-            getFriendsLoaded(){
+            getFriendsLoaded() {
                 this.setStatus('check');
 
                 this.$http.get(this.url)
@@ -176,6 +155,7 @@
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
 
+                                    this.initTooltip();
                                     this.hideLoader();
                                     appFunc.info(response.data.response.resolve, 'success');
                                 },
@@ -201,6 +181,7 @@
                                             this.vk.count_all = [];
                                             this.items = [];
 
+                                            this.initTooltip();
                                             appFunc.info(response.data.error.resolve, 'error');
                                             this.hideLoader();
                                             return;
@@ -230,24 +211,25 @@
             /**
              * Таймер проверки ответов.
              */
-            checkTimer(){
+            checkTimer()            {
                 var parent = this;
                 var checkFriends = setInterval(() => {
                             if (parent.loading.wait === false) {
                                 clearInterval(checkFriends);
-                            } else {
+                            }
+                            else {
                                 parent.getFriendsLoaded();
                             }
                         },
-                        3000, parent);
+                        3000, parent
+                );
             },
             /**
              * Изменение визуального статуса выполнения.
              * @param {string} status
              */
-            setStatus(status){
+            setStatus(status)            {
                 var position = this.loading.position;
-
                 var notify = (parent, text, description, style, showModal = true) => {
                     if (parent.loading.showLoader === true) {
                         parent.$root.$refs.app.showLoader(text, description, style);
@@ -276,7 +258,8 @@
             /**
              * Загрузка следующих друзей.
              */
-            moreFriends(){
+            moreFriends()
+            {
                 this.loading.showLoader = false;
                 this.getFriends();
             },
@@ -285,11 +268,21 @@
              *
              * @param item
              */
-            getFriendAudios(item){
+            getFriendAudios(item) {
                 this.selectedUserName = item.first_name + ' ' + item.last_name;
                 this.$refs.audio.load(this.url_user, item.id, 'user');
 
                 return false;
+            },
+            /**
+             * Инициализируем тултипы.
+             */
+            initTooltip()
+            {
+                $(document).ready(function () {
+                    $('.tooltipped').tooltip('remove');
+                    $('.tooltipped').tooltip({delay: 50});
+                });
             }
         }
     }

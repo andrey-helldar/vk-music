@@ -9,9 +9,7 @@
 
             <loader-screen ref="loaderScreen"></loader-screen>
 
-            <transition name="fade">
-                <router-view></router-view>
-            </transition>
+            <router-view></router-view>
         </main>
 
         <footer-component></footer-component>
