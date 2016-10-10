@@ -46,7 +46,9 @@ class IndexController extends Controller
             }
         }
 
-        return view('app')->withErrors($request->error_description);
+        return view('app')->with([
+            'error' => $request->error_description ?? null,
+        ]);
     }
 
     /**

@@ -25,28 +25,8 @@
 
 {{-- Content --}}
 <div id="app">
-    <app-component ref="app" auth="{{ (int)Auth::check() }}"></app-component>
+    <app-component ref="app" auth="{{ (int)Auth::check() }}" error-description="{{ $error ?? '' }}"></app-component>
 </div>
-
-@if(count($errors->messages()))
-    <div v-cloak>
-        <h3>Warning!</h3>
-
-        <ul class="collection red-text text-darken-2">
-            @foreach($errors->messages()[0] as $error)
-                <li class="collection-item">
-                    {{ $error }}
-                </li>
-            @endforeach
-        </ul>
-
-        <a class="btn btn-large btn-primary waves-effect waves-light" href="{{ route('index') }}">
-            <i class="material-icons left">send</i>
-            Return to auth page
-        </a>
-    </div>
-@endif
-
 {{-- // Content --}}
 
 {{-- JavaScripts --}}

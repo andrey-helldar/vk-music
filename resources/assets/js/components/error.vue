@@ -1,11 +1,20 @@
 <template>
     <div v-cloak>
-        <div>
-            <h3>Errors!</h3>
+        <div class="container">
+            <h3>
+                Errors!
+            </h3>
 
             <ul class="collection red-text text-darken-2">
-                <li>{{ errorDescription }}</li>
+                <li class="collection-item">{{ errorDescription }}</li>
             </ul>
+
+            <div class="row center-align">
+                <button class="btn waves-effect waves-light" @click="redirectToAuth">
+                    <i class="material-icons left">undo</i>
+                    Return to auth page
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -13,22 +22,50 @@
     export default{
         data(){
             return {
-                isError:          false,
                 errorDescription: ''
             }
         },
         beforeMount(){
+            this.checkAuth();
             this.checkVkErrors();
         },
+        mounted(){
+            appFunc.console('Component Error ready.');
+            this.$parent.hideLoader();
+        },
         methods: {
-            checkVkErrors() {
-                if (this.$parent.isError === false) {
-                    window.location.href = '/';
+            /**
+             * Проверяем авторизацию.
+             * Страница доступна только при отсутствии авторизации.
+             */
+            checkAuth(){
+                if (this.$parent.errorDescription.length > 0) {
                     return;
                 }
 
-                this.isError = this.$parent.isError;
+                if (isAuth === '1') {
+                    router.push({
+                        name: 'index'
+                    });
+                }
+            },
+            /**
+             * Проверка наличия переданной ошибки.
+             * Если ошибка не передана - производим редирект на главную страницу.
+             */
+            checkVkErrors() {
                 this.errorDescription = this.$parent.errorDescription;
+
+                if (this.$parent.isError === false || this.errorDescription.length === 0) {
+                    window.location.href = '/';
+                    return;
+                }
+            },
+            /**
+             * Редирект на страницу авторизации.
+             */
+            redirectToAuth(){
+                window.location.href = '/auth';
             }
         }
     }

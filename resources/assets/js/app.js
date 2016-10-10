@@ -102,6 +102,11 @@ const routes = [
         path:      '/verify',
         component: setComponent('vk-verify')
     },
+    {
+        name:      'error',
+        path:      '/error',
+        component: setComponent('error')
+    },
     /**
      * Redirect to Main page.
      */

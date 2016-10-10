@@ -31,11 +31,12 @@
             }
         },
         props:      {
-            auth:    String,
-            default: false
+            auth:             String,
+            default:          false,
+            errorDescription: ''
         },
         computed:   {
-            normalizedAuth(){
+            normalizedAuth()            {
                 return this.auth.length > 0 || this.auth !== 0;
             }
         },
@@ -45,35 +46,52 @@
             LoaderScreen,
             TopMenu
         },
-        beforeMount(){
+        beforeMount()
+        {
             this.checkAuth();
             this.getUserInfo();
         },
-        mounted(){
+        mounted()
+        {
             appFunc.console('Component Main ready.');
         },
         methods:    {
+            checkErrors(){
+                if (this.errorDescription.length > 0 && this.$route.name !== 'error') {
+                    router.push({
+                        name: 'error'
+                    });
+                }
+            },
             /**
              * Проверка авторизации с необходимой переадресацией.
              */
-            checkAuth(){
+            checkAuth()
+            {
+                /**
+                 * Так как проверка метода будет повторять места проверки аутентификации,
+                 * будет логичнее объявить метод внутри ее проверки)
+                 */
+                this.checkErrors();
+
+                /**
+                 * А теперь аутентификация))
+                 */
                 var withoutAuth = [
                     'auth',
                     'feedback',
                     'index'
                 ];
-                var isAuth = withoutAuth.indexOf(this.$route.name) !== -1;
+                var isRouteAuth = withoutAuth.indexOf(this.$route.name) !== -1;
 
-                if (this.auth === '0' && !isAuth) {
+                if (this.auth === '0' && !isRouteAuth) {
                     router.push({
                         name: 'auth'
                     });
                 }
 
-                if (this.auth === '1' && isAuth) {
-                    router.push({
-                        name: 'index'
-                    });
+                if (this.auth === '1' && isRouteAuth && this.$route.name !== 'index') {
+                    window.location.href = '/';
                 }
             },
             /**
@@ -83,21 +101,24 @@
              * @param description
              * @param style_type
              */
-            showLoader(text = 'Loading...', description = '', style_type = 'wait'){
+            showLoader(text = 'Loading...', description = '', style_type = 'wait')
+            {
                 var loaderElement = this.$refs.loaderScreen;
                 loaderElement.showLoader(text, description, style_type);
             },
             /**
              * Скрытие лоадера.
              */
-            hideLoader(){
+            hideLoader()
+            {
                 var loaderElement = this.$refs.loaderScreen;
                 loaderElement.hideLoader();
             },
             /**
              * Получение информации о текущем пользователе.
              */
-            getUserInfo(){
+            getUserInfo()
+            {
                 this.$http.get('current.user.info').then(
                         (response) => {
                             if (response.data.error == undefined) {
