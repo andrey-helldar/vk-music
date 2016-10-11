@@ -22,8 +22,8 @@
                              @click="getFriendAudios(item)">
                     </div>
 
-                    <div class="col s2 center-align" v-if="!items.length">
-                        <h5>Friends not found</h5>
+                    <div class="col s12 center-align" v-if="!items.length">
+                        <h6>Friends not found</h6>
                     </div>
 
                 </div>

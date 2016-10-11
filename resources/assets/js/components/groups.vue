@@ -21,8 +21,8 @@
                         <img class="circle responsive-img z-depth-1 waves-effect waves-light tooltipped" v-bind:src="item.photo_50" v-bind:alt="item.name" @click="getGroupAudios(item)">
                     </div>
 
-                    <div class="col s2 center-align" v-if="!items.length">
-                        <h5>Groups not found</h5>
+                    <div class="col s12 center-align" v-if="!items.length">
+                        <h6>Groups not found</h6>
                     </div>
 
                 </div>

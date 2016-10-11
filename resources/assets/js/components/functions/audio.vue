@@ -46,15 +46,14 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row" v-if="items.length < vk.count_all">
-            <div class="col s12 m12 center-align">
+            <div class="col s12 m12 center-align" v-if="items.length < vk.count_all">
                 <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio" @click="moreAudio">
                     <i class="material-icons">more_horiz</i>
                 </button>
             </div>
         </div>
+
     </div>
 </template>
 
