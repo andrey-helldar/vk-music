@@ -4,31 +4,31 @@ return [
     [
         'is_active' => true,
         'url'       => '/my',
-        'title'     => 'My Audio',
+        'title'     => 'my',
         'icon'      => null,
     ],
     [
         'is_active' => true,
         'url'       => '/recommendations',
-        'title'     => 'Recommendations',
+        'title'     => 'recommendations',
         'icon'      => null,
     ],
     [
         'is_active' => true,
         'url'       => '/popular',
-        'title'     => 'Popular',
+        'title'     => 'popular',
         'icon'      => null,
     ],
     [
         'is_active' => true,
         'url'       => '/friends',
-        'title'     => 'Friends',
+        'title'     => 'friends',
         'icon'      => null,
     ],
     [
         'is_active' => true,
         'url'       => '/groups',
-        'title'     => 'Groups',
+        'title'     => 'groups',
         'icon'      => null,
     ],
     [

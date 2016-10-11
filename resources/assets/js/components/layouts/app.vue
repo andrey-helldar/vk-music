@@ -131,7 +131,7 @@
              * @returns {*}
              */
             trans(param, values = []){
-                var text = window.Laravel[param];
+                var text = window.Laravel.trans[param];
 
                 if (text === undefined) {
                     return param;

@@ -14,31 +14,31 @@ return [
     'pages'    => [
         'my'              => [
             'title'       => 'My Audio',
-            'description' => 'It is a new text',
+            'description' => 'Small description of this block',
         ],
         'recommendations' => [
             'title'       => 'Recommendations',
-            'description' => 'It is a new text',
+            'description' => 'Small description of this block',
         ],
         'popular'         => [
             'title'       => 'Popular',
-            'description' => 'It is a new text',
+            'description' => 'Small description of this block',
         ],
         'friends'         => [
             'title'       => 'Friends',
-            'description' => 'It is a new text',
+            'description' => 'Small description of this block',
         ],
         'groups'          => [
             'title'       => 'Groups',
-            'description' => 'It is a new text',
+            'description' => 'Small description of this block',
         ],
         'search'          => [
             'title'       => 'Search',
-            'description' => 'It is a new text',
+            'description' => 'Small description of this block',
         ],
         'feedback'        => [
             'title'       => 'Feedback',
-            'description' => 'It is a new text',
+            'description' => 'Small description of this block',
         ],
     ],
     'statuses' => [
@@ -54,6 +54,7 @@ return [
         'description' => 'Description',
     ],
     'buttons'  => [
-        'submit' => 'Submit',
+        'submit'     => 'Submit',
+        'go_to_page' => 'Go to page',
     ],
 ];

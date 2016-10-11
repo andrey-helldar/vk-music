@@ -9,8 +9,8 @@
                             <i class="material-icons">{{ item.icon }}</i>
                         </div>
                         <div class="panel-content">
-                            <h2>{{ item.title }}</h2>
-                            <p>{{ item.description }}</p>
+                            <h2>{{ trans(item.title, 'title') }}</h2>
+                            <p>{{ trans(item.title, 'description') }}</p>
 
                             <div class="panel-action">
                                 <router-link :to="{path: item.url}">
@@ -55,6 +55,25 @@
                             this.$parent.hideLoader()
                         }
                 );
+            },
+            /**
+             * Получение значения переведенного параметра интерфейса.
+             *
+             * @param param
+             * @returns {*}
+             */
+            trans(key, param = 'my'){
+                if (key === undefined || param === undefined) {
+                    return '';
+                }
+
+                var trans = window.Laravel.trans.interface.pages[key][param];
+
+                if (trans !== undefined) {
+                    return trans;
+                }
+
+                return param;
             }
         }
     }

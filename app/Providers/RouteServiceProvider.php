@@ -25,6 +25,19 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->app->view->composer('app', function ($view) {
 
+            $user = [];
+
+            if (\Auth::check()) {
+                $user_vk = \Auth::user()->vk;
+                $user    = [
+                    'first_name'      => $user_vk->first_name,
+                    'last_name'       => $user_vk->last_name,
+                    'first_name_case' => json_decode($user_vk->first_name_case),
+                    'last_name_case'  => json_decode($user_vk->last_name_case),
+                    'photo'           => $user_vk->photo,
+                ];
+            }
+
             $view->with('Laravel', json_encode([
                 'csrfToken' => csrf_token(),
                 'trans'     => [
@@ -32,6 +45,7 @@ class RouteServiceProvider extends ServiceProvider
                     'validation'      => trans('validation'),
                     'vk-audio-genres' => trans('vk-audio-genres'),
                     'interface'       => trans('interface'),
+                    'user'            => $user,
                 ],
             ]));
         });

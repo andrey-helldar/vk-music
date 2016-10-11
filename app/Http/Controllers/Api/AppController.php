@@ -25,7 +25,7 @@ class AppController extends Controller
             [
                 'is_active' => \Auth::check(),
                 'url'       => '/logout',
-                'title'     => 'Logout',
+                'title'     => 'logout',
                 'icon'      => 'send',
             ],
         ]));

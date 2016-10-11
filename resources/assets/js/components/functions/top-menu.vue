@@ -26,7 +26,7 @@
                     <li v-for="item in items" v-show="item.is_active">
                         <router-link :to="{path: item.url}">
                             <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                            {{ item.title }}
+                            {{ trans(item.title) }}
                         </router-link>
                     </li>
                 </ul>
@@ -35,7 +35,7 @@
                     <li v-for="item in items" v-show="item.is_active">
                         <router-link :to="{path: item.url}">
                             <i class="material-icons" v-if="item.icon">{{ item.icon }}</i>
-                            {{ item.title }}
+                            {{ trans(item.title) }}
                         </router-link>
                     </li>
                 </ul>
@@ -79,8 +79,26 @@
              * @returns {*}
              */
             user(){
-                var param = 'first_name';
-                this.first_name = this.$root.$refs.app.$data.user.info[param];
+                this.first_name = window.Laravel.trans.user.first_name;
+            },
+            /**
+             * Получение значения переведенного параметра интерфейса.
+             *
+             * @param param
+             * @returns {*}
+             */
+            trans(param){
+                if (param.length == 0 || param === undefined) {
+                    return '';
+                }
+
+                var trans = window.Laravel.trans.interface.pages[param];
+
+                if (trans !== undefined) {
+                    return trans.title;
+                }
+
+                return param;
             }
         }
     }
