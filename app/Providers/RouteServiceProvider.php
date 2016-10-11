@@ -25,14 +25,13 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->app->view->composer('app', function ($view) {
 
-            $view->with('LaravelApp', json_encode([
+            $view->with('Laravel', json_encode([
                 'csrfToken' => csrf_token(),
                 'trans'     => [
-                    //                    'sofee'   => trans('Api/v1b2.sofee'),
-                    //                    'buttons' => trans('buttons'),
-                    //                    'forms'   => trans('forms'),
-                    //                    'pages'   => trans('pages'),
-                    //                    'statuses' => trans('statuses'),
+                    'api'             => trans('api'),
+                    'validation'      => trans('validation'),
+                    'vk-audio-genres' => trans('vk-audio-genres'),
+                    'interface'       => trans('interface'),
                 ],
             ]));
         });

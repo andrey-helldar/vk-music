@@ -34,7 +34,7 @@
             errorDescription: ''
         },
         computed:   {
-            normalizedAuth()            {
+            normalizedAuth() {
                 return this.auth.length > 0 || this.auth !== 0;
             }
         },
@@ -64,8 +64,7 @@
             /**
              * Проверка авторизации с необходимой переадресацией.
              */
-            checkAuth()
-            {
+            checkAuth(){
                 /**
                  * Так как проверка метода будет повторять места проверки аутентификации,
                  * будет логичнее объявить метод внутри ее проверки)
@@ -99,34 +98,54 @@
              * @param description
              * @param style_type
              */
-            showLoader(text = 'Loading...', description = '', style_type = 'wait')
-            {
+            showLoader(text = 'Loading...', description = '', style_type = 'wait'){
                 var loaderElement = this.$refs.loaderScreen;
                 loaderElement.showLoader(text, description, style_type);
             },
             /**
              * Скрытие лоадера.
              */
-            hideLoader()
-            {
+            hideLoader(){
                 var loaderElement = this.$refs.loaderScreen;
                 loaderElement.hideLoader();
             },
             /**
              * Получение информации о текущем пользователе.
              */
-            getUserInfo()
-            {
+            getUserInfo(){
                 this.$http.get('current.user.info').then(
                         (response) => {
                             if (response.data.error == undefined) {
                                 this.user.info = response.data.response;
                             }
-                        }, (response) => {
-                            //appFunc.info(response.data.error, 'error');
+                        },
+                        (response) => {
                             appFunc.console(response.statusText);
-                        }
-                );
+                        });
+            },
+            /**
+             * Аналог хелпера для получения переводенных значений переменных.
+             *
+             * @param param
+             * @param values
+             * @returns {*}
+             */
+            trans(param, values = []){
+                var text = window.Laravel[param];
+
+                if (text === undefined) {
+                    return param;
+                }
+
+                if (values.length == 0) {
+                    return text;
+                }
+
+                values.forEach(function (key, value) {
+                    text = text.replace(':' + key, value);
+                });
+
+                return text;
             }
         }
     }

@@ -10,7 +10,7 @@
     {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('site_title', 'VK Music')</title>
+    <title>{{ trans('interface.site.title') }}</title>
 
     {{-- Import Google Icon Font --}}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,7 +20,7 @@
 
     {{-- Scripts --}}
     <script>
-        window.Laravel = {!! $LaravelApp !!};
+        window.Laravel = {!! $Laravel !!};
     </script>
 </head>
 <body>
