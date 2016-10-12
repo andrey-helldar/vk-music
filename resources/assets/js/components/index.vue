@@ -9,8 +9,8 @@
                             <i class="material-icons">{{ item.icon }}</i>
                         </div>
                         <div class="panel-content">
-                            <h2>{{ trans(item.title, 'title') }}</h2>
-                            <p>{{ trans(item.title, 'description') }}</p>
+                            <h2>{{ trans(item.key + '.title') }}</h2>
+                            <p>{{ trans(item.key + '.description') }}</p>
 
                             <div class="panel-action">
                                 <router-link :to="{path: item.url}">
@@ -62,18 +62,12 @@
              * @param param
              * @returns {*}
              */
-            trans(key, param = 'my'){
-                if (key === undefined || param === undefined) {
+            trans(key, param = []){
+                if (key.length == 0) {
                     return '';
                 }
 
-                var trans = window.Laravel.trans.interface.pages[key][param];
-
-                if (trans !== undefined) {
-                    return trans;
-                }
-
-                return param;
+                return this.$parent.trans('interface.pages.' + key, param);
             }
         }
     }

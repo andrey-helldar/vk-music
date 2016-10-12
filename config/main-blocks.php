@@ -9,37 +9,37 @@ return [
     [
         'is_active' => true,
         'url'       => '/my',
-        'title'     => 'my',
+        'key'       => 'my',
         'icon'      => 'audiotrack',
     ],
     [
         'is_active' => true,
         'url'       => '/recommendations',
-        'title'     => 'recommendations',
+        'key'       => 'recommendations',
         'icon'      => 'thumb_up',
     ],
     [
         'is_active' => true,
         'url'       => '/popular',
-        'title'     => 'popular',
+        'key'       => 'popular',
         'icon'      => 'trending_up',
     ],
     [
         'is_active' => true,
         'url'       => '/friends',
-        'title'     => 'friends',
+        'key'       => 'friends',
         'icon'      => 'sentiment_satisfied',
     ],
     [
         'is_active' => true,
         'url'       => '/groups',
-        'title'     => 'groups',
+        'key'       => 'groups',
         'icon'      => 'group',
     ],
     [
         'is_active' => true,
         'url'       => '/search',
-        'title'     => 'search',
+        'key'       => 'search',
         'icon'      => 'search',
     ],
 ];
