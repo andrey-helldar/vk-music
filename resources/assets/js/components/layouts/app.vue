@@ -131,21 +131,26 @@
              * @returns {*}
              */
             trans(param, values = []){
-                var text = window.Laravel.trans[param];
-
-                if (text === undefined) {
-                    return param;
+                if (param.length == 0 || param === undefined) {
+                    appFunc.console('11111');
+                    return '';
                 }
 
-                if (values.length == 0) {
-                    return text;
+                var trans = window.Laravel.trans[param];
+
+                if (trans !== undefined) {
+                    if (trans[param] !== undefined) {
+                        trans = trans.title;
+                    }
                 }
 
-                values.forEach(function (key, value) {
-                    text = text.replace(':' + key, value);
-                });
+                if (values.length > 0) {
+                    values.forEach(function (key, value) {
+                        trans = trans.replace(':' + key, value);
+                    });
+                }
 
-                return text;
+                return trans;
             }
         }
     }

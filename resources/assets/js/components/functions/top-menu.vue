@@ -79,7 +79,7 @@
              * @returns {*}
              */
             user(){
-                this.first_name = window.Laravel.trans.user.first_name;
+                this.first_name = window.Laravel.trans['user.first_name'];
             },
             /**
              * Получение значения переведенного параметра интерфейса.
@@ -88,17 +88,11 @@
              * @returns {*}
              */
             trans(param){
-                if (param.length == 0 || param === undefined) {
+                if (param.length == 0) {
                     return '';
                 }
 
-                var trans = window.Laravel.trans.interface.pages[param];
-
-                if (trans !== undefined) {
-                    return trans.title;
-                }
-
-                return param;
+                return this.$parent.trans('interface.pages.' + param + '.title');
             }
         }
     }

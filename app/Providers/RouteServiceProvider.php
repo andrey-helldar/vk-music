@@ -40,13 +40,13 @@ class RouteServiceProvider extends ServiceProvider
 
             $view->with('Laravel', json_encode([
                 'csrfToken' => csrf_token(),
-                'trans'     => [
+                'trans'     => array_dot([
                     'api'             => trans('api'),
                     'validation'      => trans('validation'),
                     'vk-audio-genres' => trans('vk-audio-genres'),
                     'interface'       => trans('interface'),
                     'user'            => $user,
-                ],
+                ]),
             ]));
         });
 

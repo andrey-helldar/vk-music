@@ -17,6 +17,8 @@ class IndexController extends Controller
      * @version 2016-09-05
      * @since   1.0
      *
+     * @param $slug
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIndex($slug = null)
@@ -79,7 +81,7 @@ class IndexController extends Controller
         $file->downloads++;
         $file->save();
 
-        $url = config('filesystems.disks.mp3.root') . '\\' . $file->filename;
+        $url = str_finish(config('filesystems.disks.mp3.root'), '/') . $file->filename;
 
         return response()->download($url, $file->title, [
             'Content-Type' => 'audio/mpeg',

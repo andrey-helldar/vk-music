@@ -12,11 +12,11 @@
 
     <title>{{ trans('interface.site.title') }}</title>
 
-    {{-- Import Google Icon Font --}}
-    {{--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">--}}
+    {{-- Import Font --}}
+    <link rel="stylesheet" href="{{ elixir('css/font.css') }}">
 
     {{-- Styles --}}
-    <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
 
     {{-- Scripts --}}
     <script>

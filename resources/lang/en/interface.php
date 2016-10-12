@@ -57,4 +57,7 @@ return [
         'submit'     => 'Submit',
         'go_to_page' => 'Go to page',
     ],
+    'context'  => [
+        'hello' => 'Hello, ',
+    ],
 ];

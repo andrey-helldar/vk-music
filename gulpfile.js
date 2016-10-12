@@ -22,6 +22,7 @@ elixir(mix => {
 
         mix
             .sass('app.scss', 'public/css/app.css')
+            .sass('font.scss', 'public/css/font.css')
 
             //.scripts([
             //    'functions.js'
@@ -38,6 +39,7 @@ elixir(mix => {
              */
             .version(
                 [
+                    'css/font.css',
                     'css/app.css',
                     'js/app.js',
                     //'js/lib.js'
