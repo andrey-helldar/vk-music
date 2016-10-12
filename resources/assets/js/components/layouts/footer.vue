@@ -33,16 +33,17 @@
     export default{
         data(){
             return {
-                year:  2016,
-                links: []
+                start_year: 2016,
+                year:       2016,
+                links:      []
             }
         },
         beforeMount(){
+            this.year();
             this.footerLinks();
         },
         mounted(){
             appFunc.console('Component Footer ready.');
-            this.year();
         },
         methods: {
             footerLinks(){
@@ -64,10 +65,10 @@
             year(){
                 var now = new Date();
 
-                if (now.getFullYear() > 2016) {
-                    this.year = '2016-' + now.getFullYear();
+                if (now.getFullYear() > this.start_year) {
+                    this.year = this.start_year + '-' + now.getFullYear();
                 } else {
-                    this.year = 2016;
+                    this.year = this.start_year;
                 }
             },
             /**

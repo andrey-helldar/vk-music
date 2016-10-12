@@ -81,7 +81,8 @@ class IndexController extends Controller
         $file->downloads++;
         $file->save();
 
-        $url = str_finish(config('filesystems.disks.mp3.root'), '/') . $file->filename;
+        // TODO Исправить формирование ссылки на скачивание файла.
+        $url = storage_path('app/' . $file->filename);
 
         return response()->download($url, $file->title, [
             'Content-Type' => 'audio/mpeg',
