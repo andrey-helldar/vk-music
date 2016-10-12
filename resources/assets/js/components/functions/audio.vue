@@ -31,8 +31,8 @@
                                 <span v-if="audio.index === index">{{ timeToHumans(audio.currentTime) }}</span>
                             </li>
                             <li class="audio-download valign-wrapper">
-                                <i class="material-icons waves-effect-waves-light valign" @click="addMyAudio(item)">add</i>
-                                <i class="material-icons waves-effect waves-light valign" @click="download(item)">file_download</i>
+                                <i class="material-icons waves-effect-waves-light valign tooltipped" @click="addMyAudio(item)" data-tooltip="Add to my audios">add</i>
+                                <i class="material-icons waves-effect waves-light valign tooltipped" @click="download(item)" data-tooltip="Download this track">file_download</i>
                             </li>
                         </ul>
                     </li>
@@ -207,6 +207,7 @@
                                     this.vk.count_all = response.data.response.count_all;
                                     this.items = this.items.concat(response.data.response.items);
 
+                                    this.initTooltip();
                                     this.hideLoader();
                                     appFunc.info(response.data.response.resolve, 'success');
                                 },
@@ -232,8 +233,9 @@
                                             this.vk.count_all = [];
                                             this.items = [];
 
-                                            appFunc.info(response.data.error.resolve, 'error');
+                                            this.initTooltip();
                                             this.hideLoader();
+                                            appFunc.info(response.data.error.resolve, 'error');
                                             return;
 
                                         case 401:
@@ -473,6 +475,19 @@
              */
             download(item){
                 this.$root.$refs.app.$refs.header.$refs.download.getDownload(item);
+            },
+            /**
+             * Инициализируем тултипы.
+             */
+            initTooltip()
+            {
+                $(document).ready(function () {
+                    $('.tooltipped').tooltip('remove');
+                    $('.tooltipped').tooltip({
+                        delay:    50,
+                        position: 'top'
+                    });
+                });
             }
         }
     }

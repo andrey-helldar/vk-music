@@ -75,6 +75,8 @@
                             color: $audio-primary-color;
                             font-size: $audio-icon-font-size;
                             cursor: pointer;
+                            display: inline-block;
+                            vertical-align: middle;
                         }
                     }
                 }

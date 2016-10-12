@@ -1,5 +1,8 @@
 //window._ = require('lodash');
-import _ from 'lodash';
+import _ from "lodash";
+import jQuery from "jquery";
+import Vue from "vue";
+import VueResource from "vue-resource";
 window._ = _;
 
 /**
@@ -9,7 +12,6 @@ window._ = _;
  */
 
 //window.$ = window.jQuery = require('jquery');
-import jQuery from 'jquery';
 window.$ = window.jQuery = jQuery;
 
 require('./materialize.min');
@@ -21,10 +23,8 @@ require('./materialize.min');
  * and simple, leaving you to focus on building your next great project.
  */
 
-import Vue from 'vue';
 window.Vue = Vue;
 
-import VueResource from "vue-resource";
 Vue.use(VueResource);
 
 /**

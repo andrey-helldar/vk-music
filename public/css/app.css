@@ -5657,7 +5657,9 @@ input[type=range]:focus::-ms-fill-upper {
           .audio li.audio-actions ul li.audio-download i {
             color: #3f51b5;
             font-size: 1.64rem;
-            cursor: pointer; }
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: middle; }
     .audio li.audio-actions .progress {
       display: none; }
   .audio:hover {
