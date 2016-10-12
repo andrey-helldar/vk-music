@@ -32,6 +32,22 @@ class AppController extends Controller
     }
 
     /**
+     * Вывод списка ссылок в подвал.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-10-13
+     * @since   1.0
+     *
+     * @return mixed
+     */
+    public function getFooterLinks()
+    {
+        $links = config('footer-links', []);
+
+        return ResponseController::success(0, $links);
+    }
+
+    /**
      * Получение блоков для главной страницы.
      *
      * @author  Andrey Helldar <helldar@ai-rus.com>

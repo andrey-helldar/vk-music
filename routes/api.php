@@ -12,6 +12,7 @@
 */
 
 Route::get('top.menu', 'Api\AppController@getTopMenu');
+Route::get('footer.links', 'Api\AppController@getFooterLinks');
 Route::get('main.blocks', 'Api\AppController@getMainBlocks');
 Route::get('vk.params', 'Api\AppController@getParams');
 Route::post('vk.verify', 'Auth\VkController@postVerify');

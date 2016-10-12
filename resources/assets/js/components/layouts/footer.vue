@@ -3,26 +3,27 @@
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text">VK Music</h5>
-                    <p class="grey-text text-lighten-4">Site description</p>
+                    <h5 class="white-text">{{ trans('title') }}</h5>
+                    <p class="grey-text text-lighten-4">{{ trans('description') }}</p>
                 </div>
                 <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
+                    <h5 class="white-text">{{ trans('links') }}</h5>
                     <ul>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                        <li v-for="link in links">
+                            <a class="grey-text text-lighten-3" v-bind:link="link.url">
+                                {{ link.title }}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="footer-copyright">
             <div class="container">
-                © 2016 VK Music
+                © {{ year }} {{ trans('title') }}
 
                 <a class="grey-text text-lighten-4 right" href="#">
-                    To top
+                    {{ trans('to_top') }}
                 </a>
             </div>
         </div>
@@ -31,10 +32,57 @@
 <script>
     export default{
         data(){
-            return {}
+            return {
+                year:  2016,
+                links: []
+            }
+        },
+        beforeMount(){
+            this.footerLinks();
         },
         mounted(){
             appFunc.console('Component Footer ready.');
+            this.year();
+        },
+        methods: {
+            footerLinks(){
+                this.$http.get('footer.links').then(
+                        function (response) {
+                            if (response.data.error == undefined) {
+                                this.links = response.data.response;
+                            } else {
+                                appFunc.info(response.data.error, 'error');
+                            }
+                        }, function (response) {
+                            appFunc.info(response.data.error, 'error');
+                        }
+                );
+            },
+            /**
+             * Вывод года
+             */
+            year(){
+                var now = new Date();
+
+                if (now.getFullYear() > 2016) {
+                    this.year = '2016-' + now.getFullYear();
+                } else {
+                    this.year = 2016;
+                }
+            },
+            /**
+             * Получение значения переведенного параметра интерфейса.
+             *
+             * @param param
+             * @returns {*}
+             */
+            trans(param){
+                if (param.length == 0) {
+                    return '';
+                }
+
+                return this.$parent.trans('interface.site.' + param);
+            }
         }
     }
 </script>
