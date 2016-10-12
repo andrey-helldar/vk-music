@@ -2,6 +2,9 @@
 
 $materialize-css-path: "../../../node_modules/materialize-css/sass/components/";
 
+// Fonts
+@import "components/material_icons";
+
 // Mixins
 // @import "../../../node_modules/materialize-css/sass/components/prefixer";
 @import "components/mixins";

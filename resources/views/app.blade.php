@@ -13,7 +13,7 @@
     <title>{{ trans('interface.site.title') }}</title>
 
     {{-- Import Google Icon Font --}}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {{--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">--}}
 
     {{-- Styles --}}
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">

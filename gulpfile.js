@@ -29,6 +29,7 @@ elixir(mix => {
 
             .copy(assets + 'images', 'public/images')
             .copy(node_modules + 'materialize-css/fonts', 'public/build/fonts')
+            .copy(node_modules + 'material-design-icons/iconfont', 'public/build/fonts/MaterialIcons')
 
             .webpack('app.js')
 
