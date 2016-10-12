@@ -277,6 +277,7 @@
              */
             initTooltip()
             {
+                // TODO Исправить отображение наименования группы.
                 $(document).ready(function () {
                     $('.tooltipped').tooltip('remove');
                     $('.tooltipped').tooltip({delay: 50});
