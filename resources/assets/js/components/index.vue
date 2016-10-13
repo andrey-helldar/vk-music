@@ -14,7 +14,7 @@
 
                             <div class="panel-action">
                                 <router-link :to="{path: item.url}">
-                                    Go to page
+                                    {{ locale.goToPage }}
                                 </router-link>
                             </div>
                         </div>
@@ -29,17 +29,24 @@
     export default{
         data(){
             return {
-                items: []
+                items:  [],
+                locale: {
+                    goToPage: 'Go to page'
+                }
             }
         },
         beforeMount(){
             this.$parent.checkAuth();
+            this.locale();
         },
         mounted(){
             this.getItems();
             appFunc.console('Component Index ready.');
         },
         methods: {
+            locale(){
+                this.locale.goToPage = this.$root.$refs.app.trans('interface.buttons.go_to_page');
+            },
             getItems(){
                 this.$http.get('main.blocks').then(
                         function (response) {
