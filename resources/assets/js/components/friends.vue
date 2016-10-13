@@ -111,7 +111,7 @@
                 this.locale.title = this.$root.$refs.app.trans('interface.title.friends');
                 this.locale.noFriends = this.$root.$refs.app.trans('interface.statuses.no_friends');
                 this.locale.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
-                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.actions.reloading_page');
+                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.statuses.reloading_page');
                 this.locale.check = this.$root.$refs.app.trans('interface.statuses.check');
                 this.locale.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
                 this.locale.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');

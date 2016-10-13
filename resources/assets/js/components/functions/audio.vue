@@ -134,7 +134,7 @@
                 this.locale.addMyAudios = this.$root.$refs.app.trans('interface.buttons.add_my_audios');
                 this.locale.downloadThisTrack = this.$root.$refs.app.trans('interface.buttons.download_this_track');
                 this.locale.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
-                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.actions.reloading_page');
+                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.statuses.reloading_page');
                 this.locale.check = this.$root.$refs.app.trans('interface.statuses.check');
                 this.locale.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
                 this.locale.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');

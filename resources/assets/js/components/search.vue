@@ -2,7 +2,7 @@
     <div>
         <div class="container">
             <h3>
-                {{ title }}
+                {{ locale.title }}
             </h3>
         </div>
 
@@ -31,7 +31,10 @@
         data(){
             return {
                 url:          'audio.search',
-                title:        'Search',
+                locale:       {
+                    title:     'Search',
+                    searching: 'Searching:<br>'
+                },
                 statusColors: {
                     selected: '',
                     default:  '',
@@ -45,18 +48,24 @@
         },
         beforeMount(){
             this.$parent.checkAuth();
+            this.locale();
         },
         mounted(){
             appFunc.console('Component Search ready.');
+
             this.$parent.hideLoader();
         },
         methods:    {
+            locale(){
+                this.locale.title = this.$root.$refs.app.trans('interface.title.search');
+                this.locale.searching = this.$root.$refs.app.trans('interface.statuses.searching');
+            },
             searching(){
                 var form = $('form[name=search]');
                 var query = form.find('input[name=q]').val();
                 var parent = this;
 
-                appFunc.info('Searching:<br>"' + query + '"...');
+                appFunc.info('Searching:<br>' + query);
 
                 // TODO Визуально вывести статус подключения к VK API в виде изменения цвета фона строки поиска.
                 this.$refs.audio.load(parent.url, 0, 'default', {

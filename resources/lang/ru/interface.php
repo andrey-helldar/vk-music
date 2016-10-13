@@ -51,6 +51,7 @@ return [
         'my'              => 'My audio',
         'popular'         => 'Popular',
         'recommendations' => 'Recommendations',
+        'search'          => 'Search',
     ],
     'statuses' => [
         'no_audio'          => 'Нет аудиозаписей',
@@ -63,7 +64,9 @@ return [
         'please_wait'       => 'Please, wait...',
         'in_queue'          => 'in queue',
         'in_queue_position' => 'in queue position',
+        'reloading_page'    => '<br>Reloading this page...',
         'something_wrong'   => 'Something went wrong. We reload the page ...',
+        'searching'         => 'Searching:<br>',
     ],
     'form'     => [
         'first_name'  => 'Имя',
@@ -82,8 +85,5 @@ return [
     ],
     'context'  => [
         'hello' => 'Приветствую, ',
-    ],
-    'actions'  => [
-        'reloading_page' => '<br>Reloading this page...',
     ],
 ];
