@@ -5,7 +5,7 @@
                 <div class="col s12 m9">
                     <h1>
                         <router-link :to="{name: 'index'}">
-                            <img src="/images/logotype.png" alt="" class="logotype">
+                            <img src="/images/logotype.svg" alt="" class="logotype">
                         </router-link>
                     </h1>
                 </div>
