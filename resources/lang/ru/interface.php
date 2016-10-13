@@ -46,6 +46,7 @@ return [
         'whoops'    => 'Whoops!',
         'errors'    => 'Errors!',
         'feedback'  => 'Feedback',
+        'friends'   => 'Friends',
     ],
     'statuses' => [
         'no_audio'          => 'Нет аудиозаписей',

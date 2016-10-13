@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col s12 m4">
                 <h3>
-                    Friends
+                    {{ locale.title }}
+
                     <sup class="grey-text text-lighten-2" v-if="items.length">
                         {{ items.length }} / {{ vk.count_all }}
                     </sup>
@@ -23,14 +24,15 @@
                     </div>
 
                     <div class="col s12 center-align" v-if="!items.length">
-                        <h6>Friends not found</h6>
+                        <h6>
+                            {{ locale.noFriends }}
+                        </h6>
                     </div>
 
                 </div>
 
                 <div class="col s12 m12 center-align" v-if="items.length < vk.count_all">
-                    <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more friends"
-                            @click="moreFriends">
+                    <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" v-bind:data-tooltip="locale.giveMore" @click="moreFriends">
                         <i class="material-icons">more_horiz</i>
                     </button>
                 </div>
@@ -61,6 +63,16 @@
                     position:   '',
                     showLoader: true
                 },
+                locale:           {
+                    title:          'Friends',
+                    noFriends:      'Friends not found',
+                    giveMore:       'Give more',
+                    pleaseWait:     'Please, wait...',
+                    reloadingPage:  '<br>Reloading this page...',
+                    check:          'Check...',
+                    pleaseWait:     'Please, wait...',
+                    sendingRequest: 'Sending request...'
+                },
                 url:              'friends.user',
                 url_user:         'audio.user',
                 selectedUserName: '...',
@@ -73,6 +85,7 @@
         },
         beforeMount(){
             this.$parent.checkAuth();
+            this.locale();
         },
         mounted(){
             this.getFriends();
@@ -95,6 +108,16 @@
             }
         },
         methods:    {
+            locale(){
+                this.locale.title = this.$root.$refs.app.trans('interface.title.friends');
+                this.locale.noFriends = this.$root.$refs.app.trans('interface.statuses.no_friends');
+                this.locale.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
+                this.locale.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
+                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.actions.reloading_page');
+                this.locale.check = this.$root.$refs.app.trans('interface.statuses.check');
+                this.locale.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
+                this.locale.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');
+            },
             hideLoader(){
                 this.$root.$refs.app.hideLoader();
             },
@@ -103,7 +126,7 @@
              */
             checkDataLoading(newValue, oldValue){
                 if (this.loading.showLoader === true) {
-                    this.$root.$refs.app.showLoader('Please, wait...', newValue.position);
+                    this.$root.$refs.app.showLoader(this.locale.pleaseWait, newValue.position);
                 }
             },
             /**
@@ -163,7 +186,7 @@
                                     switch (response.status) {
 
                                         case 502:
-                                            appFunc.info(response.statusText + '<br>Reloading this page...', 'error');
+                                            appFunc.info(response.statusText + this.locale.reloadingPage, 'error');
                                             location.reload();
                                             break;
 
@@ -240,15 +263,15 @@
 
                 switch (status) {
                     case 'check':
-                        notify(this, 'Check...', position, 'check');
+                        notify(this, this.locale.check, position, 'check');
                         break;
 
                     case 'wait':
-                        notify(this, 'Please, wait...', position, 'wait', false);
+                        notify(this, this.locale.pleaseWait, position, 'wait', false);
                         break;
 
                     case 'send':
-                        notify(this, 'Sending request...', '', 'info', false);
+                        notify(this, this.locale.sendingRequest, '', 'info', false);
                         break;
 
                     default:
