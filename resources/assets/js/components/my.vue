@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h3>
-            {{ title }}
+            {{ locale.title }}
         </h3>
 
         <div class="row">
@@ -14,7 +14,9 @@
     export default{
         data(){
             return {
-                title: 'My audio'
+                locale: {
+                    title: 'My audio'
+                }
             }
         },
         components: {
@@ -22,10 +24,16 @@
         },
         beforeMount(){
             this.$parent.checkAuth();
+            this.locale();
         },
         mounted(){
             this.$refs.audio.load();
             appFunc.console('Component My ready.');
+        },
+        methods:    {
+            locale(){
+                this.locale.title = this.$root.$refs.app.trans('interface.title.my');
+            }
         }
     }
 </script>

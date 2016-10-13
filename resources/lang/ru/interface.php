@@ -48,6 +48,7 @@ return [
         'feedback'  => 'Feedback',
         'friends'   => 'Friends',
         'groups'    => 'Groups',
+        'my'        => 'My audio',
     ],
     'statuses' => [
         'no_audio'          => 'Нет аудиозаписей',
