@@ -1,27 +1,27 @@
 <?php
 
 return [
-    1 => 'Unknown method.',
-    2 => 'Unauthorized.',
+    1 => 'Неизвестный метод.',
+    2 => 'Не авторизован.',
 
-    10 => 'The request has been successfully added to the queue. Please, wait...',
-    11 => 'The request has already been added. Please, wait...',
-    12 => 'You queue position: :position',
+    10 => 'Запрос успешно добавлен в очередь. Пожалуйста, подождите...',
+    11 => 'Запрос уже находится в очереди. Пожалуйста, подождите...',
+    12 => 'Ваша позиция в очереди: :position',
 
-    20 => 'The queue has already been added. Please, wait...',
-    21 => 'The queue in work. Please, wait...',
+    20 => 'Запрос уже находится в очереди. Пожалуйста, подождите...',
+    21 => 'Иджет обработка. Пожалуйста, подождите...',
 
-    30 => 'Token has expired. Please, authenticate in VK.',
-    31 => 'Token has expired.',
-    32 => 'Token verified.',
+    30 => 'Срок действия токена истек. Требуется аутентификация в VK.',
+    31 => 'Срок действия токена истек.',
+    32 => 'Токен успешно подтвержден.',
 
-    40 => 'The data was successfully uploaded. Processing ...',
+    40 => 'Данные успешно загружены. Идет обработка...',
 
-    50 => 'Download:<br>:filename',
-    51 => 'The track has been successfully added to the queue. Please, wait...',
-    52 => 'The query is empty.',
+    50 => 'Скачивание:<br>:filename',
+    51 => 'Трек успешно добавлен в очередь. Пожалуйста, подождите...',
+    52 => 'Очередь пуста.',
 
-    60 => 'User not found',
+    60 => 'Пользователь не найден.',
 
-    70 => 'Your request has been sent. We will contact you shortly.',
+    70 => 'Ваш запрос отправлен. Мы свяжемся с Вами в ближайшее время.',
 ];

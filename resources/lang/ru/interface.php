@@ -7,57 +7,57 @@
 return [
     'site'     => [
         'title'       => 'VK Music',
-        'description' => 'VK Music description',
-        'links'       => 'Links',
-        'to_top'      => 'To top',
+        'description' => 'Описание сайта VK Music',
+        'links'       => 'Ссылки',
+        'to_top'      => 'Наверх',
     ],
     'pages'    => [
         'my'              => [
-            'title'       => 'My Audio',
+            'title'       => 'Мои аудиозаписи',
             'description' => 'Small description of this block',
         ],
         'recommendations' => [
-            'title'       => 'Recommendations',
+            'title'       => 'Рекоммендованное',
             'description' => 'Small description of this block',
         ],
         'popular'         => [
-            'title'       => 'Popular',
+            'title'       => 'Популярное',
             'description' => 'Small description of this block',
         ],
         'friends'         => [
-            'title'       => 'Friends',
+            'title'       => 'Друзья',
             'description' => 'Small description of this block',
         ],
         'groups'          => [
-            'title'       => 'Groups',
+            'title'       => 'Группы',
             'description' => 'Small description of this block',
         ],
         'search'          => [
-            'title'       => 'Search',
+            'title'       => 'Поиск',
             'description' => 'Small description of this block',
         ],
         'feedback'        => [
-            'title'       => 'Feedback',
+            'title'       => 'Поддержка',
             'description' => 'Small description of this block',
         ],
     ],
     'statuses' => [
-        'no_audio'        => 'No audios',
-        'no_friends'      => 'Friends not found',
-        'no_groups'       => 'Groups not found',
-        'sending-request' => 'Sending request...',
+        'no_audio'        => 'Нет аудиозаписей',
+        'no_friends'      => 'Друзья не найдены',
+        'no_groups'       => 'Группы не найдены',
+        'sending-request' => 'Отправка запроса...',
     ],
     'form'     => [
-        'first_name'  => 'First Name',
-        'last_name'   => 'Last Name',
+        'first_name'  => 'Имя',
+        'last_name'   => 'Фамилия',
         'email'       => 'Email',
-        'description' => 'Description',
+        'description' => 'Описание',
     ],
     'buttons'  => [
-        'submit'     => 'Submit',
-        'go_to_page' => 'Go to page',
+        'submit'     => 'Отправить',
+        'go_to_page' => 'Перейти',
     ],
     'context'  => [
-        'hello' => 'Hello, ',
+        'hello' => 'Приветствую, ',
     ],
 ];
