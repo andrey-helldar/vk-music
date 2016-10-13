@@ -9,7 +9,6 @@ use VKMUSIC\Http\Requests;
 
 class FeedbackController extends Controller
 {
-
     /**
      * Получение первоначальных данных для формы обратной связи.
      *

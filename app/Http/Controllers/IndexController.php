@@ -10,6 +10,7 @@ use VKMUSIC\VkFile;
 
 class IndexController extends Controller
 {
+
     /**
      * Основная страница.
      *

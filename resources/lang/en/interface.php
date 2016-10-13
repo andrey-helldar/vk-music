@@ -46,6 +46,7 @@ return [
         'no_friends'      => 'Friends not found',
         'no_groups'       => 'Groups not found',
         'sending-request' => 'Sending request...',
+        'loading'         => 'Loading...',
     ],
     'form'     => [
         'first_name'  => 'First Name',

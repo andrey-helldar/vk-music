@@ -10,6 +10,7 @@ use VKMUSIC\VkResponse;
 
 class AudioController extends Controller
 {
+
     /**
      * Возвращает список аудиозаписей пользователя или сообщества.
      *
@@ -216,7 +217,7 @@ class AudioController extends Controller
         ]);
     }
 
-    function getGroup(Request $request)
+    function getGroup(Request $request = null)
     {
         return $this->getAudio();
     }

@@ -30,13 +30,15 @@
             }
         },
         mounted() {
+            appFunc.console('Component Loader Screen ready.');
+
             // Запускаем отображение при инициализации компонента.
             this.showLoader();
 
             // Если на странице найден блок с определенным классом - вырубаем лоадер.
             this.hideOnClass('loader-screen-hide');
 
-            appFunc.console('Component Loader Screen ready.');
+            this.locale();
         },
         watch:   {
             /**
@@ -49,6 +51,9 @@
             time:       'checkDataStyle'
         },
         methods: {
+            locale(){
+                this.text = this.$root.$refs.app.trans('interface.statuses.loading');
+            },
             /**
              * Запускаем лоадер.
              */

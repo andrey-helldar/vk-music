@@ -31,8 +31,8 @@
                                 <span v-if="audio.index === index">{{ timeToHumans(audio.currentTime) }}</span>
                             </li>
                             <li class="audio-download valign-wrapper">
-                                <i class="material-icons waves-effect-waves-light valign tooltipped" @click="addMyAudio(item)" data-tooltip="Add to my audios">add</i>
-                                <i class="material-icons waves-effect waves-light valign tooltipped" @click="download(item)" data-tooltip="Download this track">file_download</i>
+                                <i class="material-icons waves-effect-waves-light valign tooltipped" @click="addMyAudio(item)" v-bind:data-tooltip="locale.addMyAudios">add</i>
+                                <i class="material-icons waves-effect waves-light valign tooltipped" @click="download(item)" v-bind:data-tooltip="locale.downloadThisTrack">file_download</i>
                             </li>
                         </ul>
                     </li>
@@ -42,13 +42,15 @@
             <div class="col s12 m8 offset-m2 center-align" v-if="!items.length">
                 <div class="card-panel blue lighten-1">
                     <div class="white-text">
-                        <h6>No audios</h6>
+                        <h6>
+                            {{ locale.noAudios }}
+                        </h6>
                     </div>
                 </div>
             </div>
 
             <div class="col s12 m12 center-align" v-if="items.length < vk.count_all">
-                <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" data-tooltip="Give more audio" @click="moreAudio">
+                <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" v-bind:data-tooltip="locale.giveMore" @click="moreAudio">
                     <i class="material-icons">more_horiz</i>
                 </button>
             </div>
@@ -85,6 +87,15 @@
                         pause: 'stop'
                     }
                 },
+                locale:            {
+                    noAudios:          'No audios',
+                    addMyAudios:       'Add to my audios',
+                    downloadThisTrack: 'Download this track',
+                    reloadingPage:     '<br>Reloading this page...',
+                    check:             'Check...',
+                    pleaseWait:        'Please, wait...',
+                    sendingRequest:    'Sending request...'
+                },
                 url:               'audio.user',
                 default_url:       'audio.user',
                 filterKey:         '',
@@ -93,8 +104,10 @@
             }
         },
         mounted() {
-            this.getGenres();
             appFunc.console('Component Audio ready.');
+
+            this.getGenres();
+            this.locale();
         },
         watch:    {
             'loading': 'checkDataLoading'
@@ -116,6 +129,16 @@
             this.audioPause();
         },
         methods:  {
+            locale(){
+                this.locale.noAudios = this.$root.$refs.app.trans('interface.statuses.no_audio');
+                this.locale.addMyAudios = this.$root.$refs.app.trans('interface.buttons.add_my_audios');
+                this.locale.downloadThisTrack = this.$root.$refs.app.trans('interface.buttons.download_this_track');
+                this.locale.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
+                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.actions.reloading_page');
+                this.locale.check = this.$root.$refs.app.trans('interface.statuses.check');
+                this.locale.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
+                this.locale.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');
+            },
             hideLoader(){
                 this.$root.$refs.app.hideLoader();
             },
@@ -218,12 +241,12 @@
                                     switch (response.status) {
 
                                         case 502:
-                                            appFunc.info(response.statusText + '<br>Reloading this page...', 'error');
+                                            appFunc.info(response.statusText + this.locale.reloadingPage, 'error');
                                             location.reload();
                                             break;
 
                                         case 500:
-                                            appFunc.console(response.statusText, 'warning');
+                                            appFunc.info(response.statusText, 'error');
                                             break;
 
                                         case 406:
@@ -325,15 +348,15 @@
 
                 switch (status) {
                     case 'check':
-                        notify(this, 'Check...', position, 'check');
+                        notify(this, this.locale.check, position, 'check');
                         break;
 
                     case 'wait':
-                        notify(this, 'Please, wait...', position, 'wait', false);
+                        notify(this, this.locale.pleaseWait, position, 'wait', false);
                         break;
 
                     case 'send':
-                        notify(this, 'Sending request...', '', 'info', false);
+                        notify(this, this.locale.sendingRequest, '', 'info', false);
                         break;
 
                     default:

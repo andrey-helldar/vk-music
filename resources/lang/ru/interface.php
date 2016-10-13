@@ -41,11 +41,20 @@ return [
             'description' => 'Small description of this block',
         ],
     ],
+    'title'    => [
+        'downloads' => 'Downloads',
+    ],
     'statuses' => [
-        'no_audio'        => 'Нет аудиозаписей',
-        'no_friends'      => 'Друзья не найдены',
-        'no_groups'       => 'Группы не найдены',
-        'sending-request' => 'Отправка запроса...',
+        'no_audio'          => 'Нет аудиозаписей',
+        'no_friends'        => 'Друзья не найдены',
+        'no_groups'         => 'Группы не найдены',
+        'no_items'          => 'Нет записей',
+        'sending_request'   => 'Отправка запроса...',
+        'loading'           => 'Загрузка...',
+        'check'             => 'Check...',
+        'please_wait'       => 'Please, wait...',
+        'in_queue'          => 'in queue',
+        'in_queue_position' => 'in queue position',
     ],
     'form'     => [
         'first_name'  => 'Имя',
@@ -54,10 +63,17 @@ return [
         'description' => 'Описание',
     ],
     'buttons'  => [
-        'submit'     => 'Отправить',
-        'go_to_page' => 'Перейти',
+        'submit'              => 'Отправить',
+        'go_to_page'          => 'Перейти',
+        'add_my_audios'       => 'Add to my audios',
+        'download_this_track' => 'Download this track',
+        'give_more'           => 'Give more',
+        'close'               => 'Close',
     ],
     'context'  => [
         'hello' => 'Приветствую, ',
+    ],
+    'actions'  => [
+        'reloading_page' => '<br>Reloading this page...',
     ],
 ];

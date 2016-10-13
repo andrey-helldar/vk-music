@@ -8,7 +8,7 @@
                 <ul class="left hide-on-med-and-down">
                     <li>
                         <router-link :to="{name: 'index'}">
-                            Hello, {{ first_name }}!
+                            {{ hello }}!
                         </router-link>
                     </li>
                 </ul>
@@ -16,7 +16,7 @@
                 <ul class="right hide-on-med-and-up">
                     <li>
                         <router-link :to="{name: 'index'}">
-                            Hello, {{ first_name }}!
+                            {{ hello }}!
                         </router-link>
                     </li>
                 </ul>
@@ -48,15 +48,22 @@
         data(){
             return {
                 items:      [],
+                hello:      'Hello!',
                 first_name: 'Guest'
             }
         },
         mounted() {
+            appFunc.console('Component Top Menu ready.');
+
             this.getTopMenu();
             this.user();
-            appFunc.console('Component Top Menu ready.');
+            this.locale();
         },
         methods: {
+            locale(){
+                this.hello = this.$root.$refs.app.trans('interface.context.hello');
+                this.hello += this.first_name;
+            },
             /**
              * Получение списка меню.
              */

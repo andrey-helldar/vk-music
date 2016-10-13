@@ -169,7 +169,7 @@
                                             break;
 
                                         case 500:
-                                            appFunc.console(response.statusText, 'warning');
+                                            appFunc.info(response.statusText, 'error');
                                             break;
 
                                         case 406:

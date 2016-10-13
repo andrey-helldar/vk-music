@@ -4,6 +4,7 @@ namespace VKMUSIC\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use VKMUSIC\Http\Middleware\CheckAuthMiddleware;
+use VKMUSIC\Http\Middleware\LocaleMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -33,11 +34,13 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
             CheckAuthMiddleware::class,
+            LocaleMiddleware::class,
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
+            LocaleMiddleware::class,
         ],
     ];
 
@@ -56,5 +59,6 @@ class Kernel extends HttpKernel
         'can'        => \Illuminate\Auth\Middleware\Authorize::class,
         'guest'      => \VKMUSIC\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'locale'     => LocaleMiddleware::class,
     ];
 }

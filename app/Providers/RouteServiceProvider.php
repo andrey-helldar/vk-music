@@ -25,11 +25,19 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->app->view->composer('app', function ($view) {
 
-            $user = [];
+            $user   = [];
+            $locale = config('app.locale', 'en');
 
             if (\Auth::check()) {
-                $user_vk = \Auth::user()->vk;
-                $user    = [
+                $user_vk     = \Auth::user()->vk;
+                $locale      = $user_vk->lang;
+                $localeValue = config('vk.lang.' . $locale, null);
+
+                if (!is_null($localeValue)) {
+                    $locale = $localeValue;
+                }
+
+                $user = [
                     'first_name'      => $user_vk->first_name,
                     'last_name'       => $user_vk->last_name,
                     'first_name_case' => json_decode($user_vk->first_name_case),
@@ -37,6 +45,8 @@ class RouteServiceProvider extends ServiceProvider
                     'photo'           => $user_vk->photo,
                 ];
             }
+
+            \Lang::setLocale($locale);
 
             $view->with('Laravel', json_encode([
                 'csrfToken' => csrf_token(),

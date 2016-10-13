@@ -1,11 +1,14 @@
 <template>
     <div v-cloak>
         <div class="card-panel" v-if="items.length">
-            <h5>Downloads</h5>
+            <h5>
+                {{ locale.title }}
+            </h5>
 
             <div class="row center-align">
                 <button class="btn waves-effect waves-light hoverable" @click="downloadModalOpen">
-                    {{ items.length }} in queue
+                    {{ items.length }}
+                    {{ locale.inQueue }}
                 </button>
             </div>
         </div>
@@ -15,7 +18,7 @@
         <div class="modal bottom-sheet black-text" id="downloadModal">
             <div class="modal-content" v-if="items.length">
                 <h5>
-                    In queue:
+                    {{ locale.inQueue.toUppercase() }}
                 </h5>
 
                 <ul class="collection">
@@ -25,7 +28,7 @@
                         {{ item.artist }} - {{ item.title }}
                     </span>
 
-                        <span class="badge" data-badge-caption="in queue position">
+                        <span class="badge" v-bind:data-badge-caption="locale.inQueuePosition">
                             {{ index + 1 }}
                         </span>
                     </li>
@@ -34,13 +37,13 @@
 
             <div class="modal-content valign-wrapper center-align" v-if="!items.length">
                 <h5 class="valign">
-                    No items
+                    {{ locale.noItems }}
                 </h5>
             </div>
 
             <div class="modal-footer">
                 <button class="btn red lighten-2 modal-action modal-close waves-effect waves-light">
-                    Close
+                    {{ locale.close }}
                 </button>
             </div>
         </div>
@@ -51,17 +54,32 @@
     export default{
         data(){
             return {
-                items: [],
-                url:   'download'
+                items:  [],
+                url:    'download',
+                locale: {
+                    title:           'Downloads',
+                    inQueue:         'in queue',
+                    inQueuePosition: 'in queue position',
+                    noItems:         'No items',
+                    close:           'Close'
+                }
             }
         },
         beforeMount(){
             this.checkDownloadedFiles();
+            this.locale();
         },
         mounted(){
             appFunc.console('Component Downloads ready.');
         },
         methods: {
+            locale(){
+                this.locale.title = this.$root.$refs.app.trans('interface.title.downloads');
+                this.locale.inQueue = this.$root.$refs.app.trans('interface.statuses.in_queue');
+                this.locale.inQueuePosition = this.$root.$refs.app.trans('interface.statuses.in_queue_position');
+                this.locale.noItems = this.$root.$refs.app.trans('interface.statuses.no_items');
+                this.locale.close = this.$root.$refs.app.trans('interface.buttons.close');
+            },
             /**
              * Создание запроса на скачивание файла.
              */
@@ -122,7 +140,7 @@
                                             break;
 
                                         case 500:
-                                            appFunc.console(response.statusText, 'warning');
+                                            appFunc.info(response.statusText, 'error');
                                             break;
 
                                         case 406:

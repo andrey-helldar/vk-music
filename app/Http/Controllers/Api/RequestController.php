@@ -10,7 +10,6 @@ use VKMUSIC\ResponseTime;
 
 class RequestController extends Controller
 {
-
     /**
      * Отправка запроса.
      *
