@@ -47,6 +47,7 @@ return [
         'errors'    => 'Errors!',
         'feedback'  => 'Feedback',
         'friends'   => 'Friends',
+        'groups'    => 'Groups',
     ],
     'statuses' => [
         'no_audio'          => 'Нет аудиозаписей',
