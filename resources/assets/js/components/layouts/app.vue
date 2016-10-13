@@ -132,7 +132,6 @@
              */
             trans(param, values = []){
                 if (param.length == 0 || param === undefined) {
-                    appFunc.console('11111');
                     return '';
                 }
 

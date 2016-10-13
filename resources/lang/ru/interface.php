@@ -44,6 +44,8 @@ return [
     'title'    => [
         'downloads' => 'Downloads',
         'whoops'    => 'Whoops!',
+        'errors'    => 'Errors!',
+        'feedback'  => 'Feedback',
     ],
     'statuses' => [
         'no_audio'          => 'Нет аудиозаписей',
@@ -71,6 +73,7 @@ return [
         'download_this_track' => 'Download this track',
         'give_more'           => 'Give more',
         'close'               => 'Close',
+        'return_auth'         => 'Return to auth page',
     ],
     'context'  => [
         'hello' => 'Приветствую, ',
