@@ -103,11 +103,13 @@
                 statusCode:        200
             }
         },
+        beforeMount(){
+            this.locale();
+        },
         mounted() {
             appFunc.console('Component Audio ready.');
 
             this.getGenres();
-            this.locale();
         },
         watch:    {
             'loading': 'checkDataLoading'

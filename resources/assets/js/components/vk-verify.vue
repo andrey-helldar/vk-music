@@ -1,11 +1,13 @@
 <template>
     <div class="container">
-        <h3>Need access verification</h3>
+        <h3>
+            {{ locale.title }}
+        </h3>
 
         <div class="row center-align">
             <button class="btn btn-large btn-primary waves-effect waves-light" disabled>
                 <i class="material-icons left">check</i>
-                {{ buttonText }}
+                {{ locale.checkAccessToken }}
             </button>
         </div>
     </div>
@@ -14,18 +16,27 @@
     export default{
         data(){
             return {
-                buttonText: 'Checking access token'
+                locale: {
+                    title:            'Need access verification',
+                    checkAccessToken: 'Checking access token'
+                }
             }
         },
         beforeMount(){
             this.$parent.checkAuth();
+            this.locale();
         },
         mounted() {
+            appFunc.console('Component VK Verify ready.');
+
             this.dotButton();
             this.checkGetParams();
-            appFunc.console('Component VK Verify ready.');
         },
         methods: {
+            locale(){
+                this.locale.title = this.$root.$refs.app.trans('interface.title.need_verify');
+                this.locale.checkAccessToken = this.$root.$refs.app.trans('interface.buttons.check_access_token');
+            },
             /**
              * Основная функция верификации.
              */
@@ -109,7 +120,7 @@
              */
             dotButton(){
                 var parent = this;
-                var text = this.buttonText;
+                var text = this.locale.checkAccessToken;
                 var dotted = '.';
 
                 setInterval(() => {

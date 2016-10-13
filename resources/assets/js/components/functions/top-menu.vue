@@ -52,17 +52,20 @@
                 first_name: 'Guest'
             }
         },
+        beforeMount(){
+            this.locale();
+        },
         mounted() {
             appFunc.console('Component Top Menu ready.');
 
             this.getTopMenu();
             this.user();
-            this.locale();
         },
         methods: {
             locale(){
-                this.hello = this.$root.$refs.app.trans('interface.context.hello');
-                this.hello += this.first_name;
+                this.hello = this.$root.$refs.app.trans('interface.context.hello', {
+                    username: this.first_name
+                });
             },
             /**
              * Получение списка меню.
