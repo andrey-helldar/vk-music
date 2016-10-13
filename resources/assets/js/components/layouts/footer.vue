@@ -10,7 +10,7 @@
                     <h5 class="white-text">{{ trans('links') }}</h5>
                     <ul>
                         <li v-for="link in links">
-                            <a class="grey-text text-lighten-3" v-bind:link="link.url">
+                            <a class="grey-text text-lighten-3" target="_blank" v-bind:href="link.url">
                                 {{ link.title }}
                             </a>
                         </li>
