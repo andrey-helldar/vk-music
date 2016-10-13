@@ -130,7 +130,7 @@
              * @param values
              * @returns {*}
              */
-            trans(param, values = []){
+            trans(param, values = {}){
                 if (param.length == 0 || param === undefined) {
                     return '';
                 }
@@ -143,11 +143,9 @@
                     }
                 }
 
-                if (values.length > 0) {
-                    values.forEach(function (key, value) {
-                        trans = trans.replace(':' + key, value);
-                    });
-                }
+                values.forEach(function (key, value) {
+                    trans = trans.replace(':' + key, value);
+                });
 
                 return trans;
             }
