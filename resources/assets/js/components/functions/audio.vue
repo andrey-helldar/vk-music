@@ -88,7 +88,8 @@
                 url:               'audio.user',
                 default_url:       'audio.user',
                 filterKey:         '',
-                searchPlaceholder: 'Filter'
+                searchPlaceholder: 'Filter',
+                statusCode:        200
             }
         },
         mounted() {
@@ -174,6 +175,8 @@
                                     this.loading.wait = true;
                                     this.loading.position = response.data.response.description;
                                     this.checkTimer();
+
+                                    appFunc.console(response.status);
                                 },
                                 (response)=> {
                                     this.loading.wait = false;

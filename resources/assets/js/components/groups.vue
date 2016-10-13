@@ -18,7 +18,8 @@
                 <div class="row">
 
                     <div class="col s2 margin-bottom-10" v-for="item in filteredItems">
-                        <img class="circle responsive-img z-depth-1 waves-effect waves-light tooltipped" v-bind:src="item.photo_50" v-bind:alt="item.name" @click="getGroupAudios(item)">
+                        <img class="circle responsive-img z-depth-1 waves-effect waves-light tooltipped" v-bind:src="item.photo_50" v-bind:alt="item.name"
+                             @click="getGroupAudios(item)" v-bind:data-tooltip="item.name">
                     </div>
 
                     <div class="col s12 center-align" v-if="!items.length">

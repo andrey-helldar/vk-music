@@ -6,7 +6,7 @@
             </h3>
         </div>
 
-        <nav>
+        <nav :class="statusColors.selected">
             <div class="nav-wrapper">
                 <div class="container">
                     <form name="search" v-on:submit.prevent="searching">
@@ -30,8 +30,14 @@
     export default{
         data(){
             return {
-                url:   'audio.search',
-                title: 'Search'
+                url:          'audio.search',
+                title:        'Search',
+                statusColors: {
+                    selected: '',
+                    default:  '',
+                    success:  '',
+                    error:    'red darken-1'
+                }
             }
         },
         components: {
@@ -52,11 +58,35 @@
 
                 appFunc.info('Searching:<br>"' + query + '"...');
 
+                // TODO Визуально вывести статус подключения к VK API в виде изменения цвета фона строки поиска.
                 this.$refs.audio.load(parent.url, 0, 'default', {
                     q: query
                 });
 
                 return false;
+            },
+            /**
+             * Установка фонового цвета строки поиска в зависимости от полученного результата.
+             *
+             * @param status
+             */
+            setNavStatusColor(status = 'default'){
+                var selected = '';
+
+                switch (status) {
+                    case 'error':
+                        selected = this.statusColors.error;
+                        break;
+
+                    case 'success':
+                        selected = this.statusColors.default;
+                        break;
+
+                    default:
+                        selected = this.statusColors.default;
+                }
+
+                this.statusColors.selected = selected;
             }
         }
     }

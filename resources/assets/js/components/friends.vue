@@ -18,8 +18,8 @@
                 <div class="row">
 
                     <div class="col s2 margin-bottom-10" v-for="item in filteredItems">
-                        <img class="circle responsive-img z-depth-1 waves-effect waves-light tooltipped" v-bind:src="item.photo_50" v-bind:alt="item.first_name"
-                             @click="getFriendAudios(item)" data-tooltip="item.first_name">
+                        <img class="circle responsive-img z-depth-1 waves-effect waves-light tooltipped" v-bind:src="item.photo_50" v-bind:alt="getUserName(item)"
+                             @click="getFriendAudios(item)" v-bind:data-tooltip="getUserName(item)">
                     </div>
 
                     <div class="col s12 center-align" v-if="!items.length">
@@ -284,6 +284,15 @@
                     $('.tooltipped').tooltip('remove');
                     $('.tooltipped').tooltip({delay: 50});
                 });
+            },
+            /**
+             * Получение имени пользователя.
+             *
+             * @param item
+             * @returns {string}
+             */
+            getUserName(item){
+                return item.first_name + ' ' + item.last_name;
             }
         }
     }
