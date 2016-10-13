@@ -26,8 +26,16 @@
                     wait:     'blue-text text-darken-2',
                     check:    'amber-text text-darken-2'
                 },
-                timerInterval:  undefined
+                timerInterval:  undefined,
+                locale:         {
+                    whoops:      'Whoops...',
+                    description: 'Something went wrong. We reload the page ...',
+                    loading:     'Loading...'
+                }
             }
+        },
+        beforeMount(){
+            this.locale();
         },
         mounted() {
             appFunc.console('Component Loader Screen ready.');
@@ -37,8 +45,6 @@
 
             // Если на странице найден блок с определенным классом - вырубаем лоадер.
             this.hideOnClass('loader-screen-hide');
-
-            this.locale();
         },
         watch:   {
             /**
@@ -53,6 +59,9 @@
         methods: {
             locale(){
                 this.text = this.$root.$refs.app.trans('interface.statuses.loading');
+                this.locale.whoops = this.$root.$refs.app.trans('interface.title.whoops');
+                this.locale.description = this.$root.$refs.app.trans('interface.statuses.something_wrong');
+                this.locale.loading = this.$root.$refs.app.trans('interface.statuses.loading');
             },
             /**
              * Запускаем лоадер.
@@ -60,7 +69,7 @@
             showLoader(text = 'Loading...', description = '', style_type = 'wait')
             {
                 this.style_type = style_type;
-                this.text = this.checkTextLength(text, 'Loading...');
+                this.text = this.checkTextLength(text, this.locale.loading);
                 this.description = this.checkTextLength(description);
                 this.show = true;
                 this.timer();
@@ -160,8 +169,8 @@
              */
             checkDataStyle(newValue, oldValue)  {
                 if (newValue > 300) {
-                    this.text = 'Whoops...';
-                    this.description = 'Something went wrong. We reload the page ...';
+                    this.text = this.locale.whoops;
+                    this.description = this.locale.description;
                     location.reload();
                 }
             }

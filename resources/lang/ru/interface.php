@@ -43,6 +43,7 @@ return [
     ],
     'title'    => [
         'downloads' => 'Downloads',
+        'whoops'    => 'Whoops!',
     ],
     'statuses' => [
         'no_audio'          => 'Нет аудиозаписей',
@@ -55,6 +56,7 @@ return [
         'please_wait'       => 'Please, wait...',
         'in_queue'          => 'in queue',
         'in_queue_position' => 'in queue position',
+        'something_wrong'   => 'Something went wrong. We reload the page ...',
     ],
     'form'     => [
         'first_name'  => 'Имя',
