@@ -27,8 +27,9 @@
             this.locale();
         },
         mounted(){
-            this.$refs.audio.load();
             appFunc.console('Component My ready.');
+
+            this.$refs.audio.load();
         },
         methods:    {
             locale(){

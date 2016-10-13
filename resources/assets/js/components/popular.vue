@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h3>
-            {{ title }}
+            {{ locale.title }}
         </h3>
 
         <div class="row">
@@ -14,7 +14,9 @@
     export default{
         data(){
             return {
-                title: 'Popular'
+                locale: {
+                    title: 'Popular'
+                }
             }
         },
         components: {
@@ -22,10 +24,17 @@
         },
         beforeMount(){
             this.$parent.checkAuth();
+            this.locale();
         },
         mounted(){
-            this.$refs.audio.load('audio.popular');
             appFunc.console('Component Popular ready.');
+
+            this.$refs.audio.load('audio.popular');
+        },
+        methods:    {
+            locale(){
+                this.locale.title = this.$root.$refs.app.trans('interface.title.popular');
+            }
         }
     }
 </script>
