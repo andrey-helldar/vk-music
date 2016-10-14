@@ -42,7 +42,6 @@ Route::group([
     // Получение файла.
     Route::get('download', 'Api\DownloadController@getFiles');
 
-
     // Запрос треков пользователя.
     Route::post('audio.user', 'Api\AudioController@storeAudio');
     // Получение треков пользователя.

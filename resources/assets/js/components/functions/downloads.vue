@@ -1,5 +1,7 @@
 <template>
     <div v-cloak>
+        <user-info v-if="!items.length"></user-info>
+
         <div class="card-panel" v-if="items.length">
             <h5>
                 {{ trans.title }}
@@ -51,7 +53,11 @@
     </div>
 </template>
 <script>
+    import UserInfo from './user-info.vue'
     export default{
+        components: {
+            UserInfo
+        },
         data(){
             return {
                 items: [],
@@ -73,7 +79,7 @@
 
             this.locale();
         },
-        methods: {
+        methods:    {
             locale(){
                 this.trans.title = this.$root.$refs.app.trans('interface.title.downloads');
                 this.trans.inQueue = this.$root.$refs.app.trans('interface.statuses.in_queue');
