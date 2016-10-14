@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h3>
-            {{ locale.title }}
+            {{ trans.title }}
         </h3>
 
         <div class="row">
@@ -14,7 +14,7 @@
     export default{
         data(){
             return {
-                locale: {
+                trans: {
                     title: 'My audio'
                 }
             }
@@ -24,16 +24,16 @@
         },
         beforeMount(){
             this.$parent.checkAuth();
-            this.locale();
         },
         mounted(){
             appFunc.console('Component My ready.');
 
+            this.locale();
             this.$refs.audio.load();
         },
         methods:    {
             locale(){
-                this.locale.title = this.$root.$refs.app.trans('interface.title.my');
+                this.trans.title = this.$root.$refs.app.trans('interface.title.my');
             }
         }
     }

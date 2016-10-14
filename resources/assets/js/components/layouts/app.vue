@@ -143,9 +143,10 @@
                     }
                 }
 
-                values.forEach(function (key, value) {
-                    trans = trans.replace(':' + key, value);
-                });
+                // TODO Исправить замену перередаваемых переменных в цикле.
+//                values.forEach(function (key, value) {
+//                    trans = trans.replace(':' + key, value);
+//                });
 
                 return trans;
             }

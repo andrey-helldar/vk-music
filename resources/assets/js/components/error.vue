@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h3>
-            {{ locale.title }}
+            {{ trans.title }}
         </h3>
 
         <ul class="collection red-text text-darken-2">
@@ -11,7 +11,7 @@
         <div class="row center-align">
             <button class="btn waves-effect waves-light" @click="redirectToAuth">
                 <i class="material-icons left">undo</i>
-                {{ locale.returnAuth }}
+                {{ trans.returnAuth }}
             </button>
         </div>
     </div>
@@ -21,7 +21,7 @@
         data(){
             return {
                 errorDescription: '',
-                locale:           {
+                trans:            {
                     title:      'Errors!',
                     returnAuth: 'Return to auth page'
                 }
@@ -30,17 +30,17 @@
         beforeMount(){
             this.checkAuth();
             this.checkVkErrors();
-            this.locale();
         },
         mounted(){
             appFunc.console('Component Error ready.');
 
+            this.locale();
             this.$parent.hideLoader();
         },
         methods: {
             locale(){
-                this.locale.title = this.$root.$refs.app.trans('interface.title.errors');
-                this.locale.returnAuth = this.$root.$refs.app.trans('interface.buttons.return_auth');
+                this.trans.title = this.$root.$refs.app.trans('interface.title.errors');
+                this.trans.returnAuth = this.$root.$refs.app.trans('interface.buttons.return_auth');
             },
             /**
              * Проверяем авторизацию.

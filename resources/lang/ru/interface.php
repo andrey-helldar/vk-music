@@ -9,7 +9,6 @@ return [
         'title'       => 'VK Music',
         'description' => 'Описание сайта VK Music',
         'links'       => 'Ссылки',
-        'to_top'      => 'Наверх',
     ],
     'pages'    => [
         'my'              => [
@@ -87,6 +86,7 @@ return [
         'return_auth'         => 'Return to auth page',
         'auth_vk'             => 'Auth VK',
         'check_access_token'  => 'Checking access token',
+        'to_top'              => 'Наверх',
     ],
     'context'  => [
         'hello' => 'Приветствую, :username',

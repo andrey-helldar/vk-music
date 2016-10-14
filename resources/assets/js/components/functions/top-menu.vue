@@ -52,12 +52,10 @@
                 first_name: 'Guest'
             }
         },
-        beforeMount(){
-            this.locale();
-        },
         mounted() {
             appFunc.console('Component Top Menu ready.');
 
+            this.locale();
             this.getTopMenu();
             this.user();
         },
@@ -102,7 +100,7 @@
                     return '';
                 }
 
-                return this.$parent.trans('interface.pages.' + param + '.title');
+                return this.$root.$refs.app.trans('interface.pages.' + param + '.title');
             }
         }
     }

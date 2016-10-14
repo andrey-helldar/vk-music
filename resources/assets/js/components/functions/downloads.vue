@@ -2,13 +2,13 @@
     <div v-cloak>
         <div class="card-panel" v-if="items.length">
             <h5>
-                {{ locale.title }}
+                {{ trans.title }}
             </h5>
 
             <div class="row center-align">
                 <button class="btn waves-effect waves-light hoverable" @click="downloadModalOpen">
                     {{ items.length }}
-                    {{ locale.inQueue }}
+                    {{ trans.inQueue }}
                 </button>
             </div>
         </div>
@@ -18,7 +18,7 @@
         <div class="modal bottom-sheet black-text" id="downloadModal">
             <div class="modal-content" v-if="items.length">
                 <h5>
-                    {{ locale.inQueue.toUppercase() }}
+                    {{ trans.inQueue.toUppercase() }}
                 </h5>
 
                 <ul class="collection">
@@ -28,7 +28,7 @@
                         {{ item.artist }} - {{ item.title }}
                     </span>
 
-                        <span class="badge" v-bind:data-badge-caption="locale.inQueuePosition">
+                        <span class="badge" v-bind:data-badge-caption="trans.inQueuePosition">
                             {{ index + 1 }}
                         </span>
                     </li>
@@ -37,13 +37,13 @@
 
             <div class="modal-content valign-wrapper center-align" v-if="!items.length">
                 <h5 class="valign">
-                    {{ locale.noItems }}
+                    {{ trans.noItems }}
                 </h5>
             </div>
 
             <div class="modal-footer">
                 <button class="btn red lighten-2 modal-action modal-close waves-effect waves-light">
-                    {{ locale.close }}
+                    {{ trans.close }}
                 </button>
             </div>
         </div>
@@ -54,9 +54,9 @@
     export default{
         data(){
             return {
-                items:  [],
-                url:    'download',
-                locale: {
+                items: [],
+                url:   'download',
+                trans: {
                     title:           'Downloads',
                     inQueue:         'in queue',
                     inQueuePosition: 'in queue position',
@@ -67,18 +67,19 @@
         },
         beforeMount(){
             this.checkDownloadedFiles();
-            this.locale();
         },
         mounted(){
             appFunc.console('Component Downloads ready.');
+
+            this.locale();
         },
         methods: {
             locale(){
-                this.locale.title = this.$root.$refs.app.trans('interface.title.downloads');
-                this.locale.inQueue = this.$root.$refs.app.trans('interface.statuses.in_queue');
-                this.locale.inQueuePosition = this.$root.$refs.app.trans('interface.statuses.in_queue_position');
-                this.locale.noItems = this.$root.$refs.app.trans('interface.statuses.no_items');
-                this.locale.close = this.$root.$refs.app.trans('interface.buttons.close');
+                this.trans.title = this.$root.$refs.app.trans('interface.title.downloads');
+                this.trans.inQueue = this.$root.$refs.app.trans('interface.statuses.in_queue');
+                this.trans.inQueuePosition = this.$root.$refs.app.trans('interface.statuses.in_queue_position');
+                this.trans.noItems = this.$root.$refs.app.trans('interface.statuses.no_items');
+                this.trans.close = this.$root.$refs.app.trans('interface.buttons.close');
             },
             /**
              * Создание запроса на скачивание файла.

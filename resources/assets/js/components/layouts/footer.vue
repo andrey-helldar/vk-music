@@ -3,11 +3,11 @@
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text">{{ trans('title') }}</h5>
-                    <p class="grey-text text-lighten-4">{{ trans('description') }}</p>
+                    <h5 class="white-text">{{ trans.title }}</h5>
+                    <p class="grey-text text-lighten-4">{{ trans.description }}</p>
                 </div>
                 <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">{{ trans('links') }}</h5>
+                    <h5 class="white-text">{{ trans.links }}</h5>
                     <ul>
                         <li v-for="link in links">
                             <a class="grey-text text-lighten-3" target="_blank" v-bind:href="link.url">
@@ -20,10 +20,10 @@
         </div>
         <div class="footer-copyright">
             <div class="container">
-                © {{ year }} {{ trans('title') }}
+                © {{ year }} {{ trans.title }}
 
                 <a class="grey-text text-lighten-4 right" href="#">
-                    {{ trans('to_top') }}
+                    {{ trans.toTop }}
                 </a>
             </div>
         </div>
@@ -35,7 +35,13 @@
             return {
                 start_year: 2016,
                 year:       2016,
-                links:      []
+                links:      [],
+                trans:      {
+                    title:       'VK Music',
+                    description: '',
+                    links:       'Links',
+                    toTop:       'to top'
+                }
             }
         },
         beforeMount(){
@@ -44,8 +50,16 @@
         },
         mounted(){
             appFunc.console('Component Footer ready.');
+
+            this.locale();
         },
         methods: {
+            locale(){
+                this.trans.title = this.$root.$refs.app.trans('interface.site.title');
+                this.trans.description = this.$root.$refs.app.trans('interface.site.description');
+                this.trans.links = this.$root.$refs.app.trans('interface.site.links');
+                this.trans.toTop = this.$root.$refs.app.trans('interface.buttons.to_top');
+            },
             footerLinks(){
                 this.$http.get('footer.links').then(
                         function (response) {
@@ -70,19 +84,6 @@
                 } else {
                     this.year = this.start_year;
                 }
-            },
-            /**
-             * Получение значения переведенного параметра интерфейса.
-             *
-             * @param param
-             * @returns {*}
-             */
-            trans(param){
-                if (param.length == 0) {
-                    return '';
-                }
-
-                return this.$parent.trans('interface.site.' + param);
             }
         }
     }

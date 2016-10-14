@@ -14,7 +14,7 @@
 
                             <div class="panel-action">
                                 <router-link :to="{path: item.url}">
-                                    {{ locale.goToPage }}
+                                    {{ trans.goToPage }}
                                 </router-link>
                             </div>
                         </div>
@@ -29,23 +29,24 @@
     export default{
         data(){
             return {
-                items:  [],
-                locale: {
+                items: [],
+                trans: {
                     goToPage: 'Go to page'
                 }
             }
         },
         beforeMount(){
             this.$parent.checkAuth();
-            this.locale();
         },
         mounted(){
-            this.getItems();
             appFunc.console('Component Index ready.');
+
+            this.locale();
+            this.getItems();
         },
         methods: {
             locale(){
-                this.locale.goToPage = this.$root.$refs.app.trans('interface.buttons.go_to_page');
+                this.trans.goToPage = this.$root.$refs.app.trans('interface.buttons.go_to_page');
             },
             getItems(){
                 this.$http.get('main.blocks').then(
@@ -74,7 +75,7 @@
                     return '';
                 }
 
-                return this.$parent.trans('interface.pages.' + key, param);
+                return this.$root.$refs.app.trans('interface.pages.' + key, param);
             }
         }
     }

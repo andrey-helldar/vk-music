@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col s12 m4">
                 <h3>
-                    {{ locale.title }}
+                    {{ trans.title }}
 
                     <sup class="grey-text text-lighten-2" v-if="items.length">
                         {{ items.length }} / {{ vk.count_all }}
@@ -24,15 +24,19 @@
                     </div>
 
                     <div class="col s12 center-align" v-if="!items.length">
-                        <h6>
-                            {{ locale.noGroups }}
-                        </h6>
+                        <div class="card-panel blue lighten-1">
+                            <div class="white-text">
+                                <h6>
+                                    {{ trans.noGroups }}
+                                </h6>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
                 <div class="col s12 m12 center-align" v-if="items.length < vk.count_all">
-                    <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" v-bind:data-tooltip="locale.giveMore" @click="moreGroups">
+                    <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" v-bind:data-tooltip="trans.giveMore" @click="moreGroups">
                         <i class="material-icons">more_horiz</i>
                     </button>
                 </div>
@@ -63,7 +67,7 @@
                     position:   '',
                     showLoader: true
                 },
-                locale:           {
+                trans:            {
                     title:          'Groups',
                     noGroups:       'Groups not found',
                     giveMore:       'Give more',
@@ -84,11 +88,12 @@
         },
         beforeMount(){
             this.$parent.checkAuth();
-            this.locale();
         },
         mounted(){
-            this.getGroups();
             appFunc.console('Component Groups ready.');
+
+            this.locale();
+            this.getGroups();
         },
         watch:      {
             'loading': 'checkDataLoading'
@@ -108,13 +113,13 @@
         },
         methods:    {
             locale(){
-                this.locale.title = this.$root.$refs.app.trans('interface.title.groups');
-                this.locale.noGroups = this.$root.$refs.app.trans('interface.statuses.no_groups');
-                this.locale.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
-                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.statuses.reloading_page');
-                this.locale.check = this.$root.$refs.app.trans('interface.statuses.check');
-                this.locale.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
-                this.locale.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');
+                this.trans.title = this.$root.$refs.app.trans('interface.title.groups');
+                this.trans.noGroups = this.$root.$refs.app.trans('interface.statuses.no_groups');
+                this.trans.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
+                this.trans.reloadingPage = this.$root.$refs.app.trans('interface.statuses.reloading_page');
+                this.trans.check = this.$root.$refs.app.trans('interface.statuses.check');
+                this.trans.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
+                this.trans.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');
             },
             hideLoader(){
                 this.$root.$refs.app.hideLoader();
@@ -124,7 +129,7 @@
              */
             checkDataLoading(newValue, oldValue){
                 if (this.loading.showLoader === true) {
-                    this.$root.$refs.app.showLoader(this.locale.pleaseWait, newValue.position);
+                    this.$root.$refs.app.showLoader(this.trans.pleaseWait, newValue.position);
                 }
             },
             /**
@@ -185,7 +190,7 @@
                                     switch (response.status) {
 
                                         case 502:
-                                            appFunc.info(response.statusText + this.locale.reloadingPage, 'error');
+                                            appFunc.info(response.statusText + this.trans.reloadingPage, 'error');
                                             location.reload();
                                             break;
 
@@ -261,15 +266,15 @@
 
                 switch (status) {
                     case 'check':
-                        notify(this, this.locale.check, position, 'check');
+                        notify(this, this.trans.check, position, 'check');
                         break;
 
                     case 'wait':
-                        notify(this, this.locale.pleaseWait, position, 'wait', false);
+                        notify(this, this.trans.pleaseWait, position, 'wait', false);
                         break;
 
                     case 'send':
-                        notify(this, this.locale.sendingRequest, '', 'info', false);
+                        notify(this, this.trans.sendingRequest, '', 'info', false);
                         break;
 
                     default:

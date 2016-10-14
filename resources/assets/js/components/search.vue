@@ -2,7 +2,7 @@
     <div>
         <div class="container">
             <h3>
-                {{ locale.title }}
+                {{ trans.title }}
             </h3>
         </div>
 
@@ -11,7 +11,7 @@
                 <div class="container">
                     <form name="search" v-on:submit.prevent="searching">
                         <div class="input-field">
-                            <input id="search" type="search" name="q" length="255" class="character-counter" required v-bind:placeholder="title.toUpperCase()">
+                            <input id="search" type="search" name="q" length="255" class="character-counter" required v-bind:placeholder="trans.title">
                             <label for="search"><i class="material-icons">search</i></label>
                             <i class="material-icons">close</i>
                         </div>
@@ -31,7 +31,7 @@
         data(){
             return {
                 url:          'audio.search',
-                locale:       {
+                trans:        {
                     title:     'Search',
                     searching: 'Searching:<br>'
                 },
@@ -48,17 +48,17 @@
         },
         beforeMount(){
             this.$parent.checkAuth();
-            this.locale();
         },
         mounted(){
             appFunc.console('Component Search ready.');
 
+            this.locale();
             this.$parent.hideLoader();
         },
         methods:    {
             locale(){
-                this.locale.title = this.$root.$refs.app.trans('interface.title.search');
-                this.locale.searching = this.$root.$refs.app.trans('interface.statuses.searching');
+//                this.trans.title = this.$root.$refs.app.trans('interface.title.search');
+//                this.trans.searching = this.$root.$refs.app.trans('interface.statuses.searching');
             },
             searching(){
                 var form = $('form[name=search]');

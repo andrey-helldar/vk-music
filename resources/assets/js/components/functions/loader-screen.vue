@@ -27,21 +27,20 @@
                     check:    'amber-text text-darken-2'
                 },
                 timerInterval:  undefined,
-                locale:         {
+                trans:          {
                     whoops:      'Whoops...',
                     description: 'Something went wrong. We reload the page ...',
                     loading:     'Loading...'
                 }
             }
         },
-        beforeMount(){
-            this.locale();
-        },
         mounted() {
             appFunc.console('Component Loader Screen ready.');
 
             // Запускаем отображение при инициализации компонента.
             this.showLoader();
+
+            this.locale();
 
             // Если на странице найден блок с определенным классом - вырубаем лоадер.
             this.hideOnClass('loader-screen-hide');
@@ -59,9 +58,9 @@
         methods: {
             locale(){
                 this.text = this.$root.$refs.app.trans('interface.statuses.loading');
-                this.locale.whoops = this.$root.$refs.app.trans('interface.title.whoops');
-                this.locale.description = this.$root.$refs.app.trans('interface.statuses.something_wrong');
-                this.locale.loading = this.$root.$refs.app.trans('interface.statuses.loading');
+                this.trans.whoops = this.$root.$refs.app.trans('interface.title.whoops');
+                this.trans.description = this.$root.$refs.app.trans('interface.statuses.something_wrong');
+                this.trans.loading = this.$root.$refs.app.trans('interface.statuses.loading');
             },
             /**
              * Запускаем лоадер.
@@ -69,7 +68,7 @@
             showLoader(text = 'Loading...', description = '', style_type = 'wait')
             {
                 this.style_type = style_type;
-                this.text = this.checkTextLength(text, this.locale.loading);
+                this.text = this.checkTextLength(text, this.trans.loading);
                 this.description = this.checkTextLength(description);
                 this.show = true;
                 this.timer();
@@ -169,8 +168,8 @@
              */
             checkDataStyle(newValue, oldValue)  {
                 if (newValue > 300) {
-                    this.text = this.locale.whoops;
-                    this.description = this.locale.description;
+                    this.text = this.trans.whoops;
+                    this.description = this.trans.description;
                     location.reload();
                 }
             }

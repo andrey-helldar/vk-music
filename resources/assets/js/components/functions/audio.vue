@@ -31,8 +31,8 @@
                                 <span v-if="audio.index === index">{{ timeToHumans(audio.currentTime) }}</span>
                             </li>
                             <li class="audio-download valign-wrapper">
-                                <i class="material-icons waves-effect-waves-light valign tooltipped" @click="addMyAudio(item)" v-bind:data-tooltip="locale.addMyAudios">add</i>
-                                <i class="material-icons waves-effect waves-light valign tooltipped" @click="download(item)" v-bind:data-tooltip="locale.downloadThisTrack">file_download</i>
+                                <i class="material-icons waves-effect-waves-light valign tooltipped" @click="addMyAudio(item)" v-bind:data-tooltip="trans.addMyAudios">add</i>
+                                <i class="material-icons waves-effect waves-light valign tooltipped" @click="download(item)" v-bind:data-tooltip="trans.downloadThisTrack">file_download</i>
                             </li>
                         </ul>
                     </li>
@@ -43,14 +43,14 @@
                 <div class="card-panel blue lighten-1">
                     <div class="white-text">
                         <h6>
-                            {{ locale.noAudios }}
+                            {{ trans.noAudios }}
                         </h6>
                     </div>
                 </div>
             </div>
 
             <div class="col s12 m12 center-align" v-if="items.length < vk.count_all">
-                <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" v-bind:data-tooltip="locale.giveMore" @click="moreAudio">
+                <button class="btn-flat waves-effect waves-blue tooltipped more-audio" data-position="top" v-bind:data-tooltip="trans.giveMore" @click="moreAudio">
                     <i class="material-icons">more_horiz</i>
                 </button>
             </div>
@@ -87,7 +87,7 @@
                         pause: 'stop'
                     }
                 },
-                locale:            {
+                trans:             {
                     noAudios:          'No audios',
                     addMyAudios:       'Add to my audios',
                     downloadThisTrack: 'Download this track',
@@ -103,12 +103,10 @@
                 statusCode:        200
             }
         },
-        beforeMount(){
-            this.locale();
-        },
         mounted() {
             appFunc.console('Component Audio ready.');
 
+            this.locale();
             this.getGenres();
         },
         watch:    {
@@ -132,14 +130,14 @@
         },
         methods:  {
             locale(){
-                this.locale.noAudios = this.$root.$refs.app.trans('interface.statuses.no_audio');
-                this.locale.addMyAudios = this.$root.$refs.app.trans('interface.buttons.add_my_audios');
-                this.locale.downloadThisTrack = this.$root.$refs.app.trans('interface.buttons.download_this_track');
-                this.locale.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
-                this.locale.reloadingPage = this.$root.$refs.app.trans('interface.statuses.reloading_page');
-                this.locale.check = this.$root.$refs.app.trans('interface.statuses.check');
-                this.locale.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
-                this.locale.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');
+                this.trans.noAudios = this.$root.$refs.app.trans('interface.statuses.no_audio');
+                this.trans.addMyAudios = this.$root.$refs.app.trans('interface.buttons.add_my_audios');
+                this.trans.downloadThisTrack = this.$root.$refs.app.trans('interface.buttons.download_this_track');
+                this.trans.giveMore = this.$root.$refs.app.trans('interface.buttons.give_more');
+                this.trans.reloadingPage = this.$root.$refs.app.trans('interface.statuses.reloading_page');
+                this.trans.check = this.$root.$refs.app.trans('interface.statuses.check');
+                this.trans.pleaseWait = this.$root.$refs.app.trans('interface.statuses.please_wait');
+                this.trans.sendingRequest = this.$root.$refs.app.trans('interface.statuses.sending_request');
             },
             hideLoader(){
                 this.$root.$refs.app.hideLoader();
@@ -243,7 +241,7 @@
                                     switch (response.status) {
 
                                         case 502:
-                                            appFunc.info(response.statusText + this.locale.reloadingPage, 'error');
+                                            appFunc.info(response.statusText + this.trans.reloadingPage, 'error');
                                             location.reload();
                                             break;
 
@@ -350,15 +348,15 @@
 
                 switch (status) {
                     case 'check':
-                        notify(this, this.locale.check, position, 'check');
+                        notify(this, this.trans.check, position, 'check');
                         break;
 
                     case 'wait':
-                        notify(this, this.locale.pleaseWait, position, 'wait', false);
+                        notify(this, this.trans.pleaseWait, position, 'wait', false);
                         break;
 
                     case 'send':
-                        notify(this, this.locale.sendingRequest, '', 'info', false);
+                        notify(this, this.trans.sendingRequest, '', 'info', false);
                         break;
 
                     default:

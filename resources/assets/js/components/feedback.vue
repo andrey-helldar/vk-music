@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h3>
-            {{ locale.title }}
+            {{ trans.title }}
         </h3>
 
         <form class="row" name="feedback" v-on:submit.prevent="submitForm">
@@ -9,33 +9,33 @@
             <div class="input-field col s6">
                 <input id="first_name" name="first_name" type="text" class="validate" required v-bind:value="user.first_name">
                 <label for="first_name">
-                    {{ locale.firstName }}
+                    {{ trans.firstName }}
                 </label>
             </div>
             <div class="input-field col s6">
                 <input id="last_name" name="last_name" type="text" class="validate" required v-bind:value="user.last_name">
                 <label for="last_name">
-                    {{ locale.lastName }}
+                    {{ trans.lastName }}
                 </label>
             </div>
 
             <div class="input-field col s12">
                 <input id="email" name="email" type="email" class="validate" required v-bind:value="user.email">
                 <label for="email">
-                    {{ locale.email }}
+                    {{ trans.email }}
                 </label>
             </div>
 
             <div class="input-field col s12">
                 <textarea id="description" name="description" class="materialize-textarea" minlength="30" length="3000" required></textarea>
                 <label for="description">
-                    {{ locale.description }}
+                    {{ trans.description }}
                 </label>
             </div>
 
             <div class="s12 center-align">
                 <button class="btn btn-primary waves-effect waves-light" type="submit">
-                    {{ locale.submit }}
+                    {{ trans.submit }}
                     <i class="material-icons right">send</i>
                 </button>
             </div>
@@ -47,13 +47,13 @@
     export default{
         data(){
             return {
-                url:    'feedback',
-                user:   {
+                url:   'feedback',
+                user:  {
                     first_name: '',
                     last_name:  '',
                     email:      ''
                 },
-                locale: {
+                trans: {
                     title:       'Feedback',
                     firstName:   'First Name',
                     lastName:    'Last Name',
@@ -65,7 +65,6 @@
         },
         beforeMount(){
             this.getFeedback();
-            this.locale();
         },
         mounted(){
             appFunc.console('Component Feedback ready.');
@@ -77,16 +76,17 @@
                 Materialize.updateTextFields();
             });
 
+            this.locale();
             this.$parent.hideLoader();
         },
         methods: {
             locale(){
-                this.locale.title = this.$root.$refs.app.trans('interface.title.feedback');
-                this.locale.firstName = this.$root.$refs.app.trans('interface.form.first_name');
-                this.locale.lastName = this.$root.$refs.app.trans('interface.form.last_name');
-                this.locale.email = this.$root.$refs.app.trans('interface.form.email');
-                this.locale.description = this.$root.$refs.app.trans('interface.form.description');
-                this.locale.submit = this.$root.$refs.app.trans('interface.buttons.submit');
+                this.trans.title = this.$root.$refs.app.trans('interface.title.feedback');
+                this.trans.firstName = this.$root.$refs.app.trans('interface.form.first_name');
+                this.trans.lastName = this.$root.$refs.app.trans('interface.form.last_name');
+                this.trans.email = this.$root.$refs.app.trans('interface.form.email');
+                this.trans.description = this.$root.$refs.app.trans('interface.form.description');
+                this.trans.submit = this.$root.$refs.app.trans('interface.buttons.submit');
             },
             getFeedback(){
                 this.$http.get(this.url).then(
