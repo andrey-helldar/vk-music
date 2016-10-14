@@ -113,4 +113,23 @@ class AppController extends Controller
             'is_deactivated'  => $user_vk->is_deactivated,
         ]);
     }
+
+    /**
+     * Выход пользователя из системы.
+     *
+     * @author  Andrey Helldar <helldar@ai-rus.com>
+     * @version 2016-10-14
+     * @since   1.0
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function logout()
+    {
+        if (\Auth::check()) {
+            // TODO Обработать выход пользователя из системы, так как не срабатывает тема.
+            \Auth::logout();
+        }
+
+        return ResponseController::success(3);
+    }
 }

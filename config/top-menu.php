@@ -43,4 +43,10 @@ return [
         'title'     => '',
         'icon'      => 'feedback',
     ],
+    [
+        'is_active' => true,
+        'url'       => '/logout',
+        'title'     => '',
+        'icon'      => 'power_settings_new',
+    ],
 ];

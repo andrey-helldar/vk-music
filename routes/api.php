@@ -79,11 +79,14 @@ Route::group([
 
     // Запрос списка групп.
     Route::post('groups.user', 'Api\GroupsController@storeGroups');
-    //Получение списка групп.
+    // Получение списка групп.
     Route::get('groups.user', 'Api\GroupsController@getGroups');
 
     // Получение информации о текущем пользователе, записанной в локальной базе.
     Route::get('current.user.info', 'Api\AppController@getCurrentUserInfo');
+
+    // Выход пользователя из системы.
+    Route::post('logout', 'Api\AppController@logout');
 });
 
 Route::any('{slug?}', function () {

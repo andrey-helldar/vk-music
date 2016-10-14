@@ -53,6 +53,7 @@ return [
         'search'          => 'Search',
         'need_auth_vk'    => 'Need authorization in VK',
         'need_verify'     => 'Need access verification',
+        'logout'          => 'Logout',
     ],
     'statuses' => [
         'no_audio'             => 'Нет аудиозаписей',
@@ -83,10 +84,12 @@ return [
         'download_this_track' => 'Download this track',
         'give_more'           => 'Give more',
         'close'               => 'Close',
+        'cancel'              => 'Cancel',
         'return_auth'         => 'Return to auth page',
         'auth_vk'             => 'Auth VK',
         'check_access_token'  => 'Checking access token',
         'to_top'              => 'Наверх',
+        'accept_logout'       => 'Accept logout',
     ],
     'context'  => [
         'hello' => 'Приветствую, :username',

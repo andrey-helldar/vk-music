@@ -107,6 +107,11 @@ const routes = [
         path:      '/error',
         component: setComponent('error')
     },
+    {
+        name:      'logout',
+        path:      '/logout',
+        component: setComponent('logout')
+    },
     /**
      * Redirect to Main page.
      */
