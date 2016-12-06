@@ -34,8 +34,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('vk:request')->everyMinute();
         $schedule->command('vk:processing')->everyMinute();
-        $schedule->command('vk:files-delete')->everyMinute();
-        $schedule->command('vk:clear')->dailyAt('00:00');
+//        $schedule->command('vk:files-delete')->everyMinute();
+//        $schedule->command('vk:clear')->dailyAt('00:00');
     }
 
     /**
