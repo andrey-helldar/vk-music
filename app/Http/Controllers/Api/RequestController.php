@@ -72,9 +72,9 @@ class RequestController extends Controller
 
         $equals = (int)($stopped_at - $started_at);
 
-        ResponseTime::create([
+        /*ResponseTime::create([
             'time' => $equals,
-        ]);
+        ]);*/
     }
 
     /**
