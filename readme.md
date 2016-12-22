@@ -14,6 +14,6 @@ Laravel is accessible, yet powerful, providing tools needed for large, robust ap
 
 Run commands:
 
-  composer install
-  npm install
-  php artisan migrate
+    composer install
+    npm install
+    php artisan migrate
