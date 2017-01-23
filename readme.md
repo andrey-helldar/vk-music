@@ -19,6 +19,25 @@ Run commands:
     composer install
     npm install
     php artisan migrate
+    
+Next:
+ - go to https://vk.com/dev
+ - open "My apps" >> "Create an Application"
+ - Input your app name
+ - Platform: "Website"
+ - Input your web-address and base domain
+ - Click "Connect site"
+ - Next, get code on your phone to activate a new app
+ - Open settings page.
+
+Next, copy "Application ID" to "config/vk.php" >> "client_id"
+and "Secure key" to "config/vk.php" >> "client_secret"
+
+Replace "config/vk.php": "redirect_uri" to your link from "Authorized redirect URI" field in "VK Dev".
+
+![2017-01-23 23-41-23 edit application - musaver - google chrome](https://cloud.githubusercontent.com/assets/10347617/22208238/8783a4f2-e1c5-11e6-8402-25afaaff2476.jpg)
+
+Profit!
 
 
 ## Support
