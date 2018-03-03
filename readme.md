@@ -38,7 +38,3 @@ Replace "config/vk.php": "redirect_uri" to your link from "Authorized redirect U
 ![2017-01-23 23-41-23 edit application - musaver - google chrome](https://cloud.githubusercontent.com/assets/10347617/22208238/8783a4f2-e1c5-11e6-8402-25afaaff2476.jpg)
 
 Profit!
-
-
-## Support
-You can donate via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=94B8LCPAPJ5VG), [Yandex Money](https://money.yandex.ru/quickpay/shop-widget?account=410012608840929&quickpay=shop&payment-type-choice=on&mobile-payment-type-choice=on&writer=seller&targets=Andrey+Helldar%3A+Open+Source+Projects&targets-hint=&default-sum=&button-text=04&mail=on&successURL=), WebMoney (Z124862854284, R343524258966) and [Patreon](https://www.patreon.com/helldar)
