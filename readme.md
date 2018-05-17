@@ -1,6 +1,6 @@
 # Laravel PHP Framework
 
-![vk music](https://cloud.githubusercontent.com/assets/10347617/21898812/63033044-d931-11e6-8d31-ffad403bfa99.jpg)
+![vk_music](https://user-images.githubusercontent.com/10347617/40196568-93e1c35a-5a19-11e8-8307-6ae46787f67d.png)
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
 [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
